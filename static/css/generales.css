@@ -1,0 +1,15 @@
+.col-derecha{
+    flex: 0 0 auto;
+    width: 0%;
+    margin-left: 38px;
+}
+
+.col-izquierda{
+    flex: 0 0 auto;
+    width: 73.333333%;
+}
+
+
+.text_center {
+    text-align: center;
+  }

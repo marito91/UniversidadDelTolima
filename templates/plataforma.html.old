@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Universidad del Tolima</title>
+	    <link rel="stylesheet" href="css/general.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	    <!--
+	    <link rel="stylesheet" href="css/normailize.css">
+	    <link rel="preconnect" href="https://fonts.gstatic.com">
+	    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/bootstrap2.css">
+	    -->
+		<!--
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		-->
+	</head>
+	<body>
+	    <header class="site-header inicio">
+	        <div class="contenedor header_down">
+	            <a href="index.html">
+					<img src="img/logobg.png" alt="logo">
+	            </a> 
+	        </div>
+	    </header>
+		<!-- Begin::Menú de navegación -->
+		<div class="row2">
+	  		<div class="column" style="background-color:#aaa;">
+	  			<nav>
+			        <ul id="menu2">
+			         <li><a href="">Notas</a>
+			            <ul>
+			                <li><a href="">Ver notas</a></li>
+			            </ul>  
+			            </li>
+			            <li><a href="">Docentes</a>
+				            <ul>
+				                <li><a href="">Ver docente</a></li>
+				                <li><a href="">Registrar docente</a></li>
+				                <li><a href="">Editar docente</a></li>
+				                <li><a href="">Eliminar docente</a></li>
+				            </ul>  
+			            </li>
+			            <li><a href="">Estudiantes</a>
+				            <ul>
+				                <li><a href="">Ver estudiante</a></li>
+				                <li><a href="">Registrar estudiante</a></li>
+				                <li><a href="">Editar estudiante</a></li>
+				                <li><a href="">Eliminar estudiante</a></li>
+				            </ul>  
+			            </li>
+			            <li><a href="">Actividades</a>
+				            <ul>
+				                <li><a href="">Ver actividades</a></li>
+				                <li><a href="">Registrar actividades</a></li>
+				                <li><a href="">Caliicar actividades</a></li>
+				                <li><a href="">Retroalimentar actividades</a></li>
+				                <li><a href="">Comentarios</a></li>
+				            </ul>  
+			            </li>
+			            <li><a href="">Asignaturas</a>
+				            <ul>
+				                <li><a href="">Ver asignatura</a></li>
+				                <li><a href="">Registrar asignatura</a></li>
+				                <li><a href="">Editar asignatura</a></li>
+				                <li><a href="">Eliminar asignatura</a></li>
+				            </ul>  
+			            <li><a href="">Roles y permisos</a>
+			                <li><a href="">Buscar</a>
+			            </li>
+			        </ul>
+		        </nav>
+	        </div>
+		    <div class="column2" style="background-color:#bbb;">
+		    	<div>
+		    		<h4>Bienvenido:</h4>
+		    		<h3>ROBERT SANCHEZ</h4>
+		    		<h4>Perfil:</h3>
+		    		<h3>SUPERADMIN</h3>
+		    		<div class="imagen_usuario">
+		    			
+		    		</div>
+		    		<nav>	
+		    		<ul id="menu2">
+		    			<li><a href="">Mis datos</a>
+		    		</ul>
+		    		</nav>
+		    		<nav>
+		    		<ul id="menu2">
+		    			<li><a href="">Cerrar sesión</a>
+		    		</ul>
+		    	    </nav>
+		    	</div>
+		    </div>
+	    </div>
+	</body>
+    <footer class="site-footer inicio">
+        <div class="contenedor footer_down">
+			<h5 class="footer-titulo">www.universidaddeltolima.com</h2>
+			<h5 class="footer-titulo">Cra 10 # 20-30</h2>
+			<h5 class="footer-titulo">Pbx: (8) 3341234</h2>
+			<h5 class="footer-titulo">Todos los derechos resrvados &copy;</h2>
+        </div>
+    </footer>
+</html>

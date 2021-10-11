@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>Universidad del Tolima</title>
+	    <!--
+        <link rel="stylesheet" href="css/general.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	    <link rel="stylesheet" href="css/normailize.css">
+	    <link rel="preconnect" href="https://fonts.gstatic.com">
+	    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/bootstrap2.css">
+	    -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/generales.css') }}">
+		
+	</head>
+	<body style="background-color: #aaa;">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-PsUw7Xwds7x08Ew3exXhqzbhuEYmA2xnwc8BuD6SEr+UmEHlX8/MCltYEodzWA4u" crossorigin="anonymous"></script>
+        
+		<div class="container-fluid p-2 bg-light text-center">
+            <a href="index.html">
+			    <img src="{{ url_for('static',filename='img/logobg.png') }}" alt="logo">
+            </a>
+		</div>
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #aaa;">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Notas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/notas/ingresar">Ingresar notas</a></li>
+                                <li><a class="dropdown-item" href="/notas/visualizar">Ver notas</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Docentes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ver docente</a></li>
+                                <!--<li><a class="dropdown-item" href="#">Registrar docente</a></li>
+                                <li><a class="dropdown-item" href="#">Editar docente</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar docente</a></li>-->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Estudiantes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ver estudiante</a></li>
+                                <!--<li><a class="dropdown-item" href="#">Registrar estudiante</a></li>
+                                <li><a class="dropdown-item" href="#">Editar estudiante</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar estudiante</a></li>-->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actividades
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/actividad/detalle">Ver actividades</a></li>
+                                <li><a class="dropdown-item" href="/actividad">Registrar actividades</a></li>
+                                <li><a class="dropdown-item" href="/notas/ingresar">Calificar actividades</a></li>
+                                <li><a class="dropdown-item" href="/feedback/docente">Retroalimentar actividades</a></li>
+                                <li><a class="dropdown-item" href="#">Comentarios</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Asignaturas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ver asignatura</a></li>
+                                <!--<li><a class="dropdown-item" href="#">Registrar asignatura</a></li>
+                                <li><a class="dropdown-item" href="#">Editar asignatura</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar asignatura</a></li>-->
+                            </ul>
+                        </li>
+                        <!--<li class="nav-item m-2" style="background-color: grey;">
+                            <a class="nav-link active" aria-current="page" href="#">Roles-Permisos</a>
+                        </li>-->
+                        <li class="nav-item m-2" style="background-color: grey;">
+                            <a class="nav-link active" aria-current="page" href="/buscador/docente">Buscar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row" >
+                <div class="col-izquierda" style="background-color: #e2e2e2;">
+                    <div class="well well-sm">
+                        <form action="?opcion=interlocutor&a=guardar" method="post" name="form_interlocutor" id="form_interlocutor" target="_self">
+                            <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
+                            <div align="center" id="interlocutorform">
+                                <div align="right">
+                                    <div
+                                        class="color_barra_titulos_marca<?php echo $marca; ?> color_titulos_marca<?php echo $marca; ?> pr_titulos">
+                                        
+                                    </div>
+                                    <table class="tabla_main" width="670" id="AutoNumber3">
+                                        <tbody><tr>
+                                            <td width="667" align="center" valign="top" bgcolor="#e2e2e2">
+                                                <div align="right">
+                                                    <center>
+                                                        <table width="815px" id="AutoNumber4">
+                                                            <tbody><tr class="color_borde_marca1">
+                                                                <td colspan="4">
+                                                                    <table width="100%" style="margin-bottom: 5px;" class="logosProductosComisionFija">
+                                                                        <tbody><tr class="linea_gris">
+                                                                            <td colspan="8">
+                                                                                <div class="color_barra_titulos_marca1 color_titulos_marca1 pr_titulos">
+                                                                                    INGRESO NOTAS ACTIVIDADES
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="linea_gris">
+                                                                            <td colspan="8" style="padding: 2px; font-weight: 700; text-align: left;">
+                                                                                Todos los campos con <span class="requerido">*</span> son obligatorios
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="linea_blanca">
+                                                                            <td style="width:16%;">
+                                                                                Estudiante<span class="requerido">*</span>
+                                                                            </td>
+                                                                            <td style="width:34%">
+                                                                                <select name="interlocutor[estudiante]" id="estudiante" type="text" value="" class="campoFormulario" maxlength="30" autocomplete="off">
+                                                                                    <option value="1">Carlos</option>
+                                                                                    <option value="2" selected="">Mario</option>
+                                                                                    <option value="3" selected="">Julian</option>
+                                                                                    <option value="4" selected="">Amaury</option>
+                                                                                    <option value="5" selected="">Daniel</option>							
+                                                                                </select>	
+                                                                            </td>
+                                                                            <td style="width:10%">
+                                                                                Asignatura<span class="requerido">*</span>
+                                                                            </td> 
+                                                                            <td style="width:40%">
+                                                                                <select name="interlocutor[asignatura]" type="text" id="asignatura" value="" class="campoFormulario" maxlength="49" autocomplete="off">
+                                                                                    <option value="1">-FU-Fundamentos de Programación</option>
+                                                                                    <option value="2" selected="">-PB-Programacion Basica</option>
+                                                                                    <option value="3" selected="">-DS-Desarrollo de Software</option>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="linea_gris">
+                                                                            <td>
+                                                                                Código actividad<span class="requerido">*</span>
+                                                                            <td>
+                                                                                <strong>
+                                                                                    <select name="interlocutor[cod_actidad]" size="1" id="cod_actividad" class="campoFormulario">
+                                                                                        <option value="1">1-Algoritmos</option>
+                                                                                        <option value="2" selected="">2-Condicionales</option>
+                                                                                        <option value="3" selected="">3-Ciclos</option>
+                                                                                        <option value="4" selected="">4-Bases de Datos</option>
+                                                                                        <option value="4" selected="">5-Desarrollo de Apps/Web</option>
+                                                                                        <option value="4" selected="">6-Proyecto Full Stack</option>
+                                                                                    </select>
+                                                                                </strong>
+                                                                            </td>
+                                                                            <td>
+                                                                                Tipo Nota<span class="requerido">*</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <strong>
+                                                                                    <div align="left">
+                                                                                        <select name="interlocutor[tipo_nota]" type="text" size="1" id="tipo_nota" value="" maxlength="5" class="campoFormulario" autocomplete="off">
+                                                                                            <option value="1">01-Nota</option>
+                                                                                            <option value="2" selected="">02-Nivelación</option>
+                                                                                            <option value="3" selected="">03-Trabajo Escrito</option>
+                                                                                            <option value="4" selected="">04-Supletorio</option>
+                                                                                        </select>
+                                                                                    </div>	
+                                                                                </strong>	
+                                                                            </td>
+                                                                        </tr>
+                                                                        
+                                                                        <tr class="linea_gris">
+                                                                            <td>
+                                                                                Tipo Actividad<span class="requerido">*</span>
+                                                                            </td>
+                                                                            <td colspan="3">
+                                                                                <input name="interlocutor[tipo_actividad]" type="text" size="70" id="tipo_actividad" class="campoFormulario" title="tipo de actividad" maxlength="100" placeholder="Ejemplo: Indica en que consiste la actividad">
+                                                                            </td>
+                                                                        </tr>
+                            
+                                                                            <td width="136" class="date">Fecha de Entrega</td> <!--adicioné class="date"-->
+                                                                            <td> 
+                                                                                <strong>
+                                                                                    <input name="fecha_entrega" size="1" id="fecha_entrega" required type="datetime-local">
+                                                                                </strong>
+                                                                            </td>
+                                                                            <!-- desplegar nota-->
+                                                                            <td>
+                                                                                Nota Actividad
+                                                                            </td>
+                                                                            <td>
+                                                                                <div align="left">
+                                                                                    <input name="interlocutor[nota_actividad]" type="text" id="nota_actividad" value="" maxlength="5" class="campoFormulario" autocomplete="off">
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="linea_gris">
+                                                                            <td>
+                                                                                Nota Final Actividad
+                                                                            </td>
+                                                                            <td>
+                                                                                <input name="interlocutor[nota_final_act]" type="text" id="nota_final_act" class="campoFormulario" value="" maxlength="5" autocomplete="off">
+                                                                            </td>
+                                                                            <td>
+                                                                                Nota Final Asignatura
+                                                                            </td>
+                                                                            <td>
+                                                                                <div align="left">
+                                                                                    <input name="interlocutor[nota_final_asig]" type="text" id="nota_final_asig" value="" maxlength="5" class="campoFormulario" autocomplete="off">
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </center>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-derecha">
+                    <div class="card" style="width:20rem;margin:20px 0 24px 0">
+                        <img class="card-img-top" src="{{ url_for('static',filename='img/usuario.jpg') }}" alt="Usuario" style="width:100%">
+                        <div class="card-body">
+                          <h4 class="card-title">CARLOS AGUIRRE</h4>
+                          <p class="card-text">Perfil: DOCENTE</p>
+                          <a href="javascript:void(0)" class="btn btn-primary">Mis datos</a>
+                          
+                          
+                            <!--Cierre sesion-->
+                        <form action="/logout" method="POST">
+                            {{ csrf_token }}
+                            <div class="btn btn-primary" style="text-align: center;">
+                                <input type="submit" name="" value="Cerrar sesión">
+                            </div>
+                        </form>
+
+                        <!--  <a href="javascript:void(0)" class="btn btn-primary">Cerrar sesión</a>
+                        -->
+
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+		<footer class="bg-dark text-center text-white">
+            <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+                    <p>
+                    www.universidaddeltolima.com
+                    <br>
+                    Cra 10 # 20-30
+                    <br>
+                    Pbx: (8) 3341234
+                    <br>
+                    Todos los derechos reservados ©
+                </p>
+            </div>
+        </footer>
+    
+	</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>Universidad del Tolima</title>
+	    <!--
+        <link rel="stylesheet" href="css/general.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	    <link rel="stylesheet" href="css/normailize.css">
+	    <link rel="preconnect" href="https://fonts.gstatic.com">
+	    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="css/bootstrap2.css">
+	    -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/generales.css') }}">
+		
+	</head>
+	<body style="background-color: #aaa;">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-PsUw7Xwds7x08Ew3exXhqzbhuEYmA2xnwc8BuD6SEr+UmEHlX8/MCltYEodzWA4u" crossorigin="anonymous"></script>
+        
+		<div class="container-fluid p-2 bg-light text-center">
+            <a href="index.html">
+			    <img src="{{ url_for('static',filename='img/logobg.png') }}" alt="logo">
+            </a>
+		</div>
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #aaa;">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Notas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/notas/visualizar">Ver notas</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Docentes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ver docente</a></li>
+                                <li><a class="dropdown-item" href="/registro">Registrar docente</a></li>
+                                <li><a class="dropdown-item" href="#">Editar docente</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar docente</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Estudiantes
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ver estudiante</a></li>
+                                <li><a class="dropdown-item" href="/registro">Registrar estudiante</a></li>
+                                <li><a class="dropdown-item" href="#">Editar estudiante</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar estudiante</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actividades
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/actividad/detalle">Ver actividades</a></li>
+                                <li><a class="dropdown-item" href="/actividad">Registrar actividades</a></li>
+                                <li><a class="dropdown-item" href="/notas/ingresar">Calificar actividades</a></li>
+                                <li><a class="dropdown-item" href="/feedback/docente">Retroalimentar actividades</a></li>
+                                <li><a class="dropdown-item" href="#">Comentarios</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown m-2" style="background-color: grey;">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Asignaturas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ver asignatura</a></li>
+                                <li><a class="dropdown-item" href="#">Registrar asignatura</a></li>
+                                <li><a class="dropdown-item" href="#">Editar asignatura</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar asignatura</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item m-2" style="background-color: grey;">
+                            <a class="nav-link active" aria-current="page" href="/buscador/superadmin">Buscar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row" >
+                <div class="col-izquierda" style="background-color: #e2e2e2;">
+                    <div class="well well-sm">
+                        <form action="?opcion=interlocutor&a=guardar" method="post" name="form_interlocutor" id="form_interlocutor" target="_self">
+            <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
+            <div align="center" id="interlocutorform">
+                <div align="right">
+                    <div
+                        class="color_barra_titulos_marca<?php echo $marca; ?> color_titulos_marca<?php echo $marca; ?> pr_titulos">
+                        
+                    </div>
+                    <table class="tabla_main" width="670" id="AutoNumber3">
+                        <tbody><tr>
+                            <td width="667" align="center" valign="top" bgcolor="#e2e2e2">
+                                <div align="right">
+                                    <center>
+                                        <table width="815px" id="AutoNumber4">
+                                            <tbody><tr class="color_borde_marca1">
+                                                <td colspan="4">
+                                                    <table width="100%" style="margin-bottom: 5px;" class="logosProductosComisionFija">
+                                                        <tbody><tr class="linea_gris">
+                                                            <td colspan="8">
+                                                                <div class="color_barra_titulos_marca1 color_titulos_marca1 pr_titulos">
+                                                                    INFORMACIÓN DEL USUARIO
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_gris">
+                                                            <td colspan="8" style="padding: 2px; font-weight: 700; text-align: left;">
+                                                                Todos los campos con <span class="requerido">*</span> son obligatorios
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_blanca">
+                                                            <td style="width:16%;">
+                                                                Nombre<span class="requerido">*</span>
+                                                            </td>
+                                                            <td style="width:34%">
+                                                                <input name="interlocutor[nombres]" id="nombre" type="text" value="" class="campoFormulario" maxlength="30" autocomplete="off">
+                                                            </td>
+                                                            <td style="width:10%">
+                                                                Apellidos<span class="requerido">*</span>
+                                                            </td>
+                                                            <td style="width:40%">
+                                                                <input name="interlocutor[apellido1]" type="text" id="apellido1" value="" class="campoFormulario" maxlength="49" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_gris">
+                                                            <td>Tipo Documento </td>
+                                                            <td>
+                                                                <strong>
+                                                                    <select name="interlocutor[tipo_documento]" size="1" id="TipoDoc" class="campoFormulario">
+                                                                        <option value="1">NIT</option>
+                                                                        <option value="2" selected="">CE</option>
+                                                                        <option value="3" selected="">CC</option>
+                                                                    </select>
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                Documento<span class="requerido">*</span>
+                                                            </td>
+                                                            <td>
+                                                                <div align="left">
+                                                                    <input name="interlocutor[numero_documento]" type="text" size="19" id="NumDoc" value="" maxlength="10" class="campoFormulario" autocomplete="off">
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_blanca">
+                                                        
+                                                            <td>
+                                                                Perfil<span class="requerido">*</span>
+                                                            </td>
+                                                            <td>
+                                                                <strong>
+                                                                 <select name="interlocutor[clase]" size="1" id="clase" class="campoFormulario" onclick="copiarComisiones('sugeridas');" onchange="copiarComisiones('sugeridas');">
+                                                                        <option selected="" value=""></option>
+                                                                        <option value="4">ESTUDIANTE</option>
+                                                                        <option value="3">DOCENTE</option>
+                                                                        <option value="2">SUPERADMIN</option>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_gris">
+                                                            <td>
+                                                                Dirección<span class="requerido">*</span>
+                                                            </td>
+                                                            <td colspan="3">
+                                                                <input name="interlocutor[direccion]" type="text" size="41" id="direccion" class="campoFormulario" title="Ingrese la direccion" maxlength="100" placeholder="Ejemplo: Carrera 99 # 77-88 Barrio Las Vegas" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_blanca">
+                                                            <td width="136">
+                                                                Departamento<span class="requerido">*</span>
+                                                            </td>
+                                                            <td>
+                                                                <strong>
+                                                                    <select name="interlocutor[departamento]" id="departamento" class="campoFormulario" onchange="get_ciudades($('departamento').value);">
+                                                                        <option value="1"></option>
+                                                                            <option value="91">AMAZONAS</option>
+                                                                            <option value="5">ANTIOQUIA</option>
+                                                                            <option value="81">ARAUCA</option>
+                                                                            <option value="8">ATLANTICO</option>
+                                                                            <option value="11">BOGOTA D.C.</option>
+                                                                            <option value="13">BOLIVAR</option>
+                                                                            <option value="15">BOYACA</option>
+                                                                            <option value="17">CALDAS</option>
+                                                                            <option value="18">CAQUETA</option>
+                                                                            <option value="85">CASANARE</option>
+                                                                            <option value="19">CAUCA</option>
+                                                                            <option value="20">CESAR</option>
+                                                                            <option value="27">CHOCO</option>
+                                                                            <option value="23">CORDOBA</option>
+                                                                            <option value="25">CUNDINAMARCA</option>
+                                                                            <option value="94">GUAINIA</option>
+                                                                            <option value="95">GUAVIARE</option>
+                                                                            <option value="41">HUILA</option>
+                                                                            <option value="44">LA GUAJIRA</option>
+                                                                            <option value="47">MAGDALENA</option>
+                                                                            <option value="50">META</option>
+                                                                            <option value="54">N. DE SANTANDER</option>
+                                                                            <option value="52">NARI?O</option>
+                                                                            <option value="86">PUTUMAYO</option>
+                                                                            <option value="63">QUINDIO</option>
+                                                                            <option value="66">RISARALDA</option>
+                                                                            <option value="88">SAN ANDRES Y P.</option>
+                                                                            <option value="68">SANTANDER</option>
+                                                                            <option value="70">SUCRE</option>
+                                                                            <option value="73">TOLIMA</option>
+                                                                            <option value="76">VALLE DEL CAUCA</option>
+                                                                            <option value="97">VAUPES</option>
+                                                                            <option value="99">VICHADA</option>
+                                                                    </select>
+                                                                </strong>
+                                                            </td>
+                                                            <td width="136">Ciudad</td>
+                                                            <td>
+                                                                <div id="municipio">
+                                                                    <strong>
+                                                                        <select name="interlocutor[municipio]" size="1" id="ciudad" class="campoFormulario">
+                                                                        </select>
+                                                                    </strong>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_gris">
+                                                            <td width="136">
+                                                                Teléfono
+                                                            </td>
+                                                            <td>
+                                                                <input name="interlocutor[telefono]" type="text" id="Tel1" class="campoFormulario" value="" maxlength="7" autocomplete="off">
+                                                            </td>
+                                                            <td colspan="2" rowspan="5" id="textObservacion">
+                                                                <table width="100%" border="0">
+                                                                    <tbody><tr>
+                                                                        <th scope="row">Observaciones</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">
+                                                                            <textarea name="interlocutor[observaciones]" cols="40" rows="5" id="Observaciones" maxlength="4000"></textarea>
+                                                                        </th>
+                                                                    </tr>
+                                                                </tbody></table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_blanca">
+                                                            <td width="136">
+                                                                Celular <span class="requerido">*</span>
+                                                            </td>
+                                                            <td>
+                                                                <input name="interlocutor[celular]" type="text" id="Tel2" class="campoFormulario" value="" maxlength="10" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_gris">
+                                                            <td width="136">
+                                                                email <span class="requerido">*</span>
+                                                            </td>
+                                                            <td>
+                                                                <input style="text-transform:lowercase;" name="email[Tel3]" type="text" class="input_mail campoFormulario" id="Tel3" value="" maxlength="60" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="linea_blanca">
+                                                            <td width="136">
+                                                                Confirmar email <span class="requerido">*</span>
+                                                            </td>
+                                                            <td>
+                                                                <input style="text-transform:lowercase;" name="email[email_confirm]" type="text" class="input_mail campoFormulario" id="mail_confirm" value="" onpaste="return validatePaste();" maxlength="60" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr class="linea_blanca" id="tipoCliente" style="display:none;">
+                                                            <td>Cual ?</td>
+                                                            <td>
+                                                                <input name="interlocutor[tipo_cliente]" class="campoFormulario texto1" type="text" value="" maxlength="20">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                     </tbody>
+                                 </table>
+                                </center>
+                            </div>
+                           </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </form>
+                    </div>
+                </div>
+                <div class="col-derecha">
+                    <div class="card" style="width:20rem;margin:20px 0 24px 0">
+                        <img class="card-img-top" src="{{ url_for('static',filename='img/usuario.jpg') }}" alt="Usuario" style="width:100%">
+                        <div class="card-body">
+                          <h4 class="card-title">ROBERT SANCHEZ</h4>
+                          <p class="card-text">Perfil: SUPERADMIN</p>
+                          <a href="javascript:void(0)" class="btn btn-primary">Mis datos</a>
+                          
+                          <!--Cierre sesion-->
+                        <form action="/logout" method="POST">
+                            {{ csrf_token }}
+                            <div class="btn btn-primary" style="text-align: center;">
+                                <input type="submit" name="" value="Cerrar sesión">
+                            </div>
+                        </form>
+
+                        <!--  <a href="javascript:void(0)" class="btn btn-primary">Cerrar sesión</a>
+                        -->
+
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+		<footer class="bg-dark text-center text-white">
+            <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+                    <p>
+                    www.universidaddeltolima.com
+                    <br>
+                    Cra 10 # 20-30
+                    <br>
+                    Pbx: (8) 3341234
+                    <br>
+                    Todos los derechos reservados ©
+                </p>
+            </div>
+        </footer>
+    
+	</body>
+</html>
