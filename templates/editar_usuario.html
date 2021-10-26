@@ -1,0 +1,354 @@
+{% extends "navigator.html" %}
+
+{% block form %} 
+<form action="" method="post" name="editarUser" id="editarUser" target="_self">
+
+    <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
+    <div align="center" id="interlocutorform">
+        <div align="right">
+            <div
+                class="color_barra_titulos_marca<?php echo $marca; ?> color_titulos_marca<?php echo $marca; ?> pr_titulos">
+                
+            </div>
+            <table class="tabla_main" width="670" id="AutoNumber3">
+                <tbody><tr>
+                    <td width="667" align="center" valign="top" bgcolor="#e2e2e2">
+                        <div align="right">
+                            <center>
+                                <table width="815px" id="AutoNumber4">
+                                    <tbody><tr class="color_borde_marca1">
+                                        <td colspan="4">
+                                            <table width="100%" style="margin-bottom: 5px;" class="logosProductosComisionFija">
+                                                <tbody>
+                                                <!--PRUEBA-->
+                                                    <!--Aquí va el buscador-->
+                                                <!--FIN PRUEBA-->
+                                                <tr class="linea_gris">
+                                                    <td colspan="8">
+                                                        <div class="color_barra_titulos_marca1 color_titulos_marca1 pr_titulos">
+                                                            INFORMACIÓN DEL USUARIO
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_blanca">
+                                                    <!--<td style="width:16%;">
+                                                        Nombre<span class="requerido">*</span>
+                                                    </td>
+                                                    <td style="width:34%">
+                                                        <input name="interlocutor[nombres]" id="nombre" type="text" value="" class="campoFormulario" maxlength="30" autocomplete="off" placeholder="Juan Daniel">
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        Apellidos<span class="requerido">*</span>
+                                                    </td>
+                                                    <td style="width:40%">
+                                                        <input name="interlocutor[apellido1]" type="text" id="apellido1" value="" class="campoFormulario" maxlength="49" autocomplete="off" placeholder="Rios">
+                                                    </td>-->
+                                                    <td style="width:16%;">
+                                                        {{ frm.nombres.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td style="width:34%">
+                                                        {{ frm.nombres }}
+                                                    </td>
+                                                        {% for error in frm.nombres.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                    <td style="width:10%">
+                                                        {{ frm.apellidos.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td style="width:40%">
+                                                        {{ frm.apellidos }}
+                                                    </td>
+                                                        {% for error in frm.apellidos.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <!--<td>Tipo Documento </td>
+                                                    <td>
+                                                        <strong>
+                                                            <select name="interlocutor[tipo_documento]" size="1" id="TipoDoc" class="campoFormulario">
+                                                                <option value="1">NIT</option>
+                                                                <option value="2">CE</option>
+                                                                <option value="3" selected="">CC</option>
+                                                            </select>
+                                                        </strong>
+                                                    </td>
+                                                    <td>
+                                                        Documento<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <input name="interlocutor[numero_documento]" type="text" size="19" id="NumDoc" value="" maxlength="10" class="campoFormulario" autocomplete="off" placeholder="10433122">
+                                                        </div>
+                                                    </td>-->
+                                                    <td>
+                                                        {{ frm.tipoDocumento.label(class="requerido") }}
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            {{ frm.tipoDocumento }}
+                                                        </strong>
+                                                    </td>
+                                                        {% for error in frm.tipoDocumento.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                    <td>
+                                                        {{ frm.documento.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <div align="left">
+                                                            {{ frm.documento }}
+                                                        </div>
+                                                    </td>
+                                                        {% for error in frm.documento.errors %}
+                                                        <div>
+                                                            {{ error }}
+                                                        </div>
+                                                        {% endfor %}
+                                                </tr>
+                                                <tr class="linea_blanca">
+                                                    <!--<td>
+                                                        Perfil<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                         <select name="interlocutor[clase]" size="1" id="clase" class="campoFormulario" onclick="copiarComisiones('sugeridas');" onchange="copiarComisiones('sugeridas');">
+                                                                <option selected="" value="4">ESTUDIANTE</option>
+                                                                <option value="3">DOCENTE</option>
+                                                                <option value="2">SUPERADMIN</option>
+                                                        </strong>
+                                                    </td>-->
+                                                    <td>
+                                                        {{ frm.perfil.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            {{ frm.perfil }}
+                                                        </strong>
+                                                    </td>
+                                                        {% for error in frm.perfil.errors %}
+                                                        <div>
+                                                            {{ error }}
+                                                        </div>
+                                                        {% endfor %}
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <!--<td>
+                                                        Dirección<span class="requerido">*</span>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        <input name="interlocutor[direccion]" type="text" size="41" id="direccion" class="campoFormulario" title="Ingrese la direccion" maxlength="100" placeholder="Carrera 99 # 77-88 VillaHermosa" autocomplete="off">
+                                                    </td>-->
+                                                    <td>
+                                                        {{ frm.direccion.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        {{ frm.direccion }}
+                                                    </td>
+                                                        {% for error in frm.direccion.errors %}
+                                                        <div>
+                                                            {{ error }}
+                                                        </div>
+                                                        {% endfor %}
+                                                </tr>
+                                                <tr class="linea_blanca">
+                                                    <!--<td width="136">
+                                                        Departamento<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            <select name="interlocutor[departamento]" id="departamento" class="campoFormulario" onchange="get_ciudades($('departamento').value);">
+                                                                <option value="1"></option>
+                                                                    <option value="91">AMAZONAS</option>
+                                                                    <option value="5">ANTIOQUIA</option>
+                                                                    <option value="81">ARAUCA</option>
+                                                                    <option value="8">ATLANTICO</option>
+                                                                    <option value="11">BOGOTA D.C.</option>
+                                                                    <option value="13">BOLIVAR</option>
+                                                                    <option value="15">BOYACA</option>
+                                                                    <option value="17">CALDAS</option>
+                                                                    <option value="18">CAQUETA</option>
+                                                                    <option value="85">CASANARE</option>
+                                                                    <option value="19">CAUCA</option>
+                                                                    <option value="20">CESAR</option>
+                                                                    <option value="27">CHOCO</option>
+                                                                    <option value="23">CORDOBA</option>
+                                                                    <option value="25">CUNDINAMARCA</option>
+                                                                    <option value="94">GUAINIA</option>
+                                                                    <option value="95">GUAVIARE</option>
+                                                                    <option value="41">HUILA</option>
+                                                                    <option value="44">LA GUAJIRA</option>
+                                                                    <option value="47">MAGDALENA</option>
+                                                                    <option value="50">META</option>
+                                                                    <option value="54">N. DE SANTANDER</option>
+                                                                    <option value="52">NARI?O</option>
+                                                                    <option value="86">PUTUMAYO</option>
+                                                                    <option value="63">QUINDIO</option>
+                                                                    <option value="66">RISARALDA</option>
+                                                                    <option value="88">SAN ANDRES Y P.</option>
+                                                                    <option value="68">SANTANDER</option>
+                                                                    <option value="70">SUCRE</option>
+                                                                    <option selected="" value="73">TOLIMA</option>
+                                                                    <option value="76">VALLE DEL CAUCA</option>
+                                                                    <option value="97">VAUPES</option>
+                                                                    <option value="99">VICHADA</option>
+                                                            </select>
+                                                        </strong>
+                                                    </td>
+                                                    <td width="136">Ciudad</td>
+                                                    <td>
+                                                        <div id="municipio">
+                                                            <strong>
+                                                                <select name="interlocutor[municipio]" size="1" id="ciudad" class="campoFormulario">
+                                                                    <option>IBAGUE</option>
+                                                                </select>
+                                                            </strong>
+                                                        </div>
+                                                    </td>-->
+                                                    <td>
+                                                        {{ frm.departamento.label }}
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            {{ frm.departamento }}
+                                                        </strong>
+                                                                {% for error in frm.departamento.errors %}
+                                                                <div>
+                                                                    {{ error }}
+                                                                </div>
+                                                                {% endfor %}
+                                                    </td>
+                                                    <td width="136">
+                                                        {{ frm.ciudad.label }}
+                                                    </td>
+                                                    <td>
+                                                        <div id="municipio">
+                                                            <strong>
+                                                                {{ frm.ciudad }}
+                                                            </strong>
+                                                        </div>
+                                                            {% for error in frm.ciudad.errors %}
+                                                                    <div>
+                                                                        {{ error }}
+                                                                    </div>
+                                                                    {% endfor %}
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <!--<td width="136">
+                                                        Teléfono
+                                                    </td>
+                                                    <td>
+                                                        <input name="interlocutor[telefono]" type="text" id="Tel1" class="campoFormulario" value="" maxlength="7" autocomplete="off" placeholder="8849001">
+                                                    </td>
+                                                    <td colspan="2" rowspan="5" id="textObservacion">
+                                                        <table width="100%" border="0">
+                                                            <tbody><tr>
+                                                                <th scope="row">Observaciones</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <textarea name="interlocutor[observaciones]" cols="40" rows="5" id="Observaciones" maxlength="4000"></textarea>
+                                                                </th>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </td>-->
+                                                    <td width="136">
+                                                        {{ frm.telefono.label }}
+                                                    </td>
+                                                    <td>
+                                                        {{ frm.telefono }}
+                                                    </td>
+                                                        {% for error in frm.telefono.errors %}
+                                                        <div>
+                                                            {{ error }}
+                                                        </div>
+                                                        {% endfor %}
+                                                    <td colspan="2" rowspan="5" id="textObservacion">
+                                                        <table width="100%" border="0">
+                                                            <tbody><tr>
+                                                                <th scope="row">
+                                                                    {{ frm.observaciones.label }}
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <!--<textarea name="interlocutor[observaciones]" cols="40" rows="4" id="Observaciones" maxlength="4000"></textarea>-->
+                                                                    {{ frm.observaciones(cols="40", rows="4", id="Observaciones", maxlength="4000") }}
+                                                                </th>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_blanca">
+                                                    <!--<td width="136">
+                                                        Celular <span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <input name="interlocutor[celular]" type="text" id="Tel2" class="campoFormulario" value="" maxlength="10" autocomplete="off" placeholder="3128896655">
+                                                    </td>-->
+                                                    <td width="136">
+                                                        {{ frm.celular.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        {{ frm.celular }}
+                                                    </td>
+                                                        {% for error in frm.celular.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <!--<td width="136">
+                                                        email <span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <input style="text-transform:lowercase;" name="email[Tel3]" type="text" class="input_mail campoFormulario" id="Tel3" value="" maxlength="60" autocomplete="off" placeholder="juanrios889@unitolima.edu.co">
+                                                    </td>-->
+                                                    <td width="136">
+                                                        {{ frm.email.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td>
+                                                        {{ frm.email }}
+                                                    </td>
+                                                        {% for error in frm.email.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                </tr>
+                                                <tr class="linea_blanca">
+                                                    <!--<td width="136">
+                                                        <a href="javascript:void(0)" class="btn btn-primary">Eliminar</a>
+                                                    </td>-->
+                                                    <td width="136">
+                                                        {{ frm.editar(href="javascript:void(0)", class="btn btn-primary") }} 
+                                                    </td>
+                                                </tr>
+
+                                          </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                             </tbody>
+                         </table>
+                        </center>
+                    </div>
+                   </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</form>
+
+{% endblock %}

@@ -26,9 +26,9 @@
 
 <!----------------------------Se hacen cambios en el form para coordinar con rutas de ingreso y salida-------------------------------------------------------->
 								
-								<form id="login-form" class="form" action="/login" method="post"> <!--Pagina de ingreso con el metod POST-->
+								<!--<form id="login-form" class="form" action="/login" method="POST"> <!--Pagina de ingreso con el metodo POST-->
 									
-									{{ csrf_token }} <!--Esto es agregado en proceso de rutas-->
+									 <!--Esto es agregado en proceso de rutas {{ csrf_token }}
 
 									<h3 class="text-center text-info">Ingreso al Sistema</h3>
 									<div class="form-group">
@@ -37,7 +37,7 @@
 									</div>
 									<div class="form-group">
 										<label for="password" class="text-info">contraseña:</label><br>
-										<input type="text" name="password" id="password" class="form-control">
+										<input type="password" name="password" id="password" class="form-control">
 									</div>
 
 
@@ -48,7 +48,41 @@
 
 									<div id="register-link" class="text-right">
 									</div>
-								</form>
+								</form>-->
+
+								<form id="login-form" class="form" action="" method="POST">
+								{{ frm.hidden_tag() }}
+								<p>
+									<strong>
+										{{ frm.username.label }}
+									</strong>
+									
+									{{ frm.username }}
+									{% for error in frm.username.errors %}
+									<div>
+										{{ error }}
+									</div>
+									{% endfor %}
+								</p>
+								<p>
+									<strong>
+										{{ frm.password.label }}
+									</strong>
+									
+									{{ frm.password }}
+									{% for error in frm.password.errors %}
+									<div>
+										{{ error }}
+									</div>
+									{% endfor %}
+								</p>
+								{{ frm.entrar (href="javascript:void(0)", class="btn btn-primary")}}
+								<p><span style="color: #3366ff;"><em>{{ estado }}</em></span></p>
+								
+								
+							
+							</form>
+							
 <!----------------------------Se hacen cambios en el form para coordinar con rutas de ingreso y salida-------------------------------------------------------->
 							</div>
 						</div>

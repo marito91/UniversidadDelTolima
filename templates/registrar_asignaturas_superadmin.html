@@ -1,0 +1,202 @@
+{% extends "navigator.html" %}
+
+
+{% block form %}
+
+<form action="" method="post" name="adminAsignaturas" id="adminAsignaturas" target="_self">
+    <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
+    <div align="center" id="interlocutorform">
+        <div align="right">
+            <div
+                class="color_barra_titulos_marca<?php echo $marca; ?> color_titulos_marca<?php echo $marca; ?> pr_titulos">
+                
+            </div>
+            <table class="tabla_main" width="670" id="AutoNumber3">
+                <tbody><tr>
+                    <td width="667" align="center" valign="top" bgcolor="#e2e2e2">
+                        <div align="right">
+                            <center>
+                                <table width="815px" id="AutoNumber4">
+                                    <tbody><tr class="color_borde_marca1">
+                                        <td colspan="4">
+                                            <table width="100%" style="margin-bottom: 5px;" class="logosProductosComisionFija">
+                                                <tbody><tr class="linea_gris">
+                                                    <td colspan="8">
+                                                        <div class="color_barra_titulos_marca1 color_titulos_marca1 pr_titulos">
+                                                            <strong>
+                                                                ADMINISTRACION DE ASIGNATURAS
+                                                            </strong>
+
+                                                        </div>
+                                                        <br>
+                                                        <div>
+                                                            {{ frm.codigo.label }}
+                                                            {{ frm.codigo }}
+                                                            {% for error in frm.codigo.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                            {{ frm.buscar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <td colspan="8" style="padding: 2px; font-weight: 700; text-align: left;">
+                                                        Todos los campos con <span class="requerido">*</span> son obligatorios
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_blanca">
+                                                    <td style="width:30%;">
+                                                        {{ frm.asignatura.label }}<span class="requerido">*</span>
+                                                    </td> 
+                                                    <td style="width:60%">
+                                                        {{ frm.asignatura }}
+                                                        {% for error in frm.asignatura.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                        <!-- <select name="interlocutor[asignatura]" type="text" id="asignatura" value="" class="campoFormulario" maxlength="49" autocomplete="off">
+                                                            <option value="1">-FU-Fundamentos de Programación</option>
+                                                            <option value="2" selected="">-PB-Programacion Basica</option>
+                                                            <option value="3" selected="">-DS-Desarrollo de Software</option> -->
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        
+
+                                                        <!-- Docente<span class="requerido">*</span> -->
+                                                    </td>
+                                                    <td style="width:34%">
+                                                        <!-- <select name="interlocutor[docente]" id="docente" type="text" value="" class="campoFormulario" maxlength="30" autocomplete="off">
+                                                            <option value="0">Por definir</option>
+                                                            <option value="1">Hugo</option>
+                                                            <option value="2" selected="">Paco</option>
+                                                            <option value="3" selected="">Luis</option>
+                                                            <option value="4" selected="">Simón</option>
+                                                            <option value="5" selected="">Martín</option>							
+                                                        </select> -->
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <td>
+                                                        {{ frm.tipo.label }}<span class="requerido">*</span>
+                                                    <td>
+                                                        <strong>
+                                                            {{ frm.tipo }}
+                                                            {% for error in frm.tipo.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                            <!-- <select name="interlocutor[clase_asignatura]" size="1" id="clase_asignatura" class="campoFormulario">
+                                                                <option value="1">1-Ciclo Básico</option>
+                                                                <option value="2" selected="">2-Obligatoria</option>
+                                                                <option value="3" selected="">3-Electiva</option>
+                                                            </select> -->
+                                                        </strong>
+                                                    </td>
+                                                    <td>
+                                                        <!-- Estado de Asignatura<span class="requerido">*</span> -->
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            <div align="left">
+                                                                <!-- <select name="interlocutor[estado_asignatura]" type="text" size="1" id="estado_asignatura" value="" maxlength="5" class="campoFormulario" autocomplete="off">
+                                                                    <option value="1">01-Abierta</option>
+                                                                    <option value="2" selected="">02-Activa</option>
+                                                                    <option value="3" selected="">03-Inactiva</option>
+                                                                    <option value="4" selected="">04-Cerrada</option> -->
+                                                                </select>
+                                                            </div>	
+                                                        </strong>	
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr class="linea_gris">
+                                                    <td>
+                                                        {{ frm.descripcion.label }}<span class="requerido">*</span>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        {{ frm.descripcion }}
+                                                        {% for error in frm.descripcion.errors %}
+                                                            <div>
+                                                                {{ error }}
+                                                            </div>
+                                                            {% endfor %}
+                                                        <!-- <input name="interlocutor[tipo_asignatura]" type="text" size="70" id="tipo_asignatura" class="campoFormulario" title="tipo de asignatura" maxlength="100" placeholder="Ejemplo: Indica en que consiste la asignatura"> -->
+                                                    </td>
+                                                </tr>
+    
+                                                    <!-- <td width="136" class="date">Fecha Calificación</td> adicioné class="date" -->
+                                                    <td> 
+                                                        <strong>
+                                                            <!-- <input name="fecha_calificacion" size="1" id="fecha_calificacion" required type="datetime-local"> -->
+                                                        </strong>
+                                                    </td>
+                                                    <!-- desplegar calificación-->
+                                                    <td>
+                                                        <!-- Estudiante -->
+                                                    </td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <!-- <select name="interlocutor[estudiante]" id="estudiante" type="text" value="" class="campoFormulario" maxlength="30" autocomplete="off">
+                                                                <option value="1">Carlos</option>
+                                                                <option value="2" selected="">Mario</option>
+                                                                <option value="3" selected="">Julian</option>
+                                                                <option value="4" selected="">Amaury</option>
+                                                                <option value="5" selected="">Daniel</option>							
+                                                            </select> -->
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="linea_gris">
+                                                    <td>
+                                                        <!-- Estudiantes Matriculados -->
+                                                    </td>
+                                                    <td>
+                                                        <!-- <input name="interlocutor[estudiantes_matriculados]" type="text" id="estudiantes_matriculados" class="campoFormulario" value="" maxlength="5" autocomplete="off"> -->
+                                                    </td>
+                                                    <!--<td>
+                                                        Nota Final Asignatura
+                                                    </td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <input name="interlocutor[nota_final_asig]" type="text" id="nota_final_asig" value="" maxlength="5" class="campoFormulario" autocomplete="off">
+                                                        </div>
+                                                    </td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </center>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+        
+            
+        
+        <div align="left">
+            {{ frm.registrar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+        
+            {{ frm.editar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+        
+            {{ frm.eliminar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+        </div>
+            
+        
+    </div>
+    </div>
+</form>
+{% for msg in get_flashed_messages() %}
+        <div>
+            {{ msg }}
+        </div>
+{% endfor %}
+
+{% endblock %}

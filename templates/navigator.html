@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block navigator %}
+
+<div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+<!-- Seccion Nota --> 
+{% if TypeUser=="Docente" or TypeUser== "Admin" or TypeUser== "Estudiante" %}           
+            <li class="nav-item dropdown m-2" style="background-color: grey;">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                    Notas
+                </a> 
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/notas/visualizar">Ver notas</a></li> 
+                    {% if TypeUser=="Docente" or TypeUser== "Admin" %} 
+                    <li><a class="dropdown-item" href="/notas/ingresar">Ingresar notas</a></li>  <!--comment for student -- href="#">Ingresar notas-->
+                    {% endif %}   
+                </ul> 
+
+            </li>
+{% endif %}
+
+<!-- Seccion Usuarios -->
+            
+{% if TypeUser=="Admin" %}             
+            <li class="nav-item dropdown m-2" style="background-color: grey;">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/usuario/ver">Ver usuario</a></li>
+                    <li><a class="dropdown-item" href="/usuario/registro">Registrar usuario</a></li>
+                    <li><a class="dropdown-item" href="/usuario/editar">Editar usuario</a></li>
+                    <li><a class="dropdown-item" href="/usuario/eliminar">Eliminar usuario</a></li>
+                </ul>
+            </li>
+{% endif %}
+
+<!-- Seccion estudiantes (solo aplica a docente) -->
+            
+{% if TypeUser=="Docente" %}             
+            <li class="nav-item dropdown m-2" style="background-color: grey;">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Estudiante
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/estudiante/ver">Ver estudiante</a></li>
+                </ul>
+            </li>
+{% endif %}
+
+<!-- Seccion Actividades -->
+{% if TypeUser=="Docente" or TypeUser== "Admin" or TypeUser== "Estudiante" %}  
+            <li class="nav-item dropdown m-2" style="background-color: grey;">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actividades
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/actividad/detalle">Ver actividades</a></li>
+                    
+                    {% if TypeUser=="Docente" or TypeUser== "Admin" %} 
+                    <li><a class="dropdown-item" href="/actividad/registrar">Registrar actividades</a></li>
+                    <li><a class="dropdown-item" href="/notas/ingresar">Calificar actividades</a></li>
+                    <li><a class="dropdown-item" href="/feedback/docente">Retroalimentar actividades</a></li>
+                    {% endif %}
+                    {% if TypeUser=="Estudiante" or TypeUser== "Admin" %} 
+                    <li><a class="dropdown-item" href="/feedback/estudiante">Comentarios</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+{% endif %}
+            
+<!-- Seccion Asignaturas -->
+{% if TypeUser=="Docente" or TypeUser== "Admin" or TypeUser== "Estudiante" %}  
+            <li class="nav-item dropdown m-2" style="background-color: grey;">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Asignaturas
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                    <li><a class="dropdown-item" href="/asignaturas/vertodos">Ver asignatura</a></li>
+                    {% if TypeUser== "Admin" %} 
+                    <li><a class="dropdown-item" href="/asignaturas/administracion">Administrar asignatura</a></li>
+                    <!-- <li><a class="dropdown-item" href="/asignaturas/editar">Editar asignatura</a></li>
+                    <li><a class="dropdown-item" href="/asignaturas/eliminar">Eliminar asignatura</a></li> -->
+                    {% endif %}
+                </ul>
+            </li>
+{% endif %}
+
+<!-- Seccion Roles - perfiles NOTA AMAURY: QUE SE VA A COLOCAR AQUI? -->
+{% if TypeUser=="inactivo" %}  
+            <li class="nav-item m-2" style="background-color: grey;">
+                <a class="nav-link active" aria-current="page" href="#">Roles-Perfiles</a>
+            </li>
+{% endif %}
+
+<!-- Seccion Buscar -->
+{% if TypeUser=="Admin" or TypeUser=="Docente" %}  
+            <li class="nav-item m-2" style="background-color: grey;">
+                <a class="nav-link active" aria-current="page" href="/buscador">Buscar</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
