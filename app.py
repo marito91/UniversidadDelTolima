@@ -16,7 +16,7 @@ app.secret_key = os.urandom(20)
 # typeUser=str()
 # activeSesion=False
 
-
+# Daniel
 
 
 
