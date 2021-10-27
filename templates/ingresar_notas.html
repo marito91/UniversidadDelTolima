@@ -65,12 +65,12 @@
                                                             <option value="3" selected="">-DS-Desarrollo de Software</option>
                                                     </td>-->
                                                     <td style="width:10%">
-                                                        {{ frm.asignatura.label }}
+                                                        {{ frm.actividad.label }}
                                                     </td>
                                                     <td style="width:40%">
-                                                        {{ frm.asignatura(class="campoFormulario", maxlength="49", autocomplete="off") }}
+                                                        {{ frm.actividad(size="20", class="campoFormulario", maxlength="100", placeholder="Ingrese ID actividad") }}
                                                     </td>
-                                                        {% for error in frm.asignatura.errors %}
+                                                        {% for error in frm.actividad.errors %}
                                                         <div>
                                                             {{ error }}
                                                         </div>
@@ -139,30 +139,30 @@
                                                     </td>
                                                     <td colspan="3">
                                                         <input name="interlocutor[tipo_actividad]" type="text" size="70" id="tipo_actividad" class="campoFormulario" title="tipo de actividad" maxlength="100" placeholder="Ejemplo: Indica en que consiste la actividad">
-                                                    </td>-->
-                                                    <td>
-                                                        {{ frm.actividad.label }}
                                                     </td>
                                                     <td>
-                                                        {{ frm.actividad(size="20", class="campoFormulario", maxlength="100", placeholder="Ingrese ID actividad") }}
+                                                        {# frm.actividad.label #}
                                                     </td>
-                                                        {% for error in frm.actividad.errors %}
+                                                    <td>
+                                                        {# frm.actividad(size="20", class="campoFormulario", maxlength="100", placeholder="Ingrese ID actividad") #}
+                                                    </td>
+                                                        {# for error in frm.actividad.errors #}
                                                         <div>
-                                                            {{ error }}
+                                                            {# error #}
                                                         </div>
-                                                        {% endfor %}
+                                                        {# endfor #}
                                                     </td>
                                                     <td >
-                                                        {{ frm.info.label }}
+                                                        {# frm.info.label #}
                                                     </td>
                                                     <td>
-                                                        {{ frm.info(size="20", class="campoFormulario", maxlength="100") }}
+                                                        {# frm.info(size="20", class="campoFormulario", maxlength="100") #}
                                                     </td>
-                                                        {% for error in frm.info.errors %}
+                                                        {# for error in frm.info.errors #}
                                                         <div>
-                                                            {{ error }}
+                                                            {# error #}
                                                         </div>
-                                                        {% endfor %}
+                                                        {# endfor #}-->
                                                     
                                                     
                                                 </tr>
@@ -195,8 +195,7 @@
                                                         {% endfor %}
                                                     <td>
                                                 </tr>
-                                                </tr>
-                                                <tr class="linea_blanca">
+                                                <tr class="linea_blanca"> 
                                                     <td width="136">
                                                         {{ frm.ingresar(href="javascript:void(0)", class="btn btn-primary") }} 
                                                     </td>

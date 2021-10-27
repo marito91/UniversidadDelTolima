@@ -51,15 +51,15 @@ class VerUsuario(FlaskForm):
     
 
 class Notas(FlaskForm):
-    codigo = IntegerField("Codigo", validators = [DataRequired("Por favor llene este campo")])
-    estudiante = IntegerField("Estudiante", validators = [DataRequired("Por favor llene este campo")])
-    asignatura = SelectField("Asignatura", choices=["","-FU- Fundamentos de Programacion", "-PB- Programacion Basica", "-DS- Desarrollo de Software"])
-    actividad = IntegerField("Actividad", validators = [DataRequired("Por favor llene este campo")])
-    tipo = SelectField("Tipo Nota", choices=["01-Nota","02-Nivelacion", "03-Trabajo Escritro", "04-Supletorio"])
-    info = StringField("Tipo Actividad")
-    nota = DecimalField("Nota")
+    codigo = StringField("Codigo", validators = [DataRequired()])
+    estudiante = StringField("Estudiante", validators = [DataRequired()])
+    #asignatura = SelectField("Asignatura", choices=["","-FU- Fundamentos de Programacion", "-PB- Programacion Basica", "-DS- Desarrollo de Software"])
+    actividad = StringField("Actividad", validators = [DataRequired()])
+    tipo = SelectField("Tipo Nota", choices=["Nota","Nivelacion", "Trabajo Escritro", "Supletorio"])
+    #info = StringField("Tipo Actividad")
+    nota = StringField("Nota")
     notaAsignatura = DecimalField("Nota Asignatura")
-    ingresar = SubmitField("Ingresar")
+    ingresar = SubmitField("Ingresar", render_kw=({"onfocus":"cambiaRuta('/notas/ingresar')"}))
 
     
 

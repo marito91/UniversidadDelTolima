@@ -528,15 +528,13 @@ def ver_notas():
 # Ruta INGRESAR NOTAS
 @app.route("/notas/ingresar", methods=["GET", "POST"])
 def notas():
-    if "id_usuario" in session:
-        frm = Notas()  
+    frm = Notas() 
+    if "id_usuario" in session: 
         if frm.validate_on_submit():
-            asignatura_id = frm.codigo.data
-            usuario_id = frm.estudiante.data
-            actividad_id = frm.actividad.data
-            asignatura = frm.asignatura.data
+            asignatura = frm.codigo.data
+            usuario = frm.estudiante.data
+            actividad = frm.actividad.data
             tipo = frm.tipo.data
-            actividad = frm.info.data
             nota = frm.nota.data
 
 
@@ -545,14 +543,14 @@ def notas():
                 with sqlite3.connect("unitolima.db") as con:
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
-                    cursor.execute("SELECT * FROM nota WHERE actividad_id = ?", [actividad_id])
+                    cursor.execute("SELECT * FROM nota WHERE usuario_id = ?", [int(usuario)])
                     # Si existe un usuario
                     if cursor.fetchone():
-                        flash ("Esta actividad ya cuenta con una calificación")
-                    # Si no que guarde uno
+                        flash ("El estudiante ya cuenta con una calificación para esta actividad")
+                    # Si no que guarde la calificación
                     else:
                         # Prepara la sentencia SQL
-                        cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, tipo, asignatura, actividad) VALUES (?,?,?,?,?,?)", [usuario_id, actividad_id, nota, tipo, asignatura, actividad])
+                        cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [int(usuario), int(actividad), float(nota), int(asignatura), tipo])
                         # Ejecuta la sentencia SQL
                         con.commit()
                         flash ("Calificación guardada con éxito")
