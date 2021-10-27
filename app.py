@@ -518,9 +518,28 @@ def buscar():
 # Ruta VER NOTAS
 @app.route("/notas/visualizar", methods=["GET", "POST"])
 def ver_notas():
+    frm = Notas() 
     if "id_usuario" in session:
-        
-        return render_template("ver_notas.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        if frm.validate_on_submit():
+            asignatura = frm.materias.data
+            with sqlite3.connect("unitolima.db") as con:
+                con.row_factory = sqlite3.Row
+                cursor = con.cursor()
+                cursor.execute("SELECT * FROM nota WHERE asignatura_id = ?", [int(asignatura)])
+                row = cursor.fetchone()
+                if row["actividad_id"] == 1:
+                    frm.a1.data = str(row["actividad_id"])
+                    frm.n1.data = str(row["valor_nota"])
+                if row["actividad_id"] == 2:
+                    frm.a2.data = row["actividad_id"]
+                    frm.n2.data = str(row["valor_nota"])
+                if row["actividad_id"] == 3:
+                    frm.a3.data = row["actividad_id"]
+                    frm.n3.data = str(row["valor_nota"])
+                elif row["actividad_id"] != 1 and row["actividad_id"] != 2 and row["actividad_id"] != 3:
+                    flash("No se encontraron calificaciones registradas")
+
+        return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
 
@@ -543,7 +562,7 @@ def notas():
                 with sqlite3.connect("unitolima.db") as con:
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
-                    cursor.execute("SELECT * FROM nota WHERE usuario_id = ?", [int(usuario)])
+                    cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
                     # Si existe un usuario
                     if cursor.fetchone():
                         flash ("El estudiante ya cuenta con una calificación para esta actividad")
