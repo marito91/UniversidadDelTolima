@@ -51,17 +51,24 @@
                         <div class="card-body">
                           <h4 class="card-title">{{ UserName }}</h4>
                           <p class="card-text">Perfil: {{ TypeUser }}</p>
-                          <a href="javascript:void(0)" class="btn btn-primary">Mis datos</a>
+                          <p> 
+                            <a href="/inicio" class="btn btn-primary">Mis datos</a> <!--indicar la ruta para ver los datos-->
+                          </p>
                           
+                          
+                          <div><a href="/logout" class="btn btn-primary">Cerrar Sesion</a></div>
                           
                             <!--Cierre sesion-->
+                            <!-- <button itemtype="login-box" style="background-color: blue; border-radius: 20px; color:#fff"> Cerrar Sesion</button>   
+                            <span><a  href="/logout" onclick="" style="background-color: cadetblue;">Cerrar Sesion</a></span>
                         <form action="/logout" method="POST">
                             {{ csrf_token }}
+                            
                             <div class="btn btn-primary" style="text-align: center;">
-                               
+                            
                                 <input type="submit" name="" value="Cerrar sesión">
                             
-                            </div>
+                            </div> -->
                         </form>
 
                         <!--  <a href="javascript:void(0)" class="btn btn-primary">Cerrar sesión</a>
