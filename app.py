@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas
 
 
 
@@ -571,7 +571,7 @@ def buscar():
 # Ruta VER NOTAS
 @app.route("/notas/visualizar", methods=["GET", "POST"])
 def ver_notas():
-    frm = Notas() 
+    frm = VerNotas() 
     if "id_usuario" in session:
         if frm.validate_on_submit():
             asignatura = frm.materias.data
@@ -580,17 +580,21 @@ def ver_notas():
                 cursor = con.cursor()
                 cursor.execute("SELECT * FROM nota WHERE asignatura_id = ?", [int(asignatura)])
                 row = cursor.fetchone()
-                if row["actividad_id"] == 1:
-                    frm.a1.data = str(row["actividad_id"])
-                    frm.n1.data = str(row["valor_nota"])
-                if row["actividad_id"] == 2:
-                    frm.a2.data = row["actividad_id"]
-                    frm.n2.data = str(row["valor_nota"])
-                if row["actividad_id"] == 3:
-                    frm.a3.data = row["actividad_id"]
-                    frm.n3.data = str(row["valor_nota"])
-                elif row["actividad_id"] != 1 and row["actividad_id"] != 2 and row["actividad_id"] != 3:
-                    flash("No se encontraron calificaciones registradas")
+                rows = cursor.fetchall()
+                for i in row:
+                    print(i)
+#                if row:
+#                    if row["actividad_id"] == 1:
+#                        frm.a1.data = row["tipo"]
+#                        frm.n1.data = row["valor_nota"]
+#                    if row["actividad_id"] == 2:
+#                        frm.a2.data = row["tipo"]
+#                        frm.n2.data = row["valor_nota"]
+#                    if row["actividad_id"] == 3:
+#                        frm.a3.data = row["tipo"]
+#                        frm.n3.data = row["valor_nota"]
+#                    elif row["actividad_id"] != 1 and row["actividad_id"] != 2 and row["actividad_id"] != 3:
+#                        flash("No se encontraron calificaciones registradas")
 
         return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -618,7 +622,7 @@ def notas():
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
                     # Si existe un usuario
                     if cursor.fetchone():
-                        flash ("El estudiante ya cuenta con una calificación para esta actividad")
+                        flash ("El estudiante ya cuenta con una calificación para esta actividad.")
                     # Si no que guarde la calificación
                     else:
                         # Prepara la sentencia SQL
