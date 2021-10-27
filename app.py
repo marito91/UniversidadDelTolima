@@ -11,12 +11,12 @@ app = Flask(__name__)
 app.secret_key = os.urandom(20)
 
 #parametros para inicio de sesion
-# bienvvenido
+# bienvenido = Este mensaje se corrigió 
 # userName=str()
 # typeUser=str()
 # activeSesion=False
 
-# Daniel
+
 
 
 
