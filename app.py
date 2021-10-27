@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Asignaturas, Login, Registro, Notas
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas
 
 
 
@@ -409,25 +409,77 @@ def eliminarUser():
 # #--------------------------------------------------------------------------------------------------------#
 
 
-# #------------------------------------------ APIs ACTIVIDADES ---------------------------------------------#
+# #------------------------------------------ APIs ACTIVIDADES ------------------------------------------------------------------#
 # # Ruta 1 crear actividad
 @app.route("/actividad/registrar", methods=["GET", "POST"])
 def crear_actividad():
+    frm = Actividades()
     if "id_usuario" in session:
-        
-        return render_template("crear_actividad.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        if frm.validate_on_submit(): 
+            id_actividad = frm.id_actividad.data
+            nombre_actividad = frm.nombre_actividad.data
+            id_asignatura_fk = frm.id_asignatura_fk.data   # de un listado me guarde el seleccionado
+            instrucciones_actividad = frm.instrucciones_actividad.data
+            tipo_actividad = frm.tipo_actividad.data
+            #fecha_actividad = frm.fecha_actividad.data
+            print(id_actividad + nombre_actividad + id_asignatura_fk + tipo_actividad + instrucciones_actividad)
+            # estudiantes = frm.estudiantes.data
+            # docente = frm.docente.data
+            # tipo_nota = frm.tipo_nota.data
+            # nota_final_actividad = frm.nota_final_actividad.data
+            # nota_final_asignatura = frm.nota_final_asignatura.data
+            if frm.registrar_actividad:
+                with sqlite3.connect("unitolima.db") as con:
+                    # Crea un cursor para manipular la base de datos
+                    cursor = con.cursor()
+                        # Si existe un usuario
+                    if cursor.fetchone():
+                        flash ("La actividad se encuentra registrada")
+                    # Si no que guarde uno
+                    else:
+                        # Prepara la sentencia SQL
+                        cursor.execute("INSERT INTO actividad (id_actividad, nombre_actividad, id_asignatura_fk, tipo_actividad, instrucciones_actividad) VALUES (?,?,?,?,?)", [id_actividad, nombre_actividad, id_asignatura_fk, tipo_actividad, instrucciones_actividad])
+                        # Ejecuta la sentencia SQL
+                        con.commit()
+                        flash ("Guardado con exito")
+
+        return render_template("crear_actividad.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
+        
 
 # # Ruta 2 detalle actividad
 @app.route("/actividad/detalle", methods=["GET", "POST"])
 def ver_actividad():
+    frm = Actividades()
     if "id_usuario" in session:
+        #if frm.validate_on_submit(): 
+        id_actividad = frm.id_actividad.data
+        if frm.consultar_actividad:
+            with sqlite3.connect("unitolima.db") as con:
+                con.row_factory = sqlite3.Row
+                cursor = con.cursor()
+                cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id_actividad])
+                row = cursor.fetchone()
+                if row:
+                    frm.id_asignatura_fk.data = row["id_asignatura_fk"]
+                    frm.instrucciones_actividad.data = row["instrucciones_actividad"]
+                    frm.tipo_actividad.data = row["tipo_actividad"]
+                    frm.nombre_actividad.data = row["nombre_actividad"]
+                    # frm.fecha_actividad.data = row["fecha_actividad"]
+                    print(id_actividad)
+                else:
+                    frm.id_asignatura_fk.data = ""
+                    frm.instrucciones_actividad.data = ""
+                    frm.tipo_actividad.data = ""
+                    frm.nombre_actividad.data = ""
+                    # frm.fecha_actividad.data = ""
         
-        return render_template("detalle_actividad.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        return render_template("detalle_actividad.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
-# #--------------------------------------------------------------------------------------------------------#
+# #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
 
 
 # #------------------------------------------- APIs BUSCADOR ----------------------------------------------#
