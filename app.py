@@ -55,9 +55,9 @@ def index():
                     session["perfil"] = "Estudiante"
                     # typeUser="Estudiante"
 
-                print(session["perfil"] )    
+                # print(session["perfil"] )    
             else:
-                return render_template("index.html", frm=frm,estado="Usuario invalido, vuelva a ingresar datos correctos")
+                return render_template("index.html", frm=frm,estado="Usuario invalido, vuelva a ingresar datos correctos 🚨")
 
             
     
@@ -68,7 +68,7 @@ def index():
         return redirect("/inicio")
 
     else: # aqui es donde comenzaria
-        return render_template("index.html", frm=frm, estado="Bienvenido, por favor ingrese su usuario y contraseña")
+        return render_template("index.html", frm=frm, estado="Bienvenido, por favor ingrese su usuario y contraseña 🚀🌍")
 
 # #---------------------------------------------- API LOGOUT / LOGIN -----------------------------------------------#
 
@@ -146,7 +146,7 @@ def registro():
                         # Ejecuta la sentencia SQL
                         con.commit()
                         flash ("Guardado con exito ✔")
-        return render_template("registro_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        return render_template("administraccion_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")    
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -429,7 +429,7 @@ def crear_actividad():
             instrucciones_actividad = frm.instrucciones_actividad.data
             tipo_actividad = frm.tipo_actividad.data
             #fecha_actividad = frm.fecha_actividad.data
-            print(id_actividad + nombre_actividad + id_asignatura_fk + tipo_actividad + instrucciones_actividad)
+            # print(id_actividad + nombre_actividad + id_asignatura_fk + tipo_actividad + instrucciones_actividad)
             # estudiantes = frm.estudiantes.data
             # docente = frm.docente.data
             # tipo_nota = frm.tipo_nota.data
