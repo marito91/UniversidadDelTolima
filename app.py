@@ -95,63 +95,181 @@ def inicio():
 
 
 # #--------------------------------------------- APIs REGISTROS Y USUARIOS --------------------------------#
-# # Registro de usuarios (NOTA AMAURY-191021- : REVISAR LA API CON LAS MODIFICACIONES)
-@app.route("/usuario/registro", methods=["GET", "POST"])
-def registro():
+# # Registro de usuarios 
+@app.route("/usuario/administrar", methods=["GET", "POST"])
+def administrar():
+    
+    if "id_usuario" in session and session["perfil"]=="Admin":
+        frm = Registro()
+        return render_template("administraccion_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+    else:
+        return render_template("logout.html") 
+
+@app.route("/usuario/administrar/get", methods=["GET", "POST"])
+def get_usuario():
     frm = Registro()
-    if "id_usuario" in session:     
-        if frm.validate_on_submit():
-            # Se capturan los elementos del formulario
-            #usuario = frm.usuario.data
-            #id = frm.id.data
-            doctype = frm.tipoDocumento.data
-            documento = frm.documento.data
+    if "id_usuario" in session and session["perfil"]=="Admin":
+        documento = frm.buscador.data
+        # if frm.validate_on_submit:
+        #     if frm.consulta:
+        with sqlite3.connect("unitolima.db") as con:
+            
+            con.row_factory = sqlite3.Row
+            cursor = con.cursor()
+            cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
+            row = cursor.fetchone()
+            
+            if row:
+                frm.nombres.data = row["nombre"]
+                frm.apellidos.data = row["apellidos"]
+                frm.tipoDocumento.data = row["tipo_documento"]
+                # frm.documento.data = int(documento)
+                perfil = row["perfil_id"]
+                if perfil == "1":
+                    frm.perfil.data = "SUPERADMIN"
+                elif perfil == "2":
+                    frm.perfil.data = "DOCENTE"
+                elif perfil == "3":
+                    frm.perfil.data = "ESTUDIANTE"
+                frm.direccion.data = row["direccion"]
+                frm.departamento.data = row["departamento"]
+                frm.ciudad.data = row["ciudad"]
+                frm.telefono.data = row["telefono_fijo"]
+                frm.celular.data = row["celular"]
+                frm.email.data = row["email"]
+                frm.observaciones.data = row["observaciones"]
+            else:
+                frm.nombres.data = ""
+                frm.apellidos.data = ""
+                frm.tipoDocumento.data = ""
+                frm.documento.data = ""
+                perfil = ""
+                if perfil == "1":
+                    frm.perfil.data = ""
+                elif perfil == "2":
+                    frm.perfil.data = ""
+                elif perfil == "3":
+                    frm.perfil.data = ""
+                frm.direccion.data = ""
+                frm.departamento.data = ""
+                frm.ciudad.data = ""
+                frm.telefono.data = ""
+                frm.celular.data = ""
+                frm.email.data = ""
+                frm.observaciones.data = ""
+                flash("No se ha encontrado el usuario")
+            
+        return render_template("administraccion_usuario.html", frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+    else:
+        return render_template("logout.html")
 
-            perfil = frm.perfil.data
-            # Se asigna el perfil como Dios manda
-            if frm.perfil.data == "SUPERADMIN":
-                perfil = "1"
-            elif frm.perfil.data == "DOCENTE":
-                perfil = "2"
-            elif frm.perfil.data == "ESTUDIANTE":
-                perfil = "3"
+@app.route("/usuario/administrar/save", methods=["GET", "POST"])
+def registro_usuario():
+    frm = Registro()
+    if "id_usuario" in session and session["perfil"]=="Admin":     
+    
+        # Se capturan los elementos del formulario
+        #usuario = frm.usuario.data
+        #id = frm.id.data
+        doctype = frm.tipoDocumento.data
+        documento = frm.documento.data
 
-            nombres = frm.nombres.data
-            apellidos = frm.apellidos.data
-            direccion = frm.direccion.data
-            departamento = frm.departamento.data
-            ciudad = frm.ciudad.data
-            telefono = frm.telefono.data
-            celular = frm.celular.data
-            correo = frm.email.data
-            observaciones = frm.observaciones.data
-            password = str(frm.documento.data)
+        perfil = frm.perfil.data
+        # Se asigna el perfil como Dios manda
+        if frm.perfil.data == "SUPERADMIN":
+            perfil = "1"
+        elif frm.perfil.data == "DOCENTE":
+            perfil = "2"
+        elif frm.perfil.data == "ESTUDIANTE":
+            perfil = "3"
 
-            if frm.guardar:
-                # Cifrar contraseña
-                encrp = hashlib.sha256(password.encode())
-                pass_enc = encrp.hexdigest()
-                # Conecta a base de datos
-                with sqlite3.connect("unitolima.db") as con:
-                    # Crea un cursor para manipular la base de datos
-                    cursor = con.cursor()
-                    cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
-                    # Si existe un usuario
-                    if cursor.fetchone():
-                        flash ("Usuario ya se encuentra registrado")
-                    # Si no que guarde uno
-                    else:
-                        # Prepara la sentencia SQL
-                        cursor.execute("INSERT INTO usuario (nombre, apellidos, tipo_documento, numero_documento, direccion, departamento, ciudad, telefono_fijo, celular, email, observaciones, perfil_id, password, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, pass_enc, True]) # NO SE DEBE CONCATENAR NUNCA
-                        # Ejecuta la sentencia SQL
-                        con.commit()
-                        flash ("Guardado con exito ✔")
+        nombres = frm.nombres.data
+        apellidos = frm.apellidos.data
+        direccion = frm.direccion.data
+        departamento = frm.departamento.data
+        ciudad = frm.ciudad.data
+        telefono = frm.telefono.data
+        celular = frm.celular.data
+        correo = frm.email.data
+        observaciones = frm.observaciones.data
+        password = str(frm.documento.data)
+
+        # if frm.guardar:
+        #     # Cifrar contraseña
+        encrp = hashlib.sha256(password.encode())
+        pass_enc = encrp.hexdigest()
+        # Conecta a base de datos
+        with sqlite3.connect("unitolima.db") as con:
+            # Crea un cursor para manipular la base de datos
+            cursor = con.cursor()
+            cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
+            # Si existe un usuario
+            if cursor.fetchone():
+                flash ("Usuario ya se encuentra registrado")
+            # Si no que guarde uno
+            else:
+                # Prepara la sentencia SQL
+                cursor.execute("INSERT INTO usuario (nombre, apellidos, tipo_documento, numero_documento, direccion, departamento, ciudad, telefono_fijo, celular, email, observaciones, perfil_id, password, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, pass_enc, True]) # NO SE DEBE CONCATENAR NUNCA
+                # Ejecuta la sentencia SQL
+                con.commit()
+                flash ("Guardado con exito ✔")
         return render_template("administraccion_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")    
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# # Ruta para editar usuarios    
+@app.route("/usuario/update", methods=["GET", "POST"])
+def editar_usuario():
 
+    frm = Registro()
+    if "id_usuario" in session and session["perfil"]=="Admin":
+
+        # if frm.validate_on_submit():
+        # Se capturan los elementos del formulario
+        #barra_busqueda = frm.buscador.data
+        doctype = frm.tipoDocumento.data
+        documento = frm.documento.data
+
+        perfil = frm.perfil.data
+        # Se asigna el perfil como Dios manda
+        if frm.perfil.data == "SUPERADMIN":
+            perfil = "1"
+        elif frm.perfil.data == "DOCENTE":
+            perfil = "2"
+        elif frm.perfil.data == "ESTUDIANTE":
+            perfil = "3"
+
+        nombres = frm.nombres.data
+        apellidos = frm.apellidos.data
+        direccion = frm.direccion.data
+        departamento = frm.departamento.data
+        ciudad = frm.ciudad.data
+        telefono = frm.telefono.data
+        celular = frm.celular.data
+        correo = frm.email.data
+        observaciones = frm.observaciones.data
+
+        # if frm.editar:
+        # print("actualizar")
+        with sqlite3.connect("unitolima.db") as con:
+            con.row_factory = sqlite3.Row
+            cursor = con.cursor()
+            cursor.execute("UPDATE usuario SET nombre = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, direccion = ?, departamento = ?, ciudad = ?, telefono_fijo = ?, celular = ?, email = ?, observaciones = ?, perfil_id = ? WHERE numero_documento = ? ", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, documento])
+            con.commit()
+            if con.total_changes > 0:
+                flash("Usuario editado")  
+            else:
+                flash("No se pudo editar el usuario")
+
+        return render_template("administraccion_usuario.html", frm=frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+    
+    else:
+        return render_template("logout.html")
+
+# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 # # Ruta para ver usuarios en el caso del admin
+
+
 @app.route("/usuario/ver", methods=["GET", "POST"])
 def ver_usuario():
     frm = Registro()
@@ -210,122 +328,33 @@ def ver_usuario():
     else:
         return render_template("logout.html")
 
-# # Ruta para ver usuarios en el caso del profesor
-@app.route("/estudiante/ver", methods=["GET", "POST"])
-def ver_estudiante():
-    frm = Registro()
-    if "id_usuario" in session: 
-    
-        documento = frm.documento.data
-        with sqlite3.connect("unitolima.db") as con:
-            con.row_factory = sqlite3.Row
-            cursor = con.cursor()
-            cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
-            row = cursor.fetchone() 
-            if row:
-                frm.nombres.data = row["nombre"]
-                frm.apellidos.data = row["apellidos"]
-                frm.tipoDocumento.data = row["tipo_documento"]
-                frm.documento.data = row["numero_documento"]
-                perfil = row["perfil_id"]
-                if perfil == "1":
-                    frm.perfil.data = "SUPERADMIN"
-                elif perfil == "2":
-                    frm.perfil.data = "DOCENTE"
-                elif perfil == "3":
-                    frm.perfil.data = "ESTUDIANTE"
-                frm.direccion.data = row["direccion"]
-                frm.departamento.data = row["departamento"]
-                frm.ciudad.data = row["ciudad"]
-                frm.telefono.data = row["telefono_fijo"]
-                frm.celular.data = row["celular"]
-                frm.email.data = row["email"]
-                frm.observaciones.data = row["observaciones"]
-            else:
-                frm.nombres.data = ""
-                frm.apellidos.data = ""
-                frm.tipoDocumento.data = ""
-                frm.documento.data = ""
-                perfil = ""
-                if perfil == "1":
-                    frm.perfil.data = ""
-                elif perfil == "2":
-                    frm.perfil.data = ""
-                elif perfil == "3":
-                    frm.perfil.data = ""
-                frm.direccion.data = ""
-                frm.departamento.data = ""
-                frm.ciudad.data = ""
-                frm.telefono.data = ""
-                frm.celular.data = ""
-                frm.email.data = ""
-                frm.observaciones.data = ""
-                flash("No se ha encontrado el usuario 🚧")
-    
-        return render_template("ver_usuario.html",frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
-    else:
-        return render_template("logout.html")
 
 
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# # Ruta para editar usuarios    
-@app.route("/usuario/editar", methods=["GET", "POST"])
-def editar_usuario():
-    #NOTA AMAURY: revisar bien esta API
-    frm = Registro()
-    if "id_usuario" in session:
-        if frm.validate_on_submit():
-            # Se capturan los elementos del formulario
-            #barra_busqueda = frm.buscador.data
-            doctype = frm.tipoDocumento.data
-            documento = frm.documento.data
-
-            perfil = frm.perfil.data
-            # Se asigna el perfil como Dios manda
-            if frm.perfil.data == "SUPERADMIN":
-                perfil = "1"
-            elif frm.perfil.data == "DOCENTE":
-                perfil = "2"
-            elif frm.perfil.data == "ESTUDIANTE":
-                perfil = "3"
-
-            nombres = frm.nombres.data
-            apellidos = frm.apellidos.data
-            direccion = frm.direccion.data
-            departamento = frm.departamento.data
-            ciudad = frm.ciudad.data
-            telefono = frm.telefono.data
-            celular = frm.celular.data
-            correo = frm.email.data
-            observaciones = frm.observaciones.data
-
-            if frm.editar:
-                print("actualizar")
-                with sqlite3.connect("unitolima.db") as con:
-                    con.row_factory = sqlite3.Row
-                    cursor = con.cursor()
-                    cursor.execute("UPDATE usuario SET nombre = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, direccion = ?, departamento = ?, ciudad = ?, telefono_fijo = ?, celular = ?, email = ?, observaciones = ?, perfil_id = ? WHERE numero_documento = ? ", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, documento])
-                    con.commit()
-                    if con.total_changes > 0:
-                        flash("Usuario editado")  
-                    else:
-                        flash("No se pudo editar el usuario")
-
-        return render_template("editar_usuario.html", frm=frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
-    else:
-        return render_template("logout.html")
-
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # # Ruta para eliminar usuarios
-@app.route("/usuario/eliminar", methods=["GET", "POST"])
-def eliminar_usuario():
-    frm = Registro()
-    if "id_usuario" in session:
-        return render_template("eliminar_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+
+
+@app.route("/usuario/administrar/delete", methods=["GET", "POST"])
+def eliminarUser():
+    
+    if "id_usuario" in session and session["perfil"]=="Admin":
+        frm = Registro()
+        documento = frm.buscador.data
+        with sqlite3.connect("unitolima.db") as con:
+            # Crea un cursor para manipular la base de datos
+            cursor = con.cursor()
+            cursor.execute("DELETE FROM usuario WHERE numero_documento = ?", [documento])
+            con.commit()
+            if con.total_changes > 0:
+                flash("Usuario eliminado")      
+            else:
+                flash("No se pudo eliminar el usuario")
+        
+        return render_template("administraccion_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"] )
+    
     else:
         return render_template("logout.html")
+
 
 @app.route("/usuario/eliminar/get", methods=["GET", "POST"])
 def buscarEliminar():
@@ -383,25 +412,60 @@ def buscarEliminar():
     else:
         return render_template("logout.html")
 
-
-@app.route("/usuario/eliminar/delete", methods=["GET", "POST"])
-def eliminarUser():
+# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# # Ruta para ver usuarios en el caso del profesor
+@app.route("/estudiante/ver", methods=["GET", "POST"])
+def ver_estudiante():
+    frm = Registro()
+    if "id_usuario" in session : 
     
-    if "id_usuario" in session:
-        frm = Registro()
-        documento = frm.buscador.data
+        documento = frm.documento.data
         with sqlite3.connect("unitolima.db") as con:
-            # Crea un cursor para manipular la base de datos
+            con.row_factory = sqlite3.Row
             cursor = con.cursor()
-            cursor.execute("DELETE FROM usuario WHERE numero_documento = ?", [documento])
-            con.commit()
-            if con.total_changes > 0:
-                flash("Usuario eliminado")      
+            cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
+            row = cursor.fetchone() 
+            if row:
+                frm.nombres.data = row["nombre"]
+                frm.apellidos.data = row["apellidos"]
+                frm.tipoDocumento.data = row["tipo_documento"]
+                frm.documento.data = row["numero_documento"]
+                perfil = row["perfil_id"]
+                if perfil == "1":
+                    frm.perfil.data = "SUPERADMIN"
+                elif perfil == "2":
+                    frm.perfil.data = "DOCENTE"
+                elif perfil == "3":
+                    frm.perfil.data = "ESTUDIANTE"
+                frm.direccion.data = row["direccion"]
+                frm.departamento.data = row["departamento"]
+                frm.ciudad.data = row["ciudad"]
+                frm.telefono.data = row["telefono_fijo"]
+                frm.celular.data = row["celular"]
+                frm.email.data = row["email"]
+                frm.observaciones.data = row["observaciones"]
             else:
-                flash("No se pudo eliminar el usuario")
-        
-        return render_template("eliminar_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"] )
+                frm.nombres.data = ""
+                frm.apellidos.data = ""
+                frm.tipoDocumento.data = ""
+                frm.documento.data = ""
+                perfil = ""
+                if perfil == "1":
+                    frm.perfil.data = ""
+                elif perfil == "2":
+                    frm.perfil.data = ""
+                elif perfil == "3":
+                    frm.perfil.data = ""
+                frm.direccion.data = ""
+                frm.departamento.data = ""
+                frm.ciudad.data = ""
+                frm.telefono.data = ""
+                frm.celular.data = ""
+                frm.email.data = ""
+                frm.observaciones.data = ""
+                flash("No se ha encontrado el usuario 🚧")
     
+        return render_template("ver_usuario.html",frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
 
