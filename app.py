@@ -577,6 +577,12 @@ def ver_notas():
         if frm.validate_on_submit():
             asignatura = frm.materias.data
             if asignatura == "":
+                frm.a1.data = ""
+                frm.n1.data = ""
+                frm.a2.data = ""
+                frm.n2.data = ""
+                frm.a3.data = ""
+                frm.n3.data = ""
                 flash("Por favor ingrese un ID de asignatura")
             else:
                 with sqlite3.connect("unitolima.db") as con:
