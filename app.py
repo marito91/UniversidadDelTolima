@@ -12,6 +12,7 @@ app.secret_key = os.urandom(20)
 
 #parametros para inicio de sesion
 # bienvenido = Este mensaje se corrigió 
+# Buenas noches
 # userName=str()
 # typeUser=str()
 # activeSesion=False
@@ -368,13 +369,30 @@ def buscarEliminar():
                 frm.observaciones.data = row["observaciones"]
                 flash("Usuario encontrado")
             else:
+                frm.nombres.data = ""
+                frm.apellidos.data = ""
+                frm.tipoDocumento.data = ""
+                frm.documento.data = ""
+                perfil = ""
+                if perfil == "1":
+                    frm.perfil.data = ""
+                elif perfil == "2":
+                    frm.perfil.data = ""
+                elif perfil == "3":
+                    frm.perfil.data = ""
+                frm.direccion.data = ""
+                frm.departamento.data = ""
+                frm.ciudad.data = ""
+                frm.telefono.data = ""
+                frm.celular.data = ""
+                frm.email.data = ""
+                frm.observaciones.data = ""
                 flash("No se ha encontrado el usuario")
 
                 
         return render_template("eliminar_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"] )
     else:
         return render_template("logout.html")
-
 
 
 @app.route("/usuario/eliminar/delete", methods=["GET", "POST"])

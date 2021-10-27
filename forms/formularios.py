@@ -78,7 +78,7 @@ class Asignaturas(FlaskForm):
     registrar = SubmitField('Registrar',render_kw=({"onfocus":"cambiaRuta('/asignaturas/registrar')"}))
     buscar = SubmitField('Buscar',render_kw=({"onfocus":"cambiaRuta('/asignaturas/get')"}))
     eliminar = SubmitField('Eliminar',render_kw=({"onfocus":"cambiaRuta('/asignaturas/eliminar')"}))
-    editar = SubmitField("actualizar",render_kw=({"onfocus":"cambiaRuta('/asignaturas/editar')"}))
+    editar = SubmitField("Actualizar",render_kw=({"onfocus":"cambiaRuta('/asignaturas/editar')"}))
 
 
 class Actividades(FlaskForm):
