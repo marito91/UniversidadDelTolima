@@ -91,11 +91,11 @@ class Asignaturas(FlaskForm):
 
 
 class Actividades(FlaskForm):
-    id_actividad = StringField("ID actividad", validators = [DataRequired("Por favor llene este campo")])
-    tipo_actividad = SelectField("Tipo de Actividad", choices=["Quiz","Evaluación","Trabajo escrito","Tarea"])
+    id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
+    tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"], validators = [DataRequired("Por favor llene este campo")])
     # tasks = SelectField("tasks", choices=["","1-Algoritmos", "2-Condicionales", "3-Ciclos", "4-Bases de datos", "5-Desarrollo de Apps/Web", "6-Proyecto Full Stack"]) #,validators = [DataRequired("Por favor llene este campo")
-    nombre_actividad = StringField("Nombre Actividad")
-    id_asignatura_fk = SelectField("ID Asignatura",choices=["1","2","3"])
+    nombre_actividad = StringField("Nombre Actividad*", validators = [DataRequired("Por favor llene este campo")])
+    id_asignatura_fk = StringField("ID Asignatura*", validators = [DataRequired("Por favor llene este campo")])#,choices=["1","2","3"])
     # tipo_nota = SelectField("Tipo Nota", choices=["01-Nota", "02-Nivelación", "03-Trabajo Escrito", "04-Supletorio"], validators = [DataRequired("Por favor llene este campo")])
     fecha_actividad = DateTimeField("Fecha de Entrega")
     # nota_final_actividad = FloatField("Nota Final Actividad", validators = [DataRequired("Por favor llene este campo")])

@@ -29,10 +29,10 @@
                                                 </tr>
                                                 <tr class="linea_blanca">
                                                     <td>
-                                                        {{ frm.nombre_actividad.label }} <span class="requerido">*</span>
+                                                        {{ frm.nombre_actividad.label }} 
                                                     </td>
                                                     <td style="width:34%">
-                                                        {{ frm.nombre_actividad }}
+                                                        {{ frm.nombre_actividad(placeholder="Ingrese el nombre de la actividad", size="35") }}
 
                                                         {% for errors in frm.nombre_actividad.errors %}
                                                             <div>{{ error }}</div>
@@ -45,8 +45,8 @@
                                                         {{ frm.id_actividad.label }}
                                                     </td>
                                                     <td>
-                                                        {{ frm.id_actividad }}
-                                                        
+                                                        {{ frm.id_actividad(placeholder="Ingrese el ID de la actividad", size="35") }}
+                                                    </td>    
                                                         {% for errors in frm.id_actividad.errors %}
                                                             <div>{{ error }}</div>
                                                         {% endfor %}
@@ -54,10 +54,10 @@
                                                 </tr>
                                                 <tr class="linea_blanca">
                                                     <td style="width:10%">
-                                                        {{ frm.id_asignatura_fk.label }}<span class="requerido">*</span>
+                                                        {{ frm.id_asignatura_fk.label }}
                                                     </td> 
                                                     <td style="width:40%">
-                                                        {{ frm.id_asignatura_fk }}
+                                                        {{ frm.id_asignatura_fk(placeholder="Ingrese el ID de la asignatura", size="35") }}
 
                                                         {% for errors in frm.id_asignatura_fk.errors %}
                                                             <div>{{ error }}</div>
@@ -70,13 +70,13 @@
                                                 </tr>
                                                     <td colspan="2" rowspan="5" id="textObservacion">
                                                         <table class="center_text" width="100%" border="0">
-                                                            <tbody><tr>
+                                                            <!--<tbody><tr>
                                                                 <th scope="row">{{ frm.instrucciones_actividad.label }}
 
                                                                 </th>
                                                                 <th>{{ frm.fecha_actividad.label }} <br><input type="datetime-local"></th> <!--type="datetime-local"-->
                                                             </tr>
-                                                            <tr>
+                                                            <!--<tr>
                                                                 <td scope="row">
                                                                     {{ frm.instrucciones_actividad }}
                                                                 
@@ -85,7 +85,7 @@
                                                                     {% endfor %}
 
                                                                 </td>
-                                                            </tr>
+                                                            </tr>-->
                                                             <tr>
                                                                 <td style="width:16%;">
                                                                     {{ frm.tipo_actividad.label }}
@@ -97,12 +97,14 @@
                                                                     {% endfor %}
                                                                 </td>
                                                             </tr>
+                                                            </tr>
+                                                            <tr class="linea_blanca">
+                                                                <td width="136">
+                                                                    {{ frm.registrar_actividad(href="javascript:void(0)", class="btn btn-primary") }} 
+                                                                </td>
+                                                            </tr>
                                                         </tbody></table>
-                                                    </td>
-                                                </tr>
-                                                <td width="136">
-                                                    {{ frm.registrar_actividad(href="javascript:void(0)", class="btn btn-primary") }} 
-                                                </td>
+                                                    </td>                                                
                                             </tbody>
                                         </table>
                                     </td>
