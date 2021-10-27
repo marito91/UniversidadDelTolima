@@ -583,9 +583,8 @@ def ver_notas():
                     cursor = con.cursor()
                     cursor.execute("SELECT actividad_id, tipo, valor_nota FROM nota WHERE asignatura_id = ?", [int(asignatura)])
                     #row = cursor.fetchone()
-                    rows = cursor.fetchall()
-                    print(rows)
-                    for row in rows:               
+                    #rows = cursor.fetchall()
+                    for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
                                 frm.a1.data = row[1]
@@ -598,6 +597,7 @@ def ver_notas():
                                 frm.n3.data = row[2]
                             elif row[0] != 1 and row[0] != 2 and row[0] != 3:
                                 flash("No se encontraron calificaciones registradas")
+                    print(row)
 
         return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
