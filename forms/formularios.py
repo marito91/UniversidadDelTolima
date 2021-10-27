@@ -53,6 +53,7 @@ class VerUsuario(FlaskForm):
 class Notas(FlaskForm):
     codigo = StringField("Codigo", validators = [DataRequired()])
     estudiante = StringField("Estudiante", validators = [DataRequired()])
+    materias = StringField("Asignatura")
     #asignatura = SelectField("Asignatura", choices=["","-FU- Fundamentos de Programacion", "-PB- Programacion Basica", "-DS- Desarrollo de Software"])
     actividad = StringField("Actividad", validators = [DataRequired()])
     tipo = SelectField("Tipo Nota", choices=["Nota","Nivelacion", "Trabajo Escritro", "Supletorio"])
@@ -60,6 +61,14 @@ class Notas(FlaskForm):
     nota = StringField("Nota")
     notaAsignatura = DecimalField("Nota Asignatura")
     ingresar = SubmitField("Ingresar", render_kw=({"onfocus":"cambiaRuta('/notas/ingresar')"}))
+    consultar = SubmitField("Consultar", render_kw=({"onfocus":"cambiaRuta('/notas/visualizar')"}))
+    a1 = StringField("Actividad 1")
+    a2 = StringField("Actividad 2")
+    a3 = StringField("Actividad 3")
+    n1 = StringField("Nota 1")
+    n2 = StringField("Nota 2")
+    n3 = StringField("Nota 3")
+
 
     
 

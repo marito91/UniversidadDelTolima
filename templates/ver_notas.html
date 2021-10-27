@@ -10,15 +10,30 @@
                                 <tbody>
                                 <tr style="height: 15px;">
                                 <td style="width: 25%; height: 12px;">
+
+                                    <label for="materia">
+                                        {{ frm.materias.label }}
+                                    </label>
+                                    {{ frm.materias(placeholder="Ingrese ID de asignatura") }}
+                                    {% for error in frm.materias.errors %}
+                                    <div>
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+
+
+
+                                    {{ frm.consultar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+                                    
                                 
-                                    <label for="materia">Asignatura: </label>
+                                    <!--<label for="materia">Asignatura: </label>
                                     <select name="" id="">
                                         <option>-FU-Fundamentos de Programacion</option>
                                         <option>-PB-Programacion Basica</option>
                                         <option>-DS-Desarrollo de Software</option>
                                     </select>
                                 
-                                    <input type="button" value="Consultar">
+                                    <input type="button" value="Consultar">-->
                                     <p> </p>
                                 </td>
                                 <p>
@@ -29,30 +44,96 @@
                                 <table width="336" style="width: 378px; margin-left: auto; margin-right: auto; height: 184px;">
                                     <thead>
                                     <tr style="background-color: #6df771; text-align: center; border: black;">
-                                    <td style="width: 58.6094px; height: 50px;"><strong>Corte</strong></td>
-                                    <td style="width: 91.8281px; height: 50px;"><strong>Ponderacion</strong></td>
-                                    <td style="width: 101.219px; height: 50px;"><strong>Nota</strong></td>
-                                    <td style="width: 98.3438px; height: 50px;"><strong>Nota Ponderada</strong></td>
+                                    <td style="width: 58.6094px; height: 50px;"><strong>Asignatura</strong></td>
+                                    <td style="width: 91.8281px; height: 50px;"><strong>Corte</strong></td>
+                                    <td style="width: 101.219px; height: 50px;"><strong>Actividad</strong></td>
+                                    <td style="width: 98.3438px; height: 50px;"><strong>Nota</strong></td>
                                     </tr>
+
                                     </thead>
                                     <tbody>
                                     <tr style="height: 27px;">
-                                    <td style="width: 58.6094px; text-align: center; height: 27px;">1</td>
-                                    <td style="width: 91.8281px; text-align: center; height: 27px;">30%</td>
-                                    <td style="width: 101.219px; text-align: center; height: 27px;">5,0</td>
-                                    <td style="width: 98.3438px; text-align: center; height: 27px;">1,50 (n*p)</td>
+                                    <td style="width: 58.6094px; text-align: center; height: 27px;">
+                                        {{ frm.materias.label() }}
+                                    </td>
+                                        {% for error in frm.materias.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    <td style="width: 91.8281px; text-align: center; height: 27px;">1</td>
+                                    <td style="width: 101.219px; text-align: center; height: 27px;">
+                                        {{ frm.a1(size="10") }}
+                                    </td>
+                                        {% for error in frm.a1.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    <td style="width: 98.3438px; text-align: center; height: 27px;">
+                                        {{ frm.n1(size="5") }}
+                                    </td>
+                                        {% for error in frm.n1.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
                                     </tr>
+
                                     <tr style="height: 25px;background-color: #ADFFB0;">
-                                    <td style="width: 58.6094px; text-align: center; height: 25px;">2</td>
-                                    <td style="width: 91.8281px; text-align: center; height: 25px;">40%</td>
-                                    <td style="width: 101.219px; text-align: center; height: 25px;">5,0</td>
-                                    <td style="width: 98.3438px; text-align: center; height: 25px;">2,00</td>
+                                    <td style="width: 58.6094px; text-align: center; height: 25px;">
+                                        {{ frm.materias.label() }}
+                                    </td>
+                                        {% for error in frm.materias.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    <td style="width: 91.8281px; text-align: center; height: 25px;">2</td>
+                                    <td style="width: 101.219px; text-align: center; height: 25px;">
+                                        {{ frm.a2(size="10") }}
+                                    </td>
+                                        {% for error in frm.a2.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    <td style="width: 98.3438px; text-align: center; height: 25px;">
+                                        {{ frm.n2(size="5") }}
+                                    </td>
+                                        {% for error in frm.n2.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
                                     </tr>
+                                    
                                     <tr style="height: 18px;">
-                                    <td style="width: 58.6094px; text-align: center; height: 18px;">3</td>
-                                    <td style="width: 91.8281px; text-align: center; height: 18px;">30%</td>
-                                    <td style="width: 101.219px; text-align: center; height: 18px;">5,0</td>
-                                    <td style="width: 98.3438px; text-align: center; height: 18px;">1,50</td>
+                                    <td style="width: 58.6094px; text-align: center; height: 18px;">
+                                        {{ frm.materias.label() }}
+                                    </td>
+                                        {% for error in frm.materias.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    <td style="width: 91.8281px; text-align: center; height: 18px;">3</td>
+                                    <td style="width: 101.219px; text-align: center; height: 18px;">
+                                        {{ frm.a3(size="10") }}
+                                    </td>
+                                        {% for error in frm.a3.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    <td style="width: 98.3438px; text-align: center; height: 18px;">
+                                        {{ frm.n3(size="5") }}
+                                    </td>
+                                        {% for error in frm.n3.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
                                     </tr>
                                     </tbody>
                                     </table>
@@ -84,8 +165,12 @@
                             
                         </form>
 
+{% for msg in get_flashed_messages() %}
+<div>
+    {{ msg }}
+</div>
+{% endfor %}
 
-                        
 
 {% endblock %} 
 
