@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired
 
 
 class Login(FlaskForm):
-    username = IntegerField("Identificacion", validators = [DataRequired("Por favor llene este campo con numeros")])
-    password = PasswordField("Password", validators = [DataRequired("Por favor llene este campo")])
+    username = IntegerField("Identificación 👥", validators = [DataRequired("Por favor llene este campo con numeros")])
+    password = PasswordField("  Password  🔑", validators = [DataRequired("Por favor llene este campo")])
     entrar = SubmitField("Entrar")
 
 

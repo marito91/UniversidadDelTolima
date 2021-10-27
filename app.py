@@ -10,17 +10,6 @@ from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas
 app = Flask(__name__)
 app.secret_key = os.urandom(20)
 
-#parametros para inicio de sesion
-# bienvenido = Este mensaje se corrigió 
-# Buenas noches
-# userName=str()
-# typeUser=str()
-# activeSesion=False
-
-
-
-
-
 
 
 #---------------------------------------------- APIs INICIO Sesion ----------------------------------------------#
@@ -156,7 +145,7 @@ def registro():
                         cursor.execute("INSERT INTO usuario (nombre, apellidos, tipo_documento, numero_documento, direccion, departamento, ciudad, telefono_fijo, celular, email, observaciones, perfil_id, password, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, pass_enc, True]) # NO SE DEBE CONCATENAR NUNCA
                         # Ejecuta la sentencia SQL
                         con.commit()
-                        flash ("Guardado con exito")
+                        flash ("Guardado con exito ✔")
         return render_template("registro_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")    
@@ -271,7 +260,7 @@ def ver_estudiante():
                 frm.celular.data = ""
                 frm.email.data = ""
                 frm.observaciones.data = ""
-                flash("No se ha encontrado el usuario")
+                flash("No se ha encontrado el usuario 🚧")
     
         return render_template("ver_usuario.html",frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
