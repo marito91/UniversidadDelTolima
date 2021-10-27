@@ -9,6 +9,7 @@ class Login(FlaskForm):
     entrar = SubmitField("Entrar")
 
 
+
 class Registro(FlaskForm):
     nombres = StringField("Nombres")
     apellidos = StringField("Apellidos")
@@ -56,7 +57,7 @@ class Notas(FlaskForm):
     materias = StringField("Asignatura")
     #asignatura = SelectField("Asignatura", choices=["","-FU- Fundamentos de Programacion", "-PB- Programacion Basica", "-DS- Desarrollo de Software"])
     actividad = StringField("Actividad", validators = [DataRequired()])
-    tipo = SelectField("Tipo Nota", choices=["Nota","Nivelacion", "Trabajo Escritro", "Supletorio"])
+    tipo = SelectField("Tipo Nota", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
     #info = StringField("Tipo Actividad")
     nota = StringField("Nota")
     notaAsignatura = DecimalField("Nota Asignatura")

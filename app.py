@@ -514,19 +514,22 @@ def ver_notas():
             with sqlite3.connect("unitolima.db") as con:
                 con.row_factory = sqlite3.Row
                 cursor = con.cursor()
-                cursor.execute("SELECT * FROM nota WHERE asignatura_id = ?", [int(asignatura)])
+                cursor.execute("SELECT * FROM nota WHERE asignatura_id = ? AND usuario_id = ?", [int(asignatura), "id_usuario"])
                 row = cursor.fetchone()
-                if row["actividad_id"] == 1:
-                    frm.a1.data = str(row["actividad_id"])
-                    frm.n1.data = str(row["valor_nota"])
-                if row["actividad_id"] == 2:
-                    frm.a2.data = row["actividad_id"]
-                    frm.n2.data = str(row["valor_nota"])
-                if row["actividad_id"] == 3:
-                    frm.a3.data = row["actividad_id"]
-                    frm.n3.data = str(row["valor_nota"])
-                elif row["actividad_id"] != 1 and row["actividad_id"] != 2 and row["actividad_id"] != 3:
-                    flash("No se encontraron calificaciones registradas")
+                rows = cursor.fetchall()
+                if row:
+                    flash("Registro encontrado")
+                    if row["actividad_id"] == 1:
+                        frm.a1.data = row["actividad_id"]
+                        frm.n1.data = row["valor_nota"]
+                    if row["actividad_id"] == 2:
+                        frm.a2.data = row["actividad_id"]
+                        frm.n2.data = row["valor_nota"]
+                    if row["actividad_id"] == 3:
+                        frm.a3.data = row["actividad_id"]
+                        frm.n3.data = row["valor_nota"]
+                    elif row["actividad_id"] != 1 and row["actividad_id"] != 2 and row["actividad_id"] != 3:
+                        flash("No se encontraron calificaciones registradas")
 
         return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -551,10 +554,10 @@ def notas():
                 with sqlite3.connect("unitolima.db") as con:
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
-                    cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
+                    cursor.execute("SELECT * FROM nota WHERE usuario_id = ?", [int(usuario)])
                     # Si existe un usuario
                     if cursor.fetchone():
-                        flash ("El estudiante ya cuenta con una calificación para esta actividad")
+                        flash ("El estudiante ya cuenta con una calificación.")
                     # Si no que guarde la calificación
                     else:
                         # Prepara la sentencia SQL
