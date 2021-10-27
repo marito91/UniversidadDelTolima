@@ -120,10 +120,12 @@ def get_usuario():
             row = cursor.fetchone()
             
             if row:
+                # print(row["numero_documento"])
+                # frm.documento.data = int(row["numero_documento"])
                 frm.nombres.data = row["nombre"]
                 frm.apellidos.data = row["apellidos"]
                 frm.tipoDocumento.data = row["tipo_documento"]
-                # frm.documento.data = int(documento)
+                frm.documento.data = int(documento)
                 perfil = row["perfil_id"]
                 if perfil == "1":
                     frm.perfil.data = "SUPERADMIN"
@@ -143,13 +145,13 @@ def get_usuario():
                 frm.apellidos.data = ""
                 frm.tipoDocumento.data = ""
                 frm.documento.data = ""
-                perfil = ""
-                if perfil == "1":
+                
+                if frm.perfil.data == "ESTUDIANTE" or frm.perfil.data== "DOCENTE" or frm.perfil.data == "SUPERADMIN":
                     frm.perfil.data = ""
-                elif perfil == "2":
-                    frm.perfil.data = ""
-                elif perfil == "3":
-                    frm.perfil.data = ""
+                # elif perfil == "2":
+                #     frm.perfil.data = ""
+                # elif perfil == "3":
+                #     frm.perfil.data = ""
                 frm.direccion.data = ""
                 frm.departamento.data = ""
                 frm.ciudad.data = ""
@@ -157,7 +159,7 @@ def get_usuario():
                 frm.celular.data = ""
                 frm.email.data = ""
                 frm.observaciones.data = ""
-                flash("No se ha encontrado el usuario")
+                flash("No se ha encontrado el usuario 🚧")
             
         return render_template("administraccion_usuario.html", frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -257,9 +259,9 @@ def editar_usuario():
             cursor.execute("UPDATE usuario SET nombre = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, direccion = ?, departamento = ?, ciudad = ?, telefono_fijo = ?, celular = ?, email = ?, observaciones = ?, perfil_id = ? WHERE numero_documento = ? ", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, documento])
             con.commit()
             if con.total_changes > 0:
-                flash("Usuario editado")  
+                flash("Usuario editado ✔")  
             else:
-                flash("No se pudo editar el usuario")
+                flash("No se pudo editar el usuario 🚧")
 
         return render_template("administraccion_usuario.html", frm=frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     
@@ -348,6 +350,24 @@ def eliminarUser():
             if con.total_changes > 0:
                 flash("Usuario eliminado")      
             else:
+                frm.nombres.data = ""
+                frm.apellidos.data = ""
+                frm.tipoDocumento.data = ""
+                frm.documento.data = ""
+                perfil = ""
+                if perfil == "1":
+                    frm.perfil.data = ""
+                elif perfil == "2":
+                    frm.perfil.data = ""
+                elif perfil == "3":
+                    frm.perfil.data = ""
+                frm.direccion.data = ""
+                frm.departamento.data = ""
+                frm.ciudad.data = ""
+                frm.telefono.data = ""
+                frm.celular.data = ""
+                frm.email.data = ""
+                frm.observaciones.data = ""
                 flash("No se pudo eliminar el usuario")
         
         return render_template("administraccion_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"] )
