@@ -89,22 +89,40 @@
                                                             <tr>
                                                                 <td style="width:16%;">
                                                                     {{ frm.tipo_actividad.label }}
-                                                                
-                                                                    {{ frm.tipo_actividad }}    
-                    
+                                                                </td>
+                                                                <td>
+                                                                    {{ frm.tipo_actividad }} 
+                                                                </td>
                                                                     {% for errors in frm.tipo_actividad.errors %}
                                                                         <div>{{ error }}</div>
                                                                     {% endfor %}
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    {{ frm.instrucciones_actividad.label }}
+                                                                </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td colspan="2" rowspan="5" id="textObservacion">
+                                                                    {{ frm.instrucciones_actividad(placeholder="Indique información sobre la actividad", rows="5", cols="45") }}
+                                                                </td>    
+                                                                <td> 
+                                                                    {% for errors in frm.instrucciones_actividad.errors %}
+                                                                        <div>{{ error }}</div>
+                                                                    {% endfor %}
+
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+
                                                             <tr class="linea_blanca">
                                                                 <td width="136">
                                                                     {{ frm.registrar_actividad(href="javascript:void(0)", class="btn btn-primary") }} 
                                                                 </td>
                                                             </tr>
-                                                        </tbody></table>
-                                                    </td>                                                
+                                                        </tbody>
+                                                    </table>                                             
                                             </tbody>
                                         </table>
                                     </td>

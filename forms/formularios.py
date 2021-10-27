@@ -102,7 +102,7 @@ class Actividades(FlaskForm):
     # nota_final_asignatura = FloatField("Nota Final Asignatura", validators = [DataRequired("Por favor llene este campo")])
     #estudiantes = SelectField("Estudiantes inscritos", choices=["","AMAURY ARROYO", "CARLOS AGUIRRE", "DANIEL LONDOÑO", "JULIAN DAVID DEL RIO", "MARIO GOMEZ"]) #,validators = [DataRequired("Por favor llene este campo")
     #docente = SelectField("Docente", choices=["Por definir","ANDRES GUTIERREZ", "MARCELA VALENCIA", "DAVID MURILLO"])   # REVISAR TEMA SESIÓN CON VARIABLE GLOBAL
-    instrucciones_actividad = StringField("Instrucciones")
+    instrucciones_actividad = TextAreaField("Instrucciones")
     registrar_actividad = SubmitField("Registrar")  # OJO - falta adicionar botón registrar en menu Registrar actividades
     consultar_actividad = SubmitField("Consultar Actividad")        # OJO - falta adicionar botón
     #eliminar = SubmitField("Eliminar")    # NO HAY MENÚ ELIMINAR, PONER OPCIÓN EN FORM REGISTRAR?
