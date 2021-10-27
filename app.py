@@ -591,30 +591,39 @@ def buscar():
 # Ruta VER NOTAS
 @app.route("/notas/visualizar", methods=["GET", "POST"])
 def ver_notas():
-    frm = VerNotas() 
+    frm = VerNotas()
+    notas = [] 
     if "id_usuario" in session:
         if frm.validate_on_submit():
             asignatura = frm.materias.data
-            with sqlite3.connect("unitolima.db") as con:
-                con.row_factory = sqlite3.Row
-                cursor = con.cursor()
-                cursor.execute("SELECT * FROM nota WHERE asignatura_id = ?", [int(asignatura)])
-                row = cursor.fetchone()
-                rows = cursor.fetchall()
-                for i in row:
-                    print(i)
-#                if row:
-#                    if row["actividad_id"] == 1:
-#                        frm.a1.data = row["tipo"]
-#                        frm.n1.data = row["valor_nota"]
-#                    if row["actividad_id"] == 2:
-#                        frm.a2.data = row["tipo"]
-#                        frm.n2.data = row["valor_nota"]
-#                    if row["actividad_id"] == 3:
-#                        frm.a3.data = row["tipo"]
-#                        frm.n3.data = row["valor_nota"]
-#                    elif row["actividad_id"] != 1 and row["actividad_id"] != 2 and row["actividad_id"] != 3:
-#                        flash("No se encontraron calificaciones registradas")
+            if asignatura == "":
+                frm.a1.data = ""
+                frm.n1.data = ""
+                frm.a2.data = ""
+                frm.n2.data = ""
+                frm.a3.data = ""
+                frm.n3.data = ""
+                flash("Por favor ingrese un ID de asignatura")
+            else:
+                with sqlite3.connect("unitolima.db") as con:
+                    cursor = con.cursor()
+                    cursor.execute("SELECT actividad_id, tipo, valor_nota FROM nota WHERE asignatura_id = ?", [int(asignatura)])
+                    #row = cursor.fetchone()
+                    #rows = cursor.fetchall()
+                    for row in cursor.fetchall():               
+                        if row:
+                            if row[0] == 1:
+                                frm.a1.data = row[1]
+                                frm.n1.data = row[2]
+                            if row[0] == 2:
+                                frm.a2.data = row[1]
+                                frm.n2.data = row[2]
+                            if row[0] == 3:
+                                frm.a3.data = row[1]
+                                frm.n3.data = row[2]
+                            elif row[0] != 1 and row[0] != 2 and row[0] != 3:
+                                flash("No se encontraron calificaciones registradas")
+                    print(row)
 
         return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
