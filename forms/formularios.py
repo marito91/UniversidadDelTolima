@@ -26,11 +26,10 @@ class Registro(FlaskForm):
     buscador = IntegerField("Buscador")
     #usuario = StringField("Usuario")
     #id = StringField("ID")
-    guardar = SubmitField("Guardar")
-    eliminar = SubmitField("Eliminar",render_kw=({"onfocus":"cambiaRuta('/usuario/eliminar/delete')"}))
-    editar = SubmitField("Editar")
-    consulta = SubmitField("Buscar")
-    buscar = SubmitField("Buscar",render_kw=({"onfocus":"cambiaRuta('/usuario/eliminar/get')"}))
+    guardar = SubmitField("Registrar 💾", render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/save')"}))
+    eliminar = SubmitField("Eliminar 🗑",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/delete')"}))
+    editar = SubmitField("Editar ✏",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/update')"}))
+    buscar = SubmitField("Buscar 🔎",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/get')"}))
 
 class VerUsuario(FlaskForm):
     nombres = StringField("Nombres")
@@ -85,10 +84,10 @@ class Asignaturas(FlaskForm):
     # cierre = DateTimeField("Fecha cierre")
     # inscritos = TextAreaField("Estudiantes inscritos", validators = [DataRequired("Por favor llene este campo")])#Usar un place holder para indicar ids Estudiantes
     # estudiantes = SelectField("Estudiantes inscritos", choices=["","AMAURY ARROYO", "CARLOS AGUIRRE", "DANIEL LONDOÑO", "JULIAN DAVID DEL RIO", "MARIO GOMEZ"])
-    registrar = SubmitField('Registrar',render_kw=({"onfocus":"cambiaRuta('/asignaturas/registrar')"}))
-    buscar = SubmitField('Buscar',render_kw=({"onfocus":"cambiaRuta('/asignaturas/get')"}))
-    eliminar = SubmitField('Eliminar',render_kw=({"onfocus":"cambiaRuta('/asignaturas/eliminar')"}))
-    editar = SubmitField("Actualizar",render_kw=({"onfocus":"cambiaRuta('/asignaturas/editar')"}))
+    registrar = SubmitField('Registrar 💾',render_kw=({"onfocus":"cambiaRuta('/asignaturas/registrar')"}))
+    buscar = SubmitField('Buscar 🔎',render_kw=({"onfocus":"cambiaRuta('/asignaturas/get')"}))
+    eliminar = SubmitField('Eliminar 🗑',render_kw=({"onfocus":"cambiaRuta('/asignaturas/eliminar')"}))
+    editar = SubmitField("Actualizar ✏",render_kw=({"onfocus":"cambiaRuta('/asignaturas/editar')"}))
 
 
 class Actividades(FlaskForm):
