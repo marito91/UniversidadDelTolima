@@ -52,10 +52,16 @@
 
 								<form id="login-form" class="form" action="" method="POST">
 								{{ frm.hidden_tag() }}
-								<p>
+								
+								<div align="left">
+									<h4>
+										<p>
 									<strong>
 										{{ frm.username.label }}
 									</strong>
+
+								
+									
 									
 									{{ frm.username }}
 									{% for error in frm.username.errors %}
@@ -64,10 +70,14 @@
 									</div>
 									{% endfor %}
 								</p>
+							</h4>
+							<br>
+							<h4>
 								<p>
-									<strong>
-										{{ frm.password.label }}
-									</strong>
+										<strong>
+											{{ frm.password.label }}
+										</strong>
+									
 									
 									{{ frm.password }}
 									{% for error in frm.password.errors %}
@@ -76,8 +86,19 @@
 									</div>
 									{% endfor %}
 								</p>
-								{{ frm.entrar (href="javascript:void(0)", class="btn btn-primary")}}
-								<p><span style="color: #3366ff;"><em>{{ estado }}</em></span></p>
+							</h4>
+								</div>
+								
+								
+								
+									<h4>
+										{{ frm.entrar }}
+										<span style="color: blue;" ></span>
+									</h4>
+									
+								
+								<!-- (href="javascript:void(0)", class="btn btn-primary") -->
+								<p><span style="color: #133392;"><em>{{ estado }}</em></span></p>
 								
 								
 							
