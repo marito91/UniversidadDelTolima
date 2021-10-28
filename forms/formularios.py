@@ -46,6 +46,7 @@ class VerUsuario(FlaskForm):
     observaciones = TextAreaField("Observaciones")
     buscador = IntegerField("Buscador")
     eliminar = SubmitField("Eliminar")
+    inscrito = StringField("Asignatura")
 
 #----------------------------------------------------------CLASES NOTAS--------------------------------------------------------------------------#  
 

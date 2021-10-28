@@ -1030,12 +1030,28 @@ def misdatos():
 
     if "id_usuario" in session:
         
+        sinAsignatura = "Sin asignatura"
 
         with sqlite3.connect("unitolima.db") as con:
             
             con.row_factory = sqlite3.Row
             cursor = con.cursor()
             cursor.execute("SELECT * FROM usuario WHERE id_usuario = ?", [session["id_usuario"]])
+
+            cursorAsignatura = con.cursor()
+            cursorAsignatura.execute("SELECT asignatura_id FROM usuario_asignatura WHERE id_usuario = ?", [session["id_usuario"]])
+            id_asignatura = cursorAsignatura.fetchone()
+            if id_asignatura != None:
+                id = id_asignatura[0]
+                cursorNombre = con.cursor()
+                cursorNombre.execute("SELECT nombre_asignatura FROM asignatura WHERE id_asignatura = ?", [id])
+                rowAsignatura = cursorNombre.fetchone()
+                asignatura = rowAsignatura[0]
+            else:
+                asignatura = sinAsignatura
+
+            
+            
             row = cursor.fetchone()
             
  
@@ -1049,6 +1065,8 @@ def misdatos():
 
             email= row["email"]
 
+            
+
 
         return render_template("misdatos.html",UserName=session["nombres"],
         TypeUser=session["perfil"],
@@ -1058,6 +1076,7 @@ def misdatos():
         celular=celular,
         correo=email,
         ciudad=ciudad,
+        inscrito=asignatura
          )
     else:
         return render_template("logout.html")
