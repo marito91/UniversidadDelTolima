@@ -544,25 +544,26 @@ def ver_actividad():
     frm = VerActividades()
     if "id_usuario" in session:
         id = frm.id_actividad.data
-        if frm.validate_on_submit(): 
-            if frm.consultar:
-                with sqlite3.connect("unitolima.db") as con:
-                    cursor = con.cursor()
-                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id])
-                    row = cursor.fetchone()
-                    print(row)
-                    if row:
-                        frm.id_asignatura_fk.data = row["id_asignatura_fk"]
-                        frm.instrucciones_actividad.data = row["instrucciones_actividad"]
-                        frm.tipo_actividad.data = row["tipo_actividad"]
-                        frm.nombre_actividad.data = row["nombre_actividad"]
-                        flash("Actividad encontrada.")
-                    else:
-                        frm.id_asignatura_fk.data = ""
-                        frm.instrucciones_actividad.data = ""
-                        frm.tipo_actividad.data = ""
-                        frm.nombre_actividad.data = ""
-                        flash("La actividad solicitada no fue encontrada.")
+        #if frm.validate_on_submit(): 
+        if frm.consultar:
+            with sqlite3.connect("unitolima.db") as con:
+                con.row_factory = sqlite3.Row
+                cursor = con.cursor()
+                cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id])
+                row = cursor.fetchone()
+                print(row)
+                if row:
+                    frm.id_asignatura_fk.data = row["id_asignatura_fk"]
+                    frm.instrucciones_actividad.data = row["instrucciones_actividad"]
+                    frm.tipo_actividad.data = row["tipo_actividad"]
+                    frm.nombre_actividad.data = row["nombre_actividad"]
+                    flash("Actividad encontrada.")
+                else:
+                    frm.id_asignatura_fk.data = ""
+                    frm.instrucciones_actividad.data = ""
+                    frm.tipo_actividad.data = ""
+                    frm.nombre_actividad.data = ""
+                    flash("La actividad solicitada no fue encontrada.")
         
         return render_template("detalle_actividad.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:

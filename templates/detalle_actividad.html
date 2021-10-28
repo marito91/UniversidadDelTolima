@@ -89,11 +89,17 @@
                                                                 </th>
                                                             </tr>
                                                             <tr>
-                                                                <th style="width:16%;">{{ frm.fecha_actividad.label }} 
-                                                                    
-                                                                    <input size="20" name="fecha_actividad" id="fecha_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off"> 
-                                                                    
+                                                                <th style="width:16%;">
+                                                                    {{ frm.fecha_actividad.label }} 
+
+                                                                    <!--<input size="20" name="fecha_actividad" id="fecha_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off">--> 
+                                                                    {{ frm.fecha_actividad }}
                                                                 </th>
+                                                                    {% for errors in frm.fecha_actividad.errors %}
+                                                                            <div>
+                                                                                {{ error }}
+                                                                            </div>
+                                                                        {% endfor %}
                                                                 <!-- <td>
                                                                     <input size="20" name="tipo_actividad" id="tipo_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off"> 
                                                                 </td>
