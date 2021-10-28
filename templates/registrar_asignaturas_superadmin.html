@@ -51,7 +51,7 @@
                                                         {{ frm.asignatura.label }}<span class="requerido">*</span>
                                                     </td> 
                                                     <td style="width:60%">
-                                                        {{ frm.asignatura }}
+                                                        {{ frm.asignatura(size="30") }}
                                                         {% for error in frm.asignatura.errors %}
                                                             <div>
                                                                 {{ error }}
