@@ -1,6 +1,5 @@
 import hashlib, sqlite3
 import os
-from sqlite3.dbapi2 import Row
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
@@ -126,7 +125,7 @@ def get_usuario():
                 frm.nombres.data = row["nombre"]
                 frm.apellidos.data = row["apellidos"]
                 frm.tipoDocumento.data = row["tipo_documento"]
-                # frm.documento.data=row["numero_documento"]
+                frm.documento.data = int(documento)
                 perfil = row["perfil_id"]
                 if perfil == "1":
                     frm.perfil.data = "SUPERADMIN"
@@ -145,7 +144,7 @@ def get_usuario():
                 frm.nombres.data = ""
                 frm.apellidos.data = ""
                 frm.tipoDocumento.data = ""
-                # frm.documento.data = ""
+                frm.documento.data = ""
                 
                 if frm.perfil.data == "ESTUDIANTE" or frm.perfil.data== "DOCENTE" or frm.perfil.data == "SUPERADMIN":
                     frm.perfil.data = ""
@@ -175,7 +174,7 @@ def registro_usuario():
         #usuario = frm.usuario.data
         #id = frm.id.data
         doctype = frm.tipoDocumento.data
-        documento = frm.buscador.data
+        documento = frm.documento.data
 
         perfil = frm.perfil.data
         # Se asigna el perfil como Dios manda
@@ -195,7 +194,7 @@ def registro_usuario():
         celular = frm.celular.data
         correo = frm.email.data
         observaciones = frm.observaciones.data
-        password = str(frm.buscador.data)
+        password = str(frm.documento.data)
 
         # if frm.guardar:
         #     # Cifrar contraseña
@@ -208,7 +207,7 @@ def registro_usuario():
             cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
             # Si existe un usuario
             if cursor.fetchone():
-                flash ("Usuario ya se encuentra registrado 📬")
+                flash ("Usuario ya se encuentra registrado")
             # Si no que guarde uno
             else:
                 # Prepara la sentencia SQL
@@ -221,7 +220,7 @@ def registro_usuario():
         return render_template("logout.html")    
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 # # Ruta para editar usuarios    
-@app.route("/usuario/administrar/update", methods=["GET", "POST"])
+@app.route("/usuario/update", methods=["GET", "POST"])
 def editar_usuario():
 
     frm = Registro()
@@ -231,7 +230,7 @@ def editar_usuario():
         # Se capturan los elementos del formulario
         #barra_busqueda = frm.buscador.data
         doctype = frm.tipoDocumento.data
-        documento = frm.buscador.data
+        documento = frm.documento.data
 
         perfil = frm.perfil.data
         # Se asigna el perfil como Dios manda
@@ -306,8 +305,6 @@ def ver_usuario():
                         frm.celular.data = row["celular"]
                         frm.email.data = row["email"]
                         frm.observaciones.data = row["observaciones"]
-                        flash("usuario encontrado ✔")
-            
                     else:
                         frm.nombres.data = ""
                         frm.apellidos.data = ""
@@ -327,7 +324,7 @@ def ver_usuario():
                         frm.celular.data = ""
                         frm.email.data = ""
                         frm.observaciones.data = ""
-                        flash("No se ha encontrado el usuario 🚧")
+                        flash("No se ha encontrado el usuario")
             
         return render_template("ver_usuario.html", frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -351,25 +348,7 @@ def eliminarUser():
             cursor.execute("DELETE FROM usuario WHERE numero_documento = ?", [documento])
             con.commit()
             if con.total_changes > 0:
-                frm.nombres.data = ""
-                frm.apellidos.data = ""
-                frm.tipoDocumento.data = ""
-                frm.documento.data = ""
-                
-                if frm.perfil.data == "ESTUDIANTE" or frm.perfil.data== "DOCENTE" or frm.perfil.data == "SUPERADMIN":
-                    frm.perfil.data = ""
-                # elif perfil == "2":
-                #     frm.perfil.data = ""
-                # elif perfil == "3":
-                #     frm.perfil.data = ""
-                frm.direccion.data = ""
-                frm.departamento.data = ""
-                frm.ciudad.data = ""
-                frm.telefono.data = ""
-                frm.celular.data = ""
-                frm.email.data = ""
-                frm.observaciones.data = ""
-                flash("Usuario eliminado: "+str(documento))      
+                flash("Usuario eliminado")      
             else:
                 frm.nombres.data = ""
                 frm.apellidos.data = ""
@@ -389,7 +368,7 @@ def eliminarUser():
                 frm.celular.data = ""
                 frm.email.data = ""
                 frm.observaciones.data = ""
-                flash("No se pudo eliminar o no existe el usuario 🚧")
+                flash("No se pudo eliminar el usuario")
         
         return render_template("administraccion_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"] )
     
@@ -600,7 +579,31 @@ def ver_actividad():
 def buscar():
     frm = BuscarEstudiante()
     if "id_usuario" in session:
-        
+        codigo = frm.codigo.data
+        # Se conecta a base de datos
+        if frm.validate_on_submit():
+            if frm.buscar:
+                with sqlite3.connect("unitolima.db") as con:
+                    con.row_factory = sqlite3.Row
+                    cursor = con.cursor()
+                    cursor2 = con.cursor()
+                    cursor3 = con.cursor()
+                    cursor.execute("SELECT id_usuario, nombre, apellidos FROM usuario WHERE id_usuario = ?", [codigo])
+                    cursor2.execute("SELECT nota_final, asignatura_id FROM nota WHERE id_usuario = ?", [codigo])
+                    cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ?", [codigo])
+                    row = cursor.fetchone()
+                    row2 = cursor2.fetchone()
+                    if row and row2:
+                        frm.codigo.label = row[0]
+                        frm.nombre.label = row[1] + " " + row[2]
+                        frm.nota.label = str(row2[0])
+                        frm.asignatura.label = str(row2[1])
+                        flash("Usuario encontrado")
+                    else:
+
+                        flash("No se ha encontrado el usuario")
+
+
         return render_template("buscador.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
@@ -733,23 +736,31 @@ def notas():
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
                     cursor2 = con.cursor()
+                    cursor3 = con.cursor()
                     # Se preparan las sentencias
+                    cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ? AND perfil_id = 3", [int(usuario)])
                     cursor2.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [asignatura])
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
-                    # Si existe la asignatura
-                    if cursor2.fetchone():
-                        # Si existe un usuario
-                        if cursor.fetchone():
-                            flash ("El estudiante ya cuenta con una calificación para esta actividad.")
-                        # Si no que guarde la calificación
+                    
+                    # Si existe el usuario
+                    if cursor3.fetchone():
+                        # Si existe la asignatura
+                        if cursor2.fetchone():
+                            # Si el usuario ya tiene registrada la actividad.
+                            if cursor.fetchone():
+                                flash ("El estudiante ya cuenta con una calificación para esta actividad.")
+                            # Si no que guarde la calificación
+                            else:
+                                # Prepara la sentencia SQL
+                                cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [int(usuario), int(actividad), float(nota), int(asignatura), tipo])
+                                # Ejecuta la sentencia SQL
+                                con.commit()
+                                flash ("Calificación guardada con éxito")
                         else:
-                            # Prepara la sentencia SQL
-                            cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [int(usuario), int(actividad), float(nota), int(asignatura), tipo])
-                            # Ejecuta la sentencia SQL
-                            con.commit()
-                            flash ("Calificación guardada con éxito")
+                            flash ("Esta asignatura no existe.")
                     else:
-                        flash ("Esta asignatura no existe.")
+                        flash(f"El usuario {usuario} no se encuentra registrado o no figura como estudiante.")
+
         return render_template("ingresar_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
@@ -784,12 +795,12 @@ def buscar_asignatura():
                 frm.descripcion.data = row["descripcion"]
 
                 
-                flash("Asignatura encontrada ✔")
+                flash("Asignatura encontrada")
             else:
                 frm.asignatura.data = ""
                 frm.tipo.data = ""
                 frm.descripcion.data =""
-                flash("No se ha encontrado la asignatura 🚧")
+                flash("No se ha encontrado la asignatura")
 
         
             
@@ -812,15 +823,17 @@ def registrar_asignatura():
             cursor.execute("INSERT INTO asignatura (nombre_asignatura, tipo, descripcion ) VALUES (?,?,?)", [asignatura, tipo, descripcion])  
             # row = cursor.fetchone()
             if con.total_changes>0:
-                flash("Asignatura registrada ✔")
+                flash("Asignatura registrada")
             else:
-                flash("No se ha registrado la asignatura 🚧")
+                flash("No se ha registrado la asignatura")
 
         
             
         return render_template ("registrar_asignaturas_superadmin.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
+
+
 # # Ruta 2 - Editar Asignaturas
 @app.route("/asignaturas/editar", methods=["GET", "POST"])
 def editar_asignatura():

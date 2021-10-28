@@ -1,41 +1,81 @@
 {% extends "navigator.html" %}
 {% block form %} 
-<form >
+<form method="POST" action="/buscador" >
+    {{ frm.hidden_tag() }}
     <label for="buscar">Código :</label>
     {{ frm.codigo(id="buscar", placeholder="Codigo de Estudiante", maxlength="6") }}
-    {{ frm.buscar(type="button", class="btn btn-secondary btn-sm") }}
+    {{ frm.buscar(class="btn btn-secondary btn-sm") }}
     <!--<input type="text" id="buscar" name="codigo" placeholder="Codigo de Estudiante" maxlength="6">
     <button type="button" class="btn btn-secondary btn-sm">Buscar</button>-->
 </form>
-<br>
-<div style="background-color: rgb(59, 112, 192); text-align: center; color: #fff;">
-<label >Información del Estudiante</label>
-</div>
-<br>
-<div class="table-responsive">
- <table class="table table-sm" >
-    <thead class="thead-dark">
-
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Retroalimentación</th>
-            <th>Nota</th>
-            <th>Asignatura</th>
-    </thead>
+    <br>
+        <div style="background-color: rgb(59, 112, 192); text-align: center; color: #fff;">
+            <label >Información del Estudiante</label>
+        </div>
+    <br>
+        <div class="table-responsive">
+            <table class="table table-sm" >
+                <thead class="thead-dark">
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Retroalimentación</th>
+                        <th>Nota</th>
+                        <th>Asignatura</th>
+                </thead>
     
-    <tr>
-         <td>{{ frm.codigo.label }}</td>
-         <td>{{ frm.nombre.label }}</td>
-         <td>{{ frm.retroalimentacion.label }}</td>
-         <td>{{ frm.nota.label }}</td>
-         <td>{{ frm.asignatura.label }}</td>
-    </tr>
-</table>
- </div>
- <div style="margin-top: 30px;" class="col-6-md">
-    <!--<button type="button" class="btn btn-secondary btn-sm">Editar Estudiante</button>
-    <button type="button" class="btn btn-secondary btn-sm">Editar Calificación</button>-->
-    {{ frm.editar(type="button", class="btn btn-secondary btn-sm") }}
- </div>
+                <tr>
+                    <td>
+                        {{ frm.codigo.label }}
+                    </td>
+                        {% for error in frm.codigo.errors %}
+                        <div>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    <td>
+                        {{ frm.nombre.label }}
+                    </td>
+                        {% for error in frm.nombre.errors %}
+                        <div>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    <td>
+                        {{ frm.retroalimentacion.label }}
+                    </td>
+                        {% for error in frm.retroalimentacion.errors %}
+                        <div>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    <td>
+                        {{ frm.nota.label }}
+                    </td>
+                        {% for error in frm.nota.errors %}
+                        <div>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    <td>
+                        {{ frm.asignatura.label }}
+                    </td>
+                        {% for error in frm.asignatura.errors %}
+                        <div>
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                </tr>
+            </table>
+        </div>
+    <div style="margin-top: 30px;" class="col-6-md">
+        <!--<button type="button" class="btn btn-secondary btn-sm">Editar Estudiante</button>
+        <button type="button" class="btn btn-secondary btn-sm">Editar Calificación</button>-->
+        {{ frm.editar(class="btn btn-secondary btn-sm") }}
+    </div>
 
+ {% for msg in get_flashed_messages() %}
+        <div>
+            {{ msg }}
+        </div>
+    {% endfor %} 
 {% endblock %}
