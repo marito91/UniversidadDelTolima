@@ -698,11 +698,16 @@ def ver_notas_docente():
                     cursorNombre = con.cursor()
                     cursorNombre.execute("SELECT nombre FROM usuario_asignatura WHERE id_usuario = ?", [int(estudiante)])
                     list = cursorNombre.fetchone()
-                    nombre = list[0]
+                    if list != None:
+                        nombre = list[0]
+                        frm.estudiantes.label = nombre
+                    else:
+                        flash("Usuario no encontrado")
+                    
                     a = 0
                     b = 0
                     c = 0
-                    frm.estudiantes.label = nombre
+                    #frm.estudiantes.label = nombre
                     for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
