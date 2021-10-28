@@ -95,6 +95,16 @@ class Actividades(FlaskForm):
     consultar_actividad = SubmitField("Consultar Actividad")        # OJO - falta adicionar botón
 
 
+class VerActividades(FlaskForm):
+    id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
+    tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
+    nombre_actividad = StringField("Nombre Actividad")
+    id_asignatura_fk = StringField("ID Asignatura*", validators = [DataRequired("Por favor llene este campo")])
+    fecha_actividad = DateTimeField("Fecha de Entrega")
+    instrucciones_actividad = TextAreaField("Instrucciones")
+    consultar = SubmitField("Consultar")
+
+
 class BuscarEstudiante(FlaskForm):
     codigo = IntegerField("Codigo", validators = [DataRequired("Por favor llene este campo")])
     nombre = StringField("Nombre del estudiante")

@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades
 
 
 
@@ -514,13 +514,6 @@ def crear_actividad():
             id_asignatura_fk = frm.id_asignatura_fk.data   # de un listado me guarde el seleccionado
             instrucciones_actividad = frm.instrucciones_actividad.data
             tipo_actividad = frm.tipo_actividad.data
-            #fecha_actividad = frm.fecha_actividad.data
-            # print(id_actividad + nombre_actividad + id_asignatura_fk + tipo_actividad + instrucciones_actividad)
-            # estudiantes = frm.estudiantes.data
-            # docente = frm.docente.data
-            # tipo_nota = frm.tipo_nota.data
-            # nota_final_actividad = frm.nota_final_actividad.data
-            # nota_final_asignatura = frm.nota_final_asignatura.data
             if frm.registrar_actividad:
                 with sqlite3.connect("unitolima.db") as con:
                     # Crea un cursor para manipular la base de datos
@@ -544,11 +537,11 @@ def crear_actividad():
 # # Ruta 2 detalle actividad
 @app.route("/actividad/detalle", methods=["GET", "POST"])
 def ver_actividad():
-    frm = Actividades()
+    frm = VerActividades()
     if "id_usuario" in session:
         #if frm.validate_on_submit(): 
         id_actividad = frm.id_actividad.data
-        if frm.consultar_actividad:
+        if frm.consultar:
             with sqlite3.connect("unitolima.db") as con:
                 con.row_factory = sqlite3.Row
                 cursor = con.cursor()
@@ -559,14 +552,11 @@ def ver_actividad():
                     frm.instrucciones_actividad.data = row["instrucciones_actividad"]
                     frm.tipo_actividad.data = row["tipo_actividad"]
                     frm.nombre_actividad.data = row["nombre_actividad"]
-                    # frm.fecha_actividad.data = row["fecha_actividad"]
-                    print(id_actividad)
                 else:
                     frm.id_asignatura_fk.data = ""
                     frm.instrucciones_actividad.data = ""
                     frm.tipo_actividad.data = ""
                     frm.nombre_actividad.data = ""
-                    # frm.fecha_actividad.data = ""
         
         return render_template("detalle_actividad.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -824,7 +814,7 @@ def registrar_asignatura():
         with sqlite3.connect("unitolima.db") as con:
             con.row_factory = sqlite3.Row
             cursor = con.cursor()
-            cursor.execute("INSERT INTO asignatura (id_asignatura, nombre_asignatura, tipo, descripcion) VALUES (?,?,?)", [codigo, asignatura, tipo, descripcion])  
+            cursor.execute("INSERT INTO asignatura (id_asignatura, nombre_asignatura, tipo, descripcion) VALUES (?,?,?,?)", [codigo, asignatura, tipo, descripcion])  
             # row = cursor.fetchone()
             if con.total_changes>0:
                 flash("Asignatura registrada")
