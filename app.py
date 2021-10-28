@@ -222,7 +222,7 @@ def registro_usuario():
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # # Ruta para editar usuarios    
-@app.route("/usuario/update", methods=["GET", "POST"])
+@app.route("/usuario/administrar/update", methods=["GET", "POST"])
 def editar_usuario():
 
     frm = Registro()
@@ -232,7 +232,7 @@ def editar_usuario():
         # Se capturan los elementos del formulario
         #barra_busqueda = frm.buscador.data
         doctype = frm.tipoDocumento.data
-        documento = frm.documento.data
+        documento = frm.buscador.data
 
         perfil = frm.perfil.data
         # Se asigna el perfil como Dios manda
@@ -261,7 +261,7 @@ def editar_usuario():
             cursor.execute("UPDATE usuario SET nombre = ?, apellidos = ?, tipo_documento = ?, numero_documento = ?, direccion = ?, departamento = ?, ciudad = ?, telefono_fijo = ?, celular = ?, email = ?, observaciones = ?, perfil_id = ? WHERE numero_documento = ? ", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, documento])
             con.commit()
             if con.total_changes > 0:
-                flash("Usuario editado ✔")  
+                flash("Datos de usuario actualizados ✔")  
             else:
                 flash("No se pudo editar el usuario 🚧")
 
@@ -1007,18 +1007,19 @@ def feedback_student():
 def misdatos():
 
     if "id_usuario" in session:
+        
 
         with sqlite3.connect("unitolima.db") as con:
             
             con.row_factory = sqlite3.Row
             cursor = con.cursor()
-            cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [session["id_usuario"]])
+            cursor.execute("SELECT * FROM usuario WHERE id_usuario = ?", [session["id_usuario"]])
             row = cursor.fetchone()
             
  
             tipoDocumento = "CC"
 
-            documento = row["numero_documento"]
+            documento = str(row["numero_documento"])
 
             ciudad = row["ciudad"]
 
