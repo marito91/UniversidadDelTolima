@@ -543,24 +543,25 @@ def crear_actividad():
 def ver_actividad():
     frm = VerActividades()
     if "id_usuario" in session:
-        #if frm.validate_on_submit(): 
-        id_actividad = frm.id_actividad.data
-        if frm.consultar:
-            with sqlite3.connect("unitolima.db") as con:
-                con.row_factory = sqlite3.Row
-                cursor = con.cursor()
-                cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id_actividad])
-                row = cursor.fetchone()
-                if row:
-                    frm.id_asignatura_fk.data = row["id_asignatura_fk"]
-                    frm.instrucciones_actividad.data = row["instrucciones_actividad"]
-                    frm.tipo_actividad.data = row["tipo_actividad"]
-                    frm.nombre_actividad.data = row["nombre_actividad"]
-                else:
-                    frm.id_asignatura_fk.data = ""
-                    frm.instrucciones_actividad.data = ""
-                    frm.tipo_actividad.data = ""
-                    frm.nombre_actividad.data = ""
+        if frm.validate_on_submit(): 
+            id_actividad = frm.id_actividad.data
+            id_asignatura = frm.id_asignatura_fk.data
+            if frm.consultar:
+                with sqlite3.connect("unitolima.db") as con:
+                    con.row_factory = sqlite3.Row
+                    cursor = con.cursor()
+                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [int(id_actividad)])
+                    row = cursor.fetchone()
+                    if row:
+                        frm.id_asignatura_fk.data = row["id_asignatura_fk"]
+                        frm.instrucciones_actividad.data = row["instrucciones_actividad"]
+                        frm.tipo_actividad.data = row["tipo_actividad"]
+                        frm.nombre_actividad.data = row["nombre_actividad"]
+                    else:
+                        frm.id_asignatura_fk.data = ""
+                        frm.instrucciones_actividad.data = ""
+                        frm.tipo_actividad.data = ""
+                        frm.nombre_actividad.data = ""
         
         return render_template("detalle_actividad.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:

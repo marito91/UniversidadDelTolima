@@ -128,10 +128,10 @@ class Actividades(FlaskForm):
 
 
 class VerActividades(FlaskForm):
-    id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
+    id_actividad = StringField("ID actividad", validators = [DataRequired("Por favor llene este campo")])
     tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
     nombre_actividad = StringField("Nombre Actividad")
-    id_asignatura_fk = StringField("ID Asignatura*", validators = [DataRequired("Por favor llene este campo")])
+    id_asignatura_fk = StringField("ID Asignatura*")#, validators = [DataRequired("Por favor llene este campo")])
     fecha_actividad = DateTimeField("Fecha de Entrega")
     instrucciones_actividad = TextAreaField("Instrucciones")
     consultar = SubmitField("Consultar")
