@@ -905,6 +905,44 @@ def feedback_student():
         return render_template("logout.html")
 # #--------------------------------------------------------------------------------------------------------#
 
+# # Ruta para ver datos de la persona que inicio sesion
+@app.route("/misdatos", methods=["GET"])
+def misdatos():
+
+    if "id_usuario" in session:
+
+        with sqlite3.connect("unitolima.db") as con:
+            
+            con.row_factory = sqlite3.Row
+            cursor = con.cursor()
+            cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [session["id_usuario"]])
+            row = cursor.fetchone()
+            
+ 
+            tipoDocumento = "CC"
+
+            documento = row["numero_documento"]
+
+            ciudad = row["ciudad"]
+
+            celular= row["celular"]
+
+            email= row["email"]
+
+
+        return render_template("misdatos.html",UserName=session["nombres"],
+        TypeUser=session["perfil"],
+        ActiveSesion=session["activeSesion"],
+        tipo_documento=tipoDocumento,
+        documento=documento,
+        celular=celular,
+        correo=email,
+        ciudad=ciudad,
+         )
+    else:
+        return render_template("logout.html")
+# #--------------------------------------------------------------------------------------------------------#
+
 
 if __name__=="__main__":
     app.run(debug=True)
