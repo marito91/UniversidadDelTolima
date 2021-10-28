@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas, Feedback, FeedbackEstudiante
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas, Feedback, FeedbackEstudiante, updatePassword
 
 
 
@@ -1045,7 +1045,59 @@ def misdatos():
     else:
         return render_template("logout.html")
 # #--------------------------------------------------------------------------------------------------------#
+# # Ruta para ver datos de la persona que inicio sesion
+@app.route("/misdatos/password", methods=["GET","POST"])
+def updatePass():
+    # frm=updatePassword()
+    if "id_usuario" in session:
+   
+        frm=updatePassword()
+        if frm.validate_on_submit():
+            passViejo=frm.password.data
+            passnew1=frm.passwordNew1.data
+            passnew2=frm.passwordNew2.data
+            iduser=int(session["id_usuario"])
+            print( iduser, type(iduser))
+            print( session["id_usuario"], type(session["id_usuario"]))
+            # print(passnew1)
+            # print(passnew2)
+            if passnew1 == passnew2:
 
+                encrip=hashlib.sha256(passViejo.encode())
+                pass_enc=encrip.hexdigest()
+                with sqlite3.connect("unitolima.db") as con:
+                    con.row_factory = sqlite3.Row
+                    cursor = con.cursor()
+                    cursor.execute("SELECT password FROM usuario WHERE id_usuario = ?",[iduser])
+                        #                cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
+                        #                row2 = cursor2.fetchone()
+                        #                cursor3.execute("SELECT nombre, apellidos FROM usuario WHERE id_usuario = ?", [row2])
+                    row = cursor.fetchone()
+                        #                row3 = cursor3.fetchall()
+                    
+                    if row["password"] == pass_enc:
+                        encripNew=hashlib.sha256(passnew2.encode())
+                        passNewEncrip=encripNew.hexdigest()
+                        cursor2 = con.cursor()
+                        cursor2.execute("UPDATE usuario SET password = ? WHERE  id_usuario = ? ", [passNewEncrip,iduser])
+                        con.commit()
+                        if con.total_changes > 0:
+                            flash("contraseña cambiada satisfactoriamente ✔🔐")  
+                        else:
+                            flash("No se pudo cambiar la contraseña 🔒")
+
+                    else:
+                        
+                        flash("Contraseña ingresada no es correcta 🔒")
+            else:
+                flash("revisar contraseña nueva, no coinciden 🔒")
+
+
+        
+        return render_template("update_password.html",frm=frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+    else:
+        return render_template("logout.html")
+# #--------------------------------------------------------------------------------------------------------#        
 
 if __name__=="__main__":
     app.run(debug=True)

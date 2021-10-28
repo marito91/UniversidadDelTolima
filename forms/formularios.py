@@ -145,4 +145,10 @@ class BuscarEstudiante(FlaskForm):
     asignatura = StringField("Asignatura")
     buscar = SubmitField("Buscar",render_kw=({"onfocus":"cambiaRuta('/buscador')"}))
     editar = SubmitField("Editar calificación",render_kw=({"onfocus":"cambiaRuta('/notas/ingresar')"}))
+
+class updatePassword(FlaskForm):
     
+    password = PasswordField("  contraseña antigua  🗝", validators = [DataRequired("Por favor llene este campo")])
+    passwordNew1 = PasswordField("  contraseña nueva  🔑", validators = [DataRequired("Por favor llene este campo")])
+    passwordNew2 = PasswordField("  repita contraseña nueva  🔑", validators = [DataRequired("Por favor llene este campo")])
+    actualizar = SubmitField("Actualizar 🔐")
