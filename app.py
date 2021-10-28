@@ -632,6 +632,7 @@ def ver_notas():
                                 flash("No se encontraron calificaciones registradas")
                     promedio = (a+b+c)/3
                     frm.notaFinal.data = str("{0:.2f}".format(promedio))
+                    
 
         return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -681,6 +682,11 @@ def ver_notas_docente():
                     promedio = (a+b+c)/3
                     frm.notaFinal.data = str("{0:.2f}".format(promedio))
 
+                    # Prepara sentencia para asignar nota final al estudiante
+                    cursor.execute("UPDATE nota SET nota_final = ? WHERE usuario_id = ?", [promedio, int(estudiante)])
+                    con.commit()
+                    
+
         return render_template("ver_notas_docente.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
@@ -704,17 +710,24 @@ def notas():
                 with sqlite3.connect("unitolima.db") as con:
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
+                    cursor2 = con.cursor()
+                    # Se preparan las sentencias
+                    cursor2.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [asignatura])
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
-                    # Si existe un usuario
-                    if cursor.fetchone():
-                        flash ("El estudiante ya cuenta con una calificación para esta actividad.")
-                    # Si no que guarde la calificación
+                    # Si existe la asignatura
+                    if cursor2.fetchone():
+                        # Si existe un usuario
+                        if cursor.fetchone():
+                            flash ("El estudiante ya cuenta con una calificación para esta actividad.")
+                        # Si no que guarde la calificación
+                        else:
+                            # Prepara la sentencia SQL
+                            cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [int(usuario), int(actividad), float(nota), int(asignatura), tipo])
+                            # Ejecuta la sentencia SQL
+                            con.commit()
+                            flash ("Calificación guardada con éxito")
                     else:
-                        # Prepara la sentencia SQL
-                        cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [int(usuario), int(actividad), float(nota), int(asignatura), tipo])
-                        # Ejecuta la sentencia SQL
-                        con.commit()
-                        flash ("Calificación guardada con éxito")
+                        flash ("Esta asignatura no existe.")
         return render_template("ingresar_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
