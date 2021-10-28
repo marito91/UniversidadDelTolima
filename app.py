@@ -695,23 +695,28 @@ def ver_notas_docente():
                 with sqlite3.connect("unitolima.db") as con:
                     cursor = con.cursor()
                     cursor.execute("SELECT actividad_id, tipo, valor_nota, usuario_id FROM nota WHERE usuario_id = ?", [int(estudiante)])
+                    cursorNombre = con.cursor()
+                    cursorNombre.execute("SELECT nombre FROM usuario_asignatura WHERE id_usuario = ?", [int(estudiante)])
+                    list = cursorNombre.fetchone()
+                    nombre = list[0]
                     a = 0
                     b = 0
                     c = 0
+                    frm.estudiantes.label = nombre
                     for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
-                                frm.estudiantes.label = row[3]
+                                #frm.estudiantes.label = nombre
                                 frm.a1.label = row[1]
                                 frm.n1.label = row[2]
                                 a = row[2]
                             if row[0] == 2:
-                                frm.estudiantes.label = row[3]
+                                #frm.estudiantes.label = nombre
                                 frm.a2.label = row[1]
                                 frm.n2.label = row[2]
                                 b = row[2]
                             if row[0] == 3:
-                                frm.estudiantes.label = row[3]
+                                #frm.estudiantes.label = nombre
                                 frm.a3.label = row[1]
                                 frm.n3.label= row[2]
                                 c = row[2]
@@ -755,9 +760,10 @@ def notas():
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
                     list = cursor3.fetchone()
                     id = list[0]
+                    print(id) #Revision de funcionamiento
 
                     # Si existe el usuario
-                    if cursor3.fetchone():
+                    if int(usuario) == id:
                         # Si existe la asignatura
                         if cursor2.fetchone():
                             # Si el usuario ya tiene registrada la actividad.
