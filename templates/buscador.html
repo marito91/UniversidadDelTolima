@@ -2,8 +2,10 @@
 {% block form %} 
 <form >
     <label for="buscar">Código :</label>
-    <input type="text" id="buscar" name="codigo" placeholder="Codigo de Estudiante" maxlength="6">
-    <button type="button" class="btn btn-secondary btn-sm">Buscar</button>
+    {{ frm.codigo(id="buscar", placeholder="Codigo de Estudiante", maxlength="6") }}
+    {{ frm.buscar(type="button", class="btn btn-secondary btn-sm") }}
+    <!--<input type="text" id="buscar" name="codigo" placeholder="Codigo de Estudiante" maxlength="6">
+    <button type="button" class="btn btn-secondary btn-sm">Buscar</button>-->
 </form>
 <br>
 <div style="background-color: rgb(59, 112, 192); text-align: center; color: #fff;">
@@ -13,26 +15,27 @@
 <div class="table-responsive">
  <table class="table table-sm" >
     <thead class="thead-dark">
-        
+
             <th>Código</th>
             <th>Nombre</th>
             <th>Retroalimentación</th>
             <th>Nota</th>
-            <th>asignatura</th>
+            <th>Asignatura</th>
     </thead>
     
     <tr>
-         <td>000001</td>
-         <td>Carlos Aguirre</td>
-         <td>Falta Compromiso</td>
-         <td>3.0</td>
-         <td>Desarrollo de Software</td>
+         <td>{{ frm.codigo.label }}</td>
+         <td>{{ frm.nombre.label }}</td>
+         <td>{{ frm.retroalimentacion.label }}</td>
+         <td>{{ frm.nota.label }}</td>
+         <td>{{ frm.asignatura.label }}</td>
     </tr>
 </table>
  </div>
  <div style="margin-top: 30px;" class="col-6-md">
-    <button type="button" class="btn btn-secondary btn-sm">Editar Estudiante</button>
-    <button type="button" class="btn btn-secondary btn-sm">Editar Calificación</button>
+    <!--<button type="button" class="btn btn-secondary btn-sm">Editar Estudiante</button>
+    <button type="button" class="btn btn-secondary btn-sm">Editar Calificación</button>-->
+    {{ frm.editar(type="button", class="btn btn-secondary btn-sm") }}
  </div>
 
 {% endblock %}

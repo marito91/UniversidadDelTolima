@@ -24,8 +24,6 @@ class Registro(FlaskForm):
     email = StringField("Email")
     observaciones = TextAreaField("Observaciones")
     buscador = IntegerField("Buscador")
-    #usuario = StringField("Usuario")
-    #id = StringField("ID")
     guardar = SubmitField("Registrar 💾", render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/save')"}))
     eliminar = SubmitField("Eliminar 🗑",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/delete')"}))
     editar = SubmitField("Editar ✏",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/update')"}))
@@ -53,10 +51,8 @@ class VerUsuario(FlaskForm):
 class Notas(FlaskForm):
     codigo = StringField("Codigo", validators = [DataRequired()])
     estudiante = StringField("Estudiante", validators = [DataRequired()])
-    #asignatura = SelectField("Asignatura", choices=["","-FU- Fundamentos de Programacion", "-PB- Programacion Basica", "-DS- Desarrollo de Software"])
     actividad = StringField("Actividad", validators = [DataRequired()])
     tipo = SelectField("Tipo Nota", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
-    #info = StringField("Tipo Actividad")
     nota = StringField("Nota")
     notaAsignatura = DecimalField("Nota Asignatura")
     ingresar = SubmitField("Ingresar")#, render_kw=({"onfocus":"cambiaRuta('/notas/ingresar')"}))
@@ -79,14 +75,8 @@ class VerNotas(FlaskForm):
 class Asignaturas(FlaskForm):
     codigo = IntegerField("Codigo")
     asignatura = StringField("Nombre de asignatura" )
-    # materias = SelectField("Asignatura", choices=["","-FU- Fundamentos de Programacion", "-PB- Programacion Basica", "-DS- Desarrollo de Software"],validators = [DataRequired("Por favor llene este campo")])
-    # docente = SelectField("Docente", choices=["Por definir","ANDRES GUTIERREZ", "MARCELA VALENCIA", "DAVID MURILLO"],validators = [DataRequired("Por favor llene este campo")])
     tipo = SelectField("Tipo de Asignatura", choices=["Por definir","ELECTIVA", "FORMACION BASICA", "OBLIGATORIA", "PRACTICAS", "OTRO"], validators = [DataRequired("Por favor llene este campo")])
     descripcion = TextAreaField("Descripción de la asignatura") #Usar un place holder para indicar descripción
-    # fecha = DateTimeField("Fecha cierre", validators = [DataRequired("Por favor llene este campo")])
-    # cierre = DateTimeField("Fecha cierre")
-    # inscritos = TextAreaField("Estudiantes inscritos", validators = [DataRequired("Por favor llene este campo")])#Usar un place holder para indicar ids Estudiantes
-    # estudiantes = SelectField("Estudiantes inscritos", choices=["","AMAURY ARROYO", "CARLOS AGUIRRE", "DANIEL LONDOÑO", "JULIAN DAVID DEL RIO", "MARIO GOMEZ"])
     registrar = SubmitField('Registrar 💾',render_kw=({"onfocus":"cambiaRuta('/asignaturas/registrar')"}))
     buscar = SubmitField('Buscar 🔎',render_kw=({"onfocus":"cambiaRuta('/asignaturas/get')"}))
     eliminar = SubmitField('Eliminar 🗑',render_kw=({"onfocus":"cambiaRuta('/asignaturas/eliminar')"}))
@@ -96,18 +86,20 @@ class Asignaturas(FlaskForm):
 class Actividades(FlaskForm):
     id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
     tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"], validators = [DataRequired("Por favor llene este campo")])
-    # tasks = SelectField("tasks", choices=["","1-Algoritmos", "2-Condicionales", "3-Ciclos", "4-Bases de datos", "5-Desarrollo de Apps/Web", "6-Proyecto Full Stack"]) #,validators = [DataRequired("Por favor llene este campo")
     nombre_actividad = StringField("Nombre Actividad*", validators = [DataRequired("Por favor llene este campo")])
     id_asignatura_fk = StringField("ID Asignatura*", validators = [DataRequired("Por favor llene este campo")])#,choices=["1","2","3"])
-    # tipo_nota = SelectField("Tipo Nota", choices=["01-Nota", "02-Nivelación", "03-Trabajo Escrito", "04-Supletorio"], validators = [DataRequired("Por favor llene este campo")])
     fecha_actividad = DateTimeField("Fecha de Entrega")
-    # nota_final_actividad = FloatField("Nota Final Actividad", validators = [DataRequired("Por favor llene este campo")])
-    # nota_final_asignatura = FloatField("Nota Final Asignatura", validators = [DataRequired("Por favor llene este campo")])
-    #estudiantes = SelectField("Estudiantes inscritos", choices=["","AMAURY ARROYO", "CARLOS AGUIRRE", "DANIEL LONDOÑO", "JULIAN DAVID DEL RIO", "MARIO GOMEZ"]) #,validators = [DataRequired("Por favor llene este campo")
-    #docente = SelectField("Docente", choices=["Por definir","ANDRES GUTIERREZ", "MARCELA VALENCIA", "DAVID MURILLO"])   # REVISAR TEMA SESIÓN CON VARIABLE GLOBAL
     instrucciones_actividad = TextAreaField("Instrucciones")
     registrar_actividad = SubmitField("Registrar")  # OJO - falta adicionar botón registrar en menu Registrar actividades
     consultar_actividad = SubmitField("Consultar Actividad")        # OJO - falta adicionar botón
-    #eliminar = SubmitField("Eliminar")    # NO HAY MENÚ ELIMINAR, PONER OPCIÓN EN FORM REGISTRAR?
-    # editar = SubmitField("Editar")        # NO HAY MENÚ EDITAR
-    #guardar = SubmitField("Guardar")      # Esta en MENU RETROALIMENTAR
+
+
+class BuscarEstudiante(FlaskForm):
+    codigo = IntegerField("Codigo", validators = [DataRequired("Por favor llene este campo")])
+    nombre = StringField("Nombre del estudiante")
+    retroalimentacion = StringField("Retroalimentación")
+    nota = StringField("Nota")
+    asignatura = StringField("Asignatura")
+    buscar = SubmitField("Buscar",render_kw=({"onfocus":"cambiaRuta('/buscador')"}))
+    editar = SubmitField("Editar calificación",render_kw=({"onfocus":"cambiaRuta('/notas/ingresar')"}))
+    

@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante
 
 
 
@@ -577,9 +577,10 @@ def ver_actividad():
 # # Ruta 1
 @app.route("/buscador", methods=["GET", "POST"])
 def buscar():
+    frm = BuscarEstudiante()
     if "id_usuario" in session:
         
-        return render_template("buscador.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        return render_template("buscador.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
     
