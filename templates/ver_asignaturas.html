@@ -127,7 +127,8 @@
                                                         Estudiantes Matriculados
                                                     </td>
                                                     <td>
-                                                        <input name="interlocutor[estudiantes_matriculados]" type="text" id="estudiantes_matriculados" class="campoFormulario" value="" maxlength="5" autocomplete="off">
+                                                        <!--<input name="interlocutor[estudiantes_matriculados]" type="text" id="estudiantes_matriculados" class="campoFormulario" value="" maxlength="5" autocomplete="off">-->
+                                                        {{ frm.estudiantes(type="text", id="estudiantes_matriculados", class="campoFormulario", value="", autocomplete="off", cols="35", rows="5") }}
                                                     </td>
                                                     <!--<td>
                                                         Nota Final Asignatura

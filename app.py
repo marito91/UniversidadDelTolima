@@ -894,9 +894,11 @@ def ver_asignatura():
             cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
             row2 = cursor2.fetchall()
             row = cursor.fetchone()
-            for i in row2:
-                usuarios.append(i)
-            print(usuarios)
+            if row2:
+                usuarios.append(row2[0])
+            for i in usuarios:
+                print(i)
+
             if row:
                 frm.asignatura.data = row["nombre_asignatura"]
                 frm.tipo.data = row["tipo"]
