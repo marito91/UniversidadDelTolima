@@ -217,6 +217,16 @@ def registro_usuario():
                 cursor.execute("INSERT INTO usuario (nombre, apellidos, tipo_documento, numero_documento, direccion, departamento, ciudad, telefono_fijo, celular, email, observaciones, perfil_id, password, activo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [nombres, apellidos, doctype, documento, direccion, departamento, ciudad, telefono, celular, correo, observaciones, perfil, pass_enc, True]) # NO SE DEBE CONCATENAR NUNCA
                 # Ejecuta la sentencia SQL
                 con.commit()
+                # Si el usuario es un estudiante, se va a agregar a la lista de asignaturas a espera de que se le asigne una materia
+                if perfil == "3":
+                    nombre = nombres + " " + apellidos
+                    cursor2 = con.cursor()
+                    cursor2.execute("SELECT id_usuario FROM usuario WHERE numero_documento = ?", [documento])
+                    list = cursor2.fetchone()
+                    id = list[0]
+                    cursor3 = con.cursor()
+                    cursor3.execute("INSERT INTO usuario_asignatura (nombre, perfil_id_fk, id_usuario) VALUES (?,?,?)", [nombre, perfil, id ])
+                    con.commit()
                 flash ("Guardado con exito ✔")
         return render_template("administraccion_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -253,6 +263,7 @@ def editar_usuario():
         celular = frm.celular.data
         correo = frm.email.data
         observaciones = frm.observaciones.data
+        asignatura = frm.asignatura.data
 
         # if frm.editar:
         # print("actualizar")
@@ -265,6 +276,14 @@ def editar_usuario():
                 flash("Datos de usuario actualizados ✔")  
             else:
                 flash("No se pudo editar el usuario 🚧")
+            if asignatura != "":
+                cursor2 = con.cursor()
+                cursor2.execute("SELECT id_usuario FROM usuario WHERE numero_documento = ?", [documento])
+                list = cursor2.fetchone()
+                id = list[0]
+                cursor3 = con.cursor()
+                cursor3.execute("UPDATE usuario_asignatura SET asignatura_id = ? WHERE id_usuario = ? ", [asignatura, id])
+                con.commit()
 
         return render_template("administraccion_usuario.html", frm=frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     
@@ -590,15 +609,14 @@ def buscar():
                         frm.retroalimentacion.label = row4[1]
                         flash("Usuario encontrado")
                     else:
-
-                        flash("No se ha encontrado el usuario")
+                        flash(f"El usuario {codigo} no cuenta con una retroalimentación aún.")
 
 
         return render_template("buscador.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
     
-# #--------------------------------------------------------------------------------------------------------#
+# #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 
 # #---------------------------------------------- APIs NOTAS -----------------------------------------------#
@@ -759,7 +777,7 @@ def notas():
     else:
         return render_template("logout.html")
 
-# #--------------------------------------------------------------------------------------------------------#
+# #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 
 # #---------------------------------------------- APIs ASIGNATURAS -----------------------------------------------#
@@ -774,7 +792,7 @@ def administrar_asignatura():
     else:
         return render_template("logout.html")
 
-# # Ruta 2 - Ver asignaturas
+# # Ruta 2 - Ver asignaturas (Dentro de administrar)
 @app.route("/asignaturas/get", methods=["GET", "POST"])
 def buscar_asignatura():
     if "id_usuario" in session:
@@ -876,7 +894,7 @@ def eliminar_asignatura():
     else:
         return render_template("logout.html")
 
-# # Ruta 6 - Ver Asignaturas
+# # Ruta 6 - Ver Asignaturas (Pestaña especializada para estudiantes y docentes)
 @app.route("/asignaturas/vertodos", methods=["GET", "POST"])
 def ver_asignatura():
     if "id_usuario" in session:
@@ -887,8 +905,11 @@ def ver_asignatura():
             with sqlite3.connect("unitolima.db") as con:
                 con.row_factory = sqlite3.Row
                 cursor = con.cursor()
+                cursor2 = con.cursor()
                 cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
+                cursor2.execute("SELECT nombre, apellidos FROM usuario WHERE perfil_id = 3", [codigo])
                 row = cursor.fetchone()
+                row2 = cursor.fetchone()
                 if row:
                     frm.asignatura.data = row["nombre_asignatura"]
                     frm.tipo.data = row["tipo"]
@@ -898,13 +919,14 @@ def ver_asignatura():
                     frm.asignatura.data = ""
                     frm.tipo.data = ""
                     frm.descripcion.data =""
+                    frm.estudiantes.data =""
                     flash("No se ha encontrado la asignatura")
 
         return render_template("ver_asignaturas.html", frm = frm ,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
     
-#--------------------------------------------------------------------------------------------------------#
+# #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 
 #------------------------------------------ APIs FEEDBACK ---------------------------------------------#
@@ -976,7 +998,7 @@ def feedback_student():
     else:
         return render_template("logout.html")
 
-# #--------------------------------------------------------------------------------------------------------#
+# #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 #------------------------------------------ APIs OTROS ---------------------------------------------#
 

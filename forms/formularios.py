@@ -29,6 +29,7 @@ class Registro(FlaskForm):
     editar = SubmitField("Editar ✏",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/update')"}))
     buscar = SubmitField("Buscar 🔎",render_kw=({"onfocus":"cambiaRuta('/usuario/administrar/get')"}))
     consulta=SubmitField("Consultar 🔎")
+    asignatura = StringField("Asignatura")
 
 class VerUsuario(FlaskForm):
     nombres = StringField("Nombres")

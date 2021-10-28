@@ -146,6 +146,21 @@
                                                             {{ error }}
                                                         </div>
                                                         {% endfor %}
+
+                                                    <td>
+                                                        {{ frm.asignatura.label }}
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            {{ frm.asignatura(placeholder="Solo ID estudiantes") }}
+                                                        </strong>
+                                                    </td>
+                                                        {% for error in frm.asignatura.errors %}
+                                                        <div>
+                                                            {{ error }}
+                                                        </div>
+                                                        {% endfor %}
+                                                    
                                                 </tr>
                                                 <tr class="linea_gris">
                                                     <!--<td>
