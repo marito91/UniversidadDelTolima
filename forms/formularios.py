@@ -101,6 +101,16 @@ class Feedback(FlaskForm):
     guardar = SubmitField('Guardar 💾',render_kw=({"onfocus":"cambiaRuta('/feedback/docente')"}))
 
 
+class FeedbackEstudiante(FlaskForm):
+    asignatura = IntegerField("Asignatura")
+    actividad = IntegerField("Actividad")
+    #estudiante = IntegerField("Estudiante")
+    feedback = TextAreaField("Escriba su retroalimentación en este espacio...")
+    ver = SubmitField('Ver 🔎',render_kw=({"onfocus":"cambiaRuta('/feedback/estudiante')"}))
+
+
+
+
 
 class Actividades(FlaskForm):
     id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
