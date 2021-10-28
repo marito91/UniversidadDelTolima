@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas, Feedback
 
 
 
@@ -581,16 +581,20 @@ def buscar():
                     cursor = con.cursor()
                     cursor2 = con.cursor()
                     cursor3 = con.cursor()
+                    cursor4 = con.cursor()
                     cursor.execute("SELECT id_usuario, nombre, apellidos FROM usuario WHERE id_usuario = ?", [codigo])
                     cursor2.execute("SELECT nota_final, asignatura_id FROM nota WHERE usuario_id = ?", [codigo])
                     cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ?", [codigo])
+                    cursor4.execute("SELECT * FROM comentario WHERE usuario_id = ?", [codigo])
                     row = cursor.fetchone()
                     row2 = cursor2.fetchone()
+                    row4 = cursor4.fetchone()
                     if row and row2:
                         frm.codigo.label = row[0]
                         frm.nombre.label = row[1] + " " + row[2]
                         frm.nota.label = str("{0:.2f}".format(row2[0]))
                         frm.asignatura.label = str(row2[1])
+                        frm.retroalimentacion.label = row4[1]
                         flash("Usuario encontrado")
                     else:
 
@@ -884,35 +888,34 @@ def eliminar_asignatura():
 def ver_asignatura():
     if "id_usuario" in session:
         frm = VerAsignaturas()
-        codigo = frm.codigo.data
-        usuarios = []
-        with sqlite3.connect("unitolima.db") as con:
-            con.row_factory = sqlite3.Row
-            cursor = con.cursor()
-            cursor2 = con.cursor()
-            cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
-            cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
-            row2 = cursor2.fetchall()
-            row = cursor.fetchone()
-            if row2:
-                usuarios.append(row2[0])
-            for i in usuarios:
-                print(i)
-
-            if row:
-                frm.asignatura.data = row["nombre_asignatura"]
-                frm.tipo.data = row["tipo"]
-                frm.descripcion.data = row["descripcion"]
-
-                
-                flash("Asignatura encontrada")
-            else:
-                frm.asignatura.data = ""
-                frm.tipo.data = ""
-                frm.descripcion.data =""
-                flash("No se ha encontrado la asignatura")
-
-
+        if frm.validate_on_submit():
+            codigo = frm.codigo.data
+            usuarios = []
+            with sqlite3.connect("unitolima.db") as con:
+                con.row_factory = sqlite3.Row
+                cursor = con.cursor()
+#                cursor2 = con.cursor()
+#                cursor3 = con.cursor()
+                cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
+#                cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
+#                row2 = cursor2.fetchone()
+#                cursor3.execute("SELECT nombre, apellidos FROM usuario WHERE id_usuario = ?", [row2])
+                row = cursor.fetchone()
+#                row3 = cursor3.fetchall()
+                if row:
+                    frm.asignatura.data = row["nombre_asignatura"]
+                    frm.tipo.data = row["tipo"]
+                    frm.descripcion.data = row["descripcion"]
+#                    for row in row3:
+#                        nombre = row[0] + " " + row[1] + ", "
+#                        usuarios.append(nombre)
+#                    frm.estudiantes.data = usuarios
+                    flash("Asignatura encontrada")
+                else:
+                    frm.asignatura.data = ""
+                    frm.tipo.data = ""
+                    frm.descripcion.data =""
+                    flash("No se ha encontrado la asignatura")
 
         return render_template("ver_asignaturas.html", frm = frm ,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -926,14 +929,43 @@ def ver_asignatura():
 
 # #------------------------------------------ APIs FEEDBACK ---------------------------------------------#
 # # Ruta para retroalimentacion para docentes
-@app.route("/feedback/docente", methods=["GET"])
+@app.route("/feedback/docente", methods=["GET", "POST"])
 def feedback_teacher():
-
     if "id_usuario" in session:
-        return render_template("retroalimentacion_docente.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        frm = Feedback()
+        if frm.validate_on_submit():
+            asignatura = frm.asignatura.data
+            actividad = frm.actividad.data
+            estudiante = frm.estudiante.data
+            feedback = frm.feedback.data
+
+            if frm.guardar:
+                # Conecta a base de datos
+                with sqlite3.connect("unitolima.db") as con:
+                    # Crea un cursor para manipular la base de datos
+                    cursor = con.cursor()
+                    # Se preparan las sentencias
+                    cursor.execute("SELECT descripcion FROM comentario WHERE usuario_id = ? AND actividad_id = ? AND asignatura_id = ?", [estudiante, actividad, asignatura])                  
+                    # Si el usuario ya tiene registrada la actividad.
+                    if cursor.fetchone():
+                        flash ("El estudiante ya cuenta con una retroalimentación para esta actividad.")
+                    # Si no que guarde la calificación
+                    else:
+                        # Prepara la sentencia SQL
+                        cursor.execute("INSERT INTO comentario (usuario_id, actividad_id, asignatura_id, descripcion) VALUES (?,?,?,?)", [estudiante, actividad, asignatura, feedback])
+                        # Ejecuta la sentencia SQL
+                        con.commit()
+                        flash ("Comentario guardado con éxito.")
+
+        return render_template("retroalimentacion_docente.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
-# #--------------------------------------------------------------------------------------------------------#
+
+
+
+#--------------------------------------------------------------------------------------------------------#
+
+
 # # Ruta para retroalimentacion estudiante
 @app.route("/feedback/estudiante", methods=["GET"])
 def feedback_student():

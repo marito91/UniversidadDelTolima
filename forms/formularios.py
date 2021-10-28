@@ -93,6 +93,12 @@ class VerAsignaturas(FlaskForm):
     buscar = SubmitField('Buscar 🔎',render_kw=({"onfocus":"cambiaRuta('/asignaturas/vertodos')"}))
 
 
+class Feedback(FlaskForm):
+    asignatura = IntegerField("Asignatura")
+    actividad = IntegerField("Actividad")
+    estudiante = IntegerField("Estudiante")
+    feedback = TextAreaField("Escriba su retroalimentación en este espacio...")
+    guardar = SubmitField('Guardar 💾',render_kw=({"onfocus":"cambiaRuta('/feedback/docente')"}))
 
 
 

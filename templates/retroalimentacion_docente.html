@@ -6,54 +6,71 @@
 <center><p> <span style="background-color:blue; color: #fff; display: inline-block; padding: 5px 200px; font-weight: bold; border-radius: 5px;" >    RETROALIMENTAR ACTIVIDADES    </span></p></center>
 
                         
-                        <form action="">
-                             
+                        <form action="/feedback/docente" method="POST" name="feedbackDocente" id="feedbackDocente" target="_self">
+                            {{ frm.hidden_tag() }}
                             <table style="height: 29px; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto;" border="0" cellpadding="5">
                                 <tbody>
                                 <tr style="height: 15px;">
                                 <td style="width: 25%; height: 12px;">
                                 
                                     <label for="materia">Asignatura: </label>
-                                    <select name="" id="">
+                                    <!--<select name="" id="">
                                         <option>Fundamentos de Programacion</option>
                                         <option>Programacion Basica</option>
                                         <option>Desarrollo de Software</option>
-                                    </select>
-                                
+                                    </select>-->
+                                    {{ frm.asignatura(placeholder="Ingrese ID de asignatura") }}
                                 </td>
+                                    {% for error in frm.asignatura.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
                                 
                                 <td style="width: 27.1442%; height: 12px;">
                                 
                                     <label for="actividad">Actividad: </label>
-                                    <select name="" id="">
+                                    <!--<select name="" id="">
                                     <option>-1- Algoritmos</option>
                                     <option>-2- Condicionales</option>
                                     <option>-3- Ciclos</option>
                                     <option>-4- Bases de datos</option>
                                     <option>-5- Desarrollo de Apps/Web</option>
                                     <option>-6- Proyecto Full Stack</option>
-                                </select>
-
+                                </select>-->
+                                    {{ frm.actividad(placeholder="Ingrese ID de actividad") }}
                                 </td>
+                                    {% for error in frm.actividad.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
                                
                                 </tr>
                                 <tr style="height: px;">
                                 <td style="width: 25%; height: 15px;">
                                     
                                     <label for="actividad">Estudiante: </label>
-                                    <select name="" id="">
+                                    <!--<select name="" id="">
                                     <option>Carlos</option>
                                     <option>Mario</option>
                                     <option>Julian</option>
                                     <option>Amaury</option>
                                     <option>Daniel</option>
-                                </select>
+                                </select>-->
+                                    {{ frm.estudiante(placeholder="Ingrese ID de estudiante") }}
                                 </td>
-                                <td style="width: 25%; height: 15px;">
+                                    {% for error in frm.estudiante.errors %}
+                                        <div>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+
+                                <!--<td style="width: 25%; height: 15px;">
 
                                 <input type="button" value="Buscar">
 
-                                </td>
+                                </td>-->
                                   </tr>
                                 </tbody>
                                 </table>
@@ -67,7 +84,9 @@
                                     <tr style="height: 90px;">
                                     <td style="width: 100%; height: 90px;">
                                     
-                                        <p align="center"><textarea   name="" id="" cols="90" rows="8"></textarea>
+                                        <p align="center">
+                                            <!--<textarea   name="" id="" cols="90" rows="8"></textarea>-->
+                                            {{ frm.feedback(cols="90", rows="8", placeholder="Escriba su retroalimentación en este espacio...") }}
                                         
                                         .
                                     
@@ -82,10 +101,15 @@
                                     </tbody>
                                 </table>   
                             <p align="right">
-                                <input type="button" value="Guardar">
+                                <!--<input type="button" value="Guardar">-->
+                                {{ frm.guardar(value="Guardar") }}
                             </p> 
                             
                             
                         </form>
-
+{% for msg in get_flashed_messages() %}
+<div>
+    {{ msg }}
+</div>
+{% endfor %}
 {% endblock %}
