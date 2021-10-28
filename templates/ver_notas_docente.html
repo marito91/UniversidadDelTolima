@@ -4,7 +4,7 @@
 <center><p> <span style="background-color:blue; color: #fff; display: inline-block; padding: 5px 200px; font-weight: bold; border-radius: 5px;" >    CALIFICACIONES   </span></p></center>
                         
                         
-                        <form action="/notas/visualizar" method="POST" name="notasVisualizar" id="notasVi" target="_self">
+                        <form action="/notas/visualizar/docente" method="POST" name="notasVisualizarDoc" id="notasViDoc" target="_self">
                             {{ frm.hidden_tag() }}
                             <table style="height: 29px; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto;" border="0" cellpadding="5">
                                 <tbody>
@@ -12,10 +12,10 @@
                                 <td style="width: 25%; height: 12px;">
 
                                     <label for="materia">
-                                        Asignatura
+                                        Estudiante
                                     </label>
-                                    {{ frm.materias(placeholder="Ingrese ID de asignatura") }}
-                                    {% for error in frm.materias.errors %}
+                                    {{ frm.estudiantes(placeholder="Ingrese ID de Estudiante") }}
+                                    {% for error in frm.estudiantes.errors %}
                                     <div>
                                         {{ error }}
                                     </div>
@@ -23,7 +23,7 @@
 
 
 
-                                    {{ frm.consultar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+                                    {{ frm.consultarEstudiante(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
                                     
                                 
                                     <!--<label for="materia">Asignatura: </label>
@@ -44,7 +44,7 @@
                                 <table width="336" style="width: 378px; margin-left: auto; margin-right: auto; height: 184px;">
                                     <thead>
                                     <tr style="background-color: #6df771; text-align: center; border: black;">
-                                    <td style="width: 58.6094px; height: 50px;"><strong>Asignatura</strong></td>
+                                    <td style="width: 58.6094px; height: 50px;"><strong>Estudiante</strong></td>
                                     <td style="width: 91.8281px; height: 50px;"><strong>Corte</strong></td>
                                     <td style="width: 101.219px; height: 50px;"><strong>Actividad</strong></td>
                                     <td style="width: 98.3438px; height: 50px;"><strong>Nota</strong></td>
@@ -54,9 +54,9 @@
                                     <tbody>
                                     <tr style="height: 27px;">
                                     <td style="width: 58.6094px; text-align: center; height: 27px;">
-                                        {{ frm.materias.label }}
+                                        {{ frm.estudiantes.label }}
                                     </td>
-                                        {% for error in frm.materias.errors %}
+                                        {% for error in frm.estudiantes.errors %}
                                         <div>
                                             {{ error }}
                                         </div>
@@ -82,9 +82,9 @@
 
                                     <tr style="height: 25px;background-color: #ADFFB0;">
                                     <td style="width: 58.6094px; text-align: center; height: 25px;">
-                                        {{ frm.materias.label }}
+                                        {{ frm.estudiantes.label }}
                                     </td>
-                                        {% for error in frm.materias.errors %}
+                                        {% for error in frm.estudiantes.errors %}
                                         <div>
                                             {{ error }}
                                         </div>
@@ -110,9 +110,9 @@
                                     
                                     <tr style="height: 18px;">
                                     <td style="width: 58.6094px; text-align: center; height: 18px;">
-                                        {{ frm.materias.label }}
+                                        {{ frm.estudiantes.label }}
                                     </td>
-                                        {% for error in frm.materias.errors %}
+                                        {% for error in frm.estudiantes.errors %}
                                         <div>
                                             {{ error }}
                                         </div>

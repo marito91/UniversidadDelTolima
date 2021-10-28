@@ -13,7 +13,12 @@
                     Notas
                 </a> 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="/notas/visualizar">Ver notas</a></li> 
+                    {% if TypeUser=="Docente" or TypeUser== "Admin" %} 
+                    <li><a class="dropdown-item" href="/notas/visualizar/docente">Ver notas</a></li> 
+                    {% endif %} 
+                    {% if TypeUser=="Estudiante" %} 
+                    <li><a class="dropdown-item" href="/notas/visualizar">Ver notas</a></li>
+                    {% endif %}  
                     {% if TypeUser=="Docente" or TypeUser== "Admin" %} 
                     <li><a class="dropdown-item" href="/notas/ingresar">Ingresar notas</a></li>  <!--comment for student -- href="#">Ingresar notas-->
                     {% endif %}   
