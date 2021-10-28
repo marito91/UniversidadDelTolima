@@ -972,8 +972,35 @@ def feedback_student():
         if frm.validate_on_submit():
             asignatura = frm.asignatura.data
             actividad = frm.actividad.data
-            estudiante = frm.estudiante.data
             feedback = frm.feedback.data
+
+            if frm.ver:
+                # Conecta a base de datos
+                with sqlite3.connect("unitolima.db") as con:
+                    # Crea un cursor para manipular la base de datos
+                    cursor = con.cursor()
+                    # Se preparan las sentencias
+                    cursor.execute("SELECT actividad_id, descripcion FROM comentario WHERE asignatura_id = ?", [asignatura])                  
+
+                    for row in cursor.fetchall():               
+                            if row:
+                                if row[0] == 1:
+                                    frm.materias.label = row[3]
+                                    frm.a1.label = row[1]
+                                    frm.f1.label = row[2]
+                                    a = row[2]
+                                if row[0] == 2:
+                                    frm.materias.label = row[3]
+                                    frm.a2.label = row[1]
+                                    frm.f2.label = row[2]
+                                    b = row[2]
+                                if row[0] == 3:
+                                    frm.materias.label = row[3]
+                                    frm.a3.label = row[1]
+                                    frm.f3.label = row[2]
+                                    c = row[2]
+                                elif row[0] != 1 and row[0] != 2 and row[0] != 3:
+                                    flash("No se encontraron calificaciones registradas")
 
         return render_template("retroalimentacion_estudiante.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
