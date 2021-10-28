@@ -174,7 +174,7 @@ def registro_usuario():
         #usuario = frm.usuario.data
         #id = frm.id.data
         doctype = frm.tipoDocumento.data
-        documento = frm.documento.data
+        documento = frm.buscador.data
 
         perfil = frm.perfil.data
         # Se asigna el perfil como Dios manda
@@ -194,7 +194,7 @@ def registro_usuario():
         celular = frm.celular.data
         correo = frm.email.data
         observaciones = frm.observaciones.data
-        password = str(frm.documento.data)
+        password = str(frm.buscador.data)
 
         # if frm.guardar:
         #     # Cifrar contraseña
@@ -218,7 +218,9 @@ def registro_usuario():
         return render_template("administraccion_usuario.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")    
+
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # # Ruta para editar usuarios    
 @app.route("/usuario/update", methods=["GET", "POST"])
 def editar_usuario():
@@ -333,8 +335,7 @@ def ver_usuario():
 
 
 
-# # Ruta para eliminar usuarios
-
+# Ruta para eliminar usuarios
 
 @app.route("/usuario/administrar/delete", methods=["GET", "POST"])
 def eliminarUser():
@@ -433,7 +434,8 @@ def buscarEliminar():
         return render_template("logout.html")
 
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-# # Ruta para ver usuarios en el caso del profesor
+
+# Ruta para ver usuarios en el caso del profesor
 @app.route("/estudiante/ver", methods=["GET", "POST"])
 def ver_estudiante():
     frm = Registro()
@@ -589,14 +591,14 @@ def buscar():
                     cursor2 = con.cursor()
                     cursor3 = con.cursor()
                     cursor.execute("SELECT id_usuario, nombre, apellidos FROM usuario WHERE id_usuario = ?", [codigo])
-                    cursor2.execute("SELECT nota_final, asignatura_id FROM nota WHERE id_usuario = ?", [codigo])
+                    cursor2.execute("SELECT nota_final, asignatura_id FROM nota WHERE usuario_id = ?", [codigo])
                     cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ?", [codigo])
                     row = cursor.fetchone()
                     row2 = cursor2.fetchone()
                     if row and row2:
                         frm.codigo.label = row[0]
                         frm.nombre.label = row[1] + " " + row[2]
-                        frm.nota.label = str(row2[0])
+                        frm.nota.label = str("{0:.2f}".format(row2[0]))
                         frm.asignatura.label = str(row2[1])
                         flash("Usuario encontrado")
                     else:
@@ -738,7 +740,7 @@ def notas():
                     cursor2 = con.cursor()
                     cursor3 = con.cursor()
                     # Se preparan las sentencias
-                    cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ? AND perfil_id = 3", [int(usuario)])
+                    cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ? AND perfil_id = '3'", [int(usuario)])
                     cursor2.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [asignatura])
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
                     
@@ -807,7 +809,9 @@ def buscar_asignatura():
         return render_template ("registrar_asignaturas_superadmin.html", frm = frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------
 @app.route("/asignaturas/registrar", methods=["GET", "POST"])
 def registrar_asignatura():
     if "id_usuario" in session:
@@ -820,7 +824,7 @@ def registrar_asignatura():
         with sqlite3.connect("unitolima.db") as con:
             con.row_factory = sqlite3.Row
             cursor = con.cursor()
-            cursor.execute("INSERT INTO asignatura (nombre_asignatura, tipo, descripcion ) VALUES (?,?,?)", [asignatura, tipo, descripcion])  
+            cursor.execute("INSERT INTO asignatura (id_asignatura, nombre_asignatura, tipo, descripcion) VALUES (?,?,?)", [codigo, asignatura, tipo, descripcion])  
             # row = cursor.fetchone()
             if con.total_changes>0:
                 flash("Asignatura registrada")
