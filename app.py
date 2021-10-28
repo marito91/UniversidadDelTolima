@@ -592,7 +592,6 @@ def buscar():
 @app.route("/notas/visualizar", methods=["GET", "POST"])
 def ver_notas():
     frm = VerNotas()
-    notas = [] 
     if "id_usuario" in session:
         if frm.validate_on_submit():
             asignatura = frm.materias.data
@@ -615,15 +614,19 @@ def ver_notas():
                             if row[0] == 1:
                                 frm.a1.data = row[1]
                                 frm.n1.data = row[2]
+                                a = row[2]
                             if row[0] == 2:
                                 frm.a2.data = row[1]
                                 frm.n2.data = row[2]
+                                b = row[2]
                             if row[0] == 3:
                                 frm.a3.data = row[1]
                                 frm.n3.data = row[2]
+                                c = row[2]
                             elif row[0] != 1 and row[0] != 2 and row[0] != 3:
                                 flash("No se encontraron calificaciones registradas")
-                    print(row)
+                    promedio = (a+b+c)/3
+                    frm.notaFinal.data = str("{0:.2f}".format(promedio))
 
         return render_template("ver_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:

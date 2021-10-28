@@ -57,7 +57,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">
-                                                                    {{ frm.instrucciones_actividad }}
+                                                                    {{ frm.instrucciones_actividad(rows="5", cols="45") }}
                                                                 
                                                                     {% for errors in frm.instrucciones_actividad.errors %}
                                                                         <div>{{ error }}</div>

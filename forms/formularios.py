@@ -71,6 +71,7 @@ class VerNotas(FlaskForm):
     n1 = StringField("Nota 1")
     n2 = StringField("Nota 2")
     n3 = StringField("Nota 3")
+    notaFinal = StringField("Nota Final")
 
 
 class Asignaturas(FlaskForm):
