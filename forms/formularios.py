@@ -84,6 +84,18 @@ class Asignaturas(FlaskForm):
     editar = SubmitField("Actualizar ✏",render_kw=({"onfocus":"cambiaRuta('/asignaturas/editar')"}))
 
 
+class VerAsignaturas(FlaskForm):
+    codigo = IntegerField("Codigo", validators = [DataRequired("Por favor llene este campo")])
+    asignatura = StringField("Nombre de la asignatura")
+    tipo = SelectField("Tipo de Asignatura", choices = ["Por definir","ELECTIVA", "FORMACION BASICA", "OBLIGATORIA", "PRACTICAS", "OTRO"])
+    descripcion = TextAreaField("Descripción de la asignatura")
+    estudiantes = TextAreaField("Estudiantes matriculados")
+    buscar = SubmitField('Buscar 🔎',render_kw=({"onfocus":"cambiaRuta('/asignaturas/vertodos')"}))
+
+
+
+
+
 class Actividades(FlaskForm):
     id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
     tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"], validators = [DataRequired("Por favor llene este campo")])
@@ -93,6 +105,16 @@ class Actividades(FlaskForm):
     instrucciones_actividad = TextAreaField("Instrucciones")
     registrar_actividad = SubmitField("Registrar")  # OJO - falta adicionar botón registrar en menu Registrar actividades
     consultar_actividad = SubmitField("Consultar Actividad")        # OJO - falta adicionar botón
+
+
+class VerActividades(FlaskForm):
+    id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
+    tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
+    nombre_actividad = StringField("Nombre Actividad")
+    id_asignatura_fk = StringField("ID Asignatura*", validators = [DataRequired("Por favor llene este campo")])
+    fecha_actividad = DateTimeField("Fecha de Entrega")
+    instrucciones_actividad = TextAreaField("Instrucciones")
+    consultar = SubmitField("Consultar")
 
 
 class BuscarEstudiante(FlaskForm):

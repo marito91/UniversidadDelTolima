@@ -3,7 +3,8 @@
 
 {% block form %}
 
-<form action="?opcion=interlocutor&a=guardar" method="post" name="form_interlocutor" id="form_interlocutor" target="_self">
+<form action="/asignaturas/vertodos" method="POST" name="verAsignatura" id="verAsignatura" target="_self">
+    {{ frm.hidden_tag() }}
     <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
     <div align="center" id="interlocutorform">
         <div align="right">
@@ -34,13 +35,14 @@
                                                 </tr>
                                                 <tr class="linea_blanca">
                                                     <td style="width:16%;">
-                                                        Asignatura<span class="requerido">*</span>
+                                                        Código Asignatura<span class="requerido">*</span>
                                                     </td> 
                                                     <td style="width:40%">
-                                                        <select name="interlocutor[asignatura]" type="text" id="asignatura" value="" class="campoFormulario" maxlength="49" autocomplete="off">
+                                                        <!--<select name="interlocutor[asignatura]" type="text" id="asignatura" value="" class="campoFormulario" maxlength="49" autocomplete="off">
                                                             <option value="1">-FU-Fundamentos de Programación</option>
                                                             <option value="2" selected="">-PB-Programacion Basica</option>
-                                                            <option value="3" selected="">-DS-Desarrollo de Software</option>
+                                                            <option value="3" selected="">-DS-Desarrollo de Software</option>-->
+                                                        {{ frm.codigo(placeholder="Ingrese ID asignatura") }}
                                                     </td>
                                                     <!--<td style="width:10%">
                                                         Docente<span class="requerido">*</span>
@@ -58,17 +60,18 @@
                                                 </tr>-->
                                                 <tr class="linea_gris">
                                                     <td>
-                                                        Clase de Asignatura<span class="requerido">*</span>
+                                                        Tipo de Asignatura
                                                     <td>
                                                         <strong>
-                                                            <select name="interlocutor[clase_asignatura]" size="1" id="clase_asignatura" class="campoFormulario">
+                                                            <!--<select name="interlocutor[clase_asignatura]" size="1" id="clase_asignatura" class="campoFormulario">
                                                                 <option value="1">1-Ciclo Básico</option>
                                                                 <option value="2" selected="">2-Obligatoria</option>
                                                                 <option value="3" selected="">3-Electiva</option>
-                                                            </select>
+                                                            </select>-->
+                                                            {{ frm.tipo(size="1", id="clase_asignatura", class="campoFormulario") }}
                                                         </strong>
                                                     </td>
-                                                    <td>
+                                                    <!--<td>
                                                         Estado de Asignatura<span class="requerido">*</span>
                                                     </td>
                                                     <td>
@@ -82,25 +85,28 @@
                                                                 </select>
                                                             </div>	
                                                         </strong>	
-                                                    </td>
+                                                    </td>-->
                                                 </tr>
                                                 
                                                 <tr class="linea_gris">
                                                     <td>
-                                                        Tipo de Asignatura<span class="requerido">*</span>
+                                                        {{ frm.asignatura.label }}
                                                     </td>
-                                                    <td colspan="3">
+                                                    <!--<td colspan="3">
                                                         <input name="interlocutor[tipo_asignatura]" type="text" size="70" id="tipo_asignatura" class="campoFormulario" title="tipo de asignatura" maxlength="100" placeholder="Ejemplo: Indica en que consiste la asignatura">
+                                                    </td>-->
+                                                    <td>
+                                                        {{ frm.asignatura(size="70", id="tipo_asignatura", class="campoFormulario", title="tipo de asignatura", maxlength="100") }}
                                                     </td>
                                                 </tr>
     
                                                     <td width="136" class="date">Fecha Calificación</td> <!--adicioné class="date"-->
                                                     <td> 
                                                         <strong>
-                                                            <input name="fecha_calificacion" size="1" id="fecha_calificacion" required type="datetime-local">
+                                                            <input name="fecha_calificacion" size="1" id="fecha_calificacion" type="datetime-local">
                                                         </strong>
                                                     </td>
-                                                    <!-- desplegar calificación-->
+                                                    <!-- desplegar calificación
                                                     <td>
                                                         Estudiante
                                                     </td>
@@ -114,7 +120,7 @@
                                                                 <option value="5" selected="">Daniel</option>							
                                                             </select>
                                                         </div>
-                                                    </td>
+                                                    </td>-->
                                                 </tr>
                                                 <tr class="linea_gris">
                                                     <td>
@@ -131,7 +137,14 @@
                                                             <input name="interlocutor[nota_final_asig]" type="text" id="nota_final_asig" value="" maxlength="5" class="campoFormulario" autocomplete="off">
                                                         </div>
                                                     </td>-->
+                                                    
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        {{ frm.buscar(href="javascript:void(0)", class="btn btn-primary", onclick="") }}
+                                                    </td>
+                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </td>
@@ -147,5 +160,10 @@
     </div>
     </div>
 </form>
+{% for msg in get_flashed_messages() %}
+<div>
+    {{ msg }}
+</div>
+{% endfor %}
 {% endblock %}
 
