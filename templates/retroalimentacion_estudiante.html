@@ -5,21 +5,23 @@
 <center><p> <span style="background-color:blue; color: #fff; display: inline-block; padding: 5px 200px; font-weight: bold; border-radius: 5px;" >    RETROALIMENTACIONES DE ACTIVIDADES    </span></p></center>
 
                         
-<form action="">
-     
+<form action="/feedback/estudiante" method="POST" name="feedbackEstudiante" id="feedbackEstudiante" target="_self">
+    {{ frm.hidden_tag() }}
     <table style="height: 29px; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto;" border="0" cellpadding="5">
         <tbody>
         <tr style="height: 15px;">
         <td style="width: 25%; height: 12px;">
         
             <label for="materia">Asignatura: </label>
-            <select name="" id="">
+            <!--<select name="" id="">
                 <option>-FU-Fundamentos de Programacion</option>
                 <option>-PB-Programacion Basica</option>
                 <option>-DS-Desarrollo de Software</option>
             </select>
         
-            <input type="button" value="Ver">
+            <input type="button" value="Ver">-->
+            {{ frm.asignatura(placeholder="Ingrese ID de asignatura") }}
+            {{ frm.ver }}
         </td>
         
         <p align="center">
@@ -27,21 +29,43 @@
                 <tbody>
                 <tr  style="height: 18px;">
                 <th style="width: 31.2%; height: 18px; background-color: #87bcde; vertical-align: middle;"><strong>Actividad</strong></th>
-                <td style="width: 66.8672%; height: 18px; background-color: #87bcde; vertical-align: middle;"><strong>Retroalimentacion&nbsp;</strong></td>
+                <td style="width: 66.8672%; height: 18px; background-color: #87bcde; vertical-align: middle;"><strong>Retroalimentación&nbsp;</strong></td>
                 </tr>
+
                 <tr style="height: 18px">
-                <td style="width: 31.2%; height: 18px;">-1- Algoritmos</td>
-                <td style="width: 66.8672%; height: 18px;">cumplio con los requisitos</td>
+                <td style="width: 31.2%; height: 18px;">
+                    {{ frm.a1.label }}
+                </td>
+
+                <td style="width: 66.8672%; height: 18px;">
+                    {{ frm.f1.label }}
+                </td>
+
                 </tr>
+
                 <tr style="height: 18px">
-                <td style="width: 31.2%; height: 18px;">-2- Condicionales</td>
-                <td style="width: 66.8672%; height: 18px;">mejorar nota practicando</td>
+                <td style="width: 31.2%; height: 18px;">
+                    {{ frm.a2.label }}
+                </td>
+
+                <td style="width: 66.8672%; height: 18px;">
+                    {{ frm.f2.label }}
+                </td>
+
                 </tr>
+
                 <tr style="height: 19px">
-                <td style="width: 31.2%; height: 19px;">-3- Ciclos</td>
-                <td style="width: 66.8672%; height: 19px;">cumplio con los requisitos</td>
+                <td style="width: 31.2%; height: 19px;">
+                    {{ frm.a3.label }}
+                </td>
+
+                <td style="width: 66.8672%; height: 19px;">
+                    {{ frm.f3.label }}
+                </td>
+
                 </tr>
-                <tr style="height: 18px">
+
+                <!--<tr style="height: 18px">
                 <td style="width: 31.2%; height: 18px;">-4- Bases de Datos</td>
                 <td style="width: 66.8672%; height: 18px;">excelente cumplimiento</td>
                 </tr>
@@ -52,7 +76,7 @@
                 <tr style="height: 18px">
                 <td style="width: 31.2%; height: 18px;">-6- Proyecto Full Stack</td>
                 <td style="width: 66.8672%; height: 18px;">retroalimentacion</td>
-                </tr>
+                </tr>-->
                 </tbody>
                 </table>
         </p>
@@ -61,5 +85,9 @@
         </tbody>
         </table>
 </form>
-
+{% for msg in get_flashed_messages() %}
+<div>
+    {{ msg }}
+</div>
+{% endfor %}
 {% endblock %}

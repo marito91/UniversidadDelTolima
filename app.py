@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas, Feedback
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas, Feedback, FeedbackEstudiante
 
 
 
@@ -637,18 +637,18 @@ def ver_notas():
                         if row:
                             if row[0] == 1:
                                 frm.materias.label = row[3]
-                                frm.a1.data = row[1]
-                                frm.n1.data = row[2]
+                                frm.a1.label = row[1]
+                                frm.n1.label = row[2]
                                 a = row[2]
                             if row[0] == 2:
                                 frm.materias.label = row[3]
-                                frm.a2.data = row[1]
-                                frm.n2.data = row[2]
+                                frm.a2.label = row[1]
+                                frm.n2.label = row[2]
                                 b = row[2]
                             if row[0] == 3:
                                 frm.materias.label = row[3]
-                                frm.a3.data = row[1]
-                                frm.n3.data = row[2]
+                                frm.a3.label = row[1]
+                                frm.n3.label = row[2]
                                 c = row[2]
                             elif row[0] != 1 and row[0] != 2 and row[0] != 3:
                                 flash("No se encontraron calificaciones registradas")
@@ -686,18 +686,18 @@ def ver_notas_docente():
                         if row:
                             if row[0] == 1:
                                 frm.estudiantes.label = row[3]
-                                frm.a1.data = row[1]
-                                frm.n1.data = row[2]
+                                frm.a1.label = row[1]
+                                frm.n1.label = row[2]
                                 a = row[2]
                             if row[0] == 2:
                                 frm.estudiantes.label = row[3]
-                                frm.a2.data = row[1]
-                                frm.n2.data = row[2]
+                                frm.a2.label = row[1]
+                                frm.n2.label = row[2]
                                 b = row[2]
                             if row[0] == 3:
                                 frm.estudiantes.label = row[3]
-                                frm.a3.data = row[1]
-                                frm.n3.data = row[2]
+                                frm.a3.label = row[1]
+                                frm.n3.label= row[2]
                                 c = row[2]
                             elif row[0] != 1 and row[0] != 2 and row[0] != 3:
                                 flash("No se encontraron calificaciones registradas")
@@ -924,11 +924,11 @@ def ver_asignatura():
 
 
 
-# #--------------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
 
 
-# #------------------------------------------ APIs FEEDBACK ---------------------------------------------#
-# # Ruta para retroalimentacion para docentes
+#------------------------------------------ APIs FEEDBACK ---------------------------------------------#
+# Ruta para retroalimentacion para docentes
 @app.route("/feedback/docente", methods=["GET", "POST"])
 def feedback_teacher():
     if "id_usuario" in session:
@@ -961,17 +961,48 @@ def feedback_teacher():
     else:
         return render_template("logout.html")
 
-
-
 #--------------------------------------------------------------------------------------------------------#
 
 
-# # Ruta para retroalimentacion estudiante
+# Ruta para retroalimentacion estudiante
 @app.route("/feedback/estudiante", methods=["GET"])
 def feedback_student():
-
     if "id_usuario" in session:
-        return render_template("retroalimentacion_estudiante.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        frm = FeedbackEstudiante()
+        if frm.validate_on_submit():
+            asignatura = frm.asignatura.data
+            actividad = frm.actividad.data
+            feedback = frm.feedback.data
+
+            if frm.ver:
+                # Conecta a base de datos
+                with sqlite3.connect("unitolima.db") as con:
+                    # Crea un cursor para manipular la base de datos
+                    cursor = con.cursor()
+                    # Se preparan las sentencias
+                    cursor.execute("SELECT actividad_id, descripcion FROM comentario WHERE asignatura_id = ?", [asignatura])                  
+
+                    for row in cursor.fetchall():               
+                            if row:
+                                if row[0] == 1:
+                                    frm.materias.label = row[3]
+                                    frm.a1.label = row[1]
+                                    frm.f1.label = row[2]
+                                    a = row[2]
+                                if row[0] == 2:
+                                    frm.materias.label = row[3]
+                                    frm.a2.label = row[1]
+                                    frm.f2.label = row[2]
+                                    b = row[2]
+                                if row[0] == 3:
+                                    frm.materias.label = row[3]
+                                    frm.a3.label = row[1]
+                                    frm.f3.label = row[2]
+                                    c = row[2]
+                                elif row[0] != 1 and row[0] != 2 and row[0] != 3:
+                                    flash("No se encontraron calificaciones registradas")
+
+        return render_template("retroalimentacion_estudiante.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
 # #--------------------------------------------------------------------------------------------------------#
