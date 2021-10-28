@@ -764,11 +764,14 @@ def notas():
                     cursor2.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [asignatura])
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
                     list = cursor3.fetchone()
-                    id = list[0]
-                    print(id) #Revision de funcionamiento
+                    if list != None:
+                        id = list[0]
+                        print(id) #Revision de funcionamiento
+                    else:
+                        flash("Usuario no encontrado")
 
                     # Si existe el usuario
-                    if int(usuario) == id:
+                    if list != None:
                         # Si existe la asignatura
                         if cursor2.fetchone():
                             # Si el usuario ya tiene registrada la actividad.
