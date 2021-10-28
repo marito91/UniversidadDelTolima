@@ -95,6 +95,7 @@ def inicio():
 
 
 # #--------------------------------------------- APIs REGISTROS Y USUARIOS --------------------------------#
+
 # # Registro de usuarios 
 @app.route("/usuario/administrar", methods=["GET", "POST"])
 def administrar():
@@ -105,6 +106,7 @@ def administrar():
     else:
         return render_template("logout.html") 
 
+# # Ruta para buscar usuarios 
 @app.route("/usuario/administrar/get", methods=["GET", "POST"])
 def get_usuario():
     frm = Registro()
@@ -165,6 +167,7 @@ def get_usuario():
     else:
         return render_template("logout.html")
 
+# # Ruta para registrar usuarios 
 @app.route("/usuario/administrar/save", methods=["GET", "POST"])
 def registro_usuario():
     frm = Registro()
@@ -219,8 +222,6 @@ def registro_usuario():
     else:
         return render_template("logout.html")    
 
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 # # Ruta para editar usuarios    
 @app.route("/usuario/administrar/update", methods=["GET", "POST"])
 def editar_usuario():
@@ -270,10 +271,7 @@ def editar_usuario():
     else:
         return render_template("logout.html")
 
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 # # Ruta para ver usuarios en el caso del admin
-
-
 @app.route("/usuario/ver", methods=["GET", "POST"])
 def ver_usuario():
     frm = Registro()
@@ -332,11 +330,7 @@ def ver_usuario():
     else:
         return render_template("logout.html")
 
-
-
-
 # Ruta para eliminar usuarios
-
 @app.route("/usuario/administrar/delete", methods=["GET", "POST"])
 def eliminarUser():
     
@@ -376,7 +370,7 @@ def eliminarUser():
     else:
         return render_template("logout.html")
 
-
+# # Ruta para buscar usuarios
 @app.route("/usuario/eliminar/get", methods=["GET", "POST"])
 def buscarEliminar():
     if "id_usuario" in session:
@@ -433,9 +427,7 @@ def buscarEliminar():
     else:
         return render_template("logout.html")
 
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# Ruta para ver usuarios en el caso del profesor
+# Ruta para ver estudiantes para el caso del profesor
 @app.route("/estudiante/ver", methods=["GET", "POST"])
 def ver_estudiante():
     frm = Registro()
@@ -491,18 +483,11 @@ def ver_estudiante():
     else:
         return render_template("logout.html")
 
-
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# #------------------------------------------- APIs DASHBOARD ---------------------------------------------#
-# #@app.route("/dashboard", methods=["GET", "POST"])
-# #def user_info():
-# #    return render_template("dashboard.html") 
-# #--------------------------------------------------------------------------------------------------------#
-
-
 # #------------------------------------------ APIs ACTIVIDADES ------------------------------------------------------------------#
+
 # # Ruta 1 crear actividad
 @app.route("/actividad/registrar", methods=["GET", "POST"])
 def crear_actividad():
@@ -568,12 +553,14 @@ def ver_actividad():
         return render_template("detalle_actividad.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
+
 # #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 
 
 # #------------------------------------------- APIs BUSCADOR ----------------------------------------------#
-# # Ruta 1
+
+# # Ruta Buscar
 @app.route("/buscador", methods=["GET", "POST"])
 def buscar():
     frm = BuscarEstudiante()
@@ -611,11 +598,11 @@ def buscar():
     else:
         return render_template("logout.html")
     
-
 # #--------------------------------------------------------------------------------------------------------#
 
 
 # #---------------------------------------------- APIs NOTAS -----------------------------------------------#
+
 # Ruta VER NOTAS
 @app.route("/notas/visualizar", methods=["GET", "POST"])
 def ver_notas():
@@ -669,8 +656,7 @@ def ver_notas():
     else:
         return render_template("logout.html")
 
-
-# Ruta de los docentes para ver notas de los estudiantes
+# Ruta de los docentes para ver notas de los estudiantes y poner nota final
 @app.route("/notas/visualizar/docente", methods=["GET", "POST"])
 def ver_notas_docente():
     frm = VerNotas()
@@ -725,7 +711,6 @@ def ver_notas_docente():
     else:
         return render_template("logout.html")
 
-
 # Ruta INGRESAR NOTAS
 @app.route("/notas/ingresar", methods=["GET", "POST"])
 def notas():
@@ -773,12 +758,13 @@ def notas():
         return render_template("ingresar_notas.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
+
 # #--------------------------------------------------------------------------------------------------------#
 
 
 # #---------------------------------------------- APIs ASIGNATURAS -----------------------------------------------#
 
-# # Ruta 1 - Registrar asignaturas
+# # Ruta 1 - Atterizaje para administrar asignaturas
 @app.route("/asignaturas/administracion", methods=["GET", "POST"])
 def administrar_asignatura():
     if "id_usuario" in session:
@@ -788,6 +774,7 @@ def administrar_asignatura():
     else:
         return render_template("logout.html")
 
+# # Ruta 2 - Ver asignaturas
 @app.route("/asignaturas/get", methods=["GET", "POST"])
 def buscar_asignatura():
     if "id_usuario" in session:
@@ -817,8 +804,7 @@ def buscar_asignatura():
     else:
         return render_template("logout.html")
 
-
-#---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# # Ruta 3 - Registrar asignaturas
 @app.route("/asignaturas/registrar", methods=["GET", "POST"])
 def registrar_asignatura():
     if "id_usuario" in session:
@@ -844,8 +830,7 @@ def registrar_asignatura():
     else:
         return render_template("logout.html")
 
-
-# # Ruta 2 - Editar Asignaturas
+# # Ruta 4 - Editar Asignaturas
 @app.route("/asignaturas/editar", methods=["GET", "POST"])
 def editar_asignatura():
     if "id_usuario" in session:
@@ -870,9 +855,7 @@ def editar_asignatura():
     else:
         return render_template("logout.html")
 
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# # Ruta 3 - Eliminar Asignaturas
+# # Ruta 5 - Eliminar Asignaturas
 @app.route("/asignaturas/eliminar", methods=["GET", "POST"])
 def eliminar_asignatura():
     if "id_usuario" in session:
@@ -893,9 +876,7 @@ def eliminar_asignatura():
     else:
         return render_template("logout.html")
 
-# #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# # Ruta 4 - Ver Asignaturas
+# # Ruta 6 - Ver Asignaturas
 @app.route("/asignaturas/vertodos", methods=["GET", "POST"])
 def ver_asignatura():
     if "id_usuario" in session:
@@ -923,13 +904,11 @@ def ver_asignatura():
     else:
         return render_template("logout.html")
     
-
-
-
 #--------------------------------------------------------------------------------------------------------#
 
 
 #------------------------------------------ APIs FEEDBACK ---------------------------------------------#
+
 # Ruta para retroalimentacion para docentes
 @app.route("/feedback/docente", methods=["GET", "POST"])
 def feedback_teacher():
@@ -962,9 +941,6 @@ def feedback_teacher():
         return render_template("retroalimentacion_docente.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
-
-#--------------------------------------------------------------------------------------------------------#
-
 
 # Ruta para retroalimentacion estudiante
 @app.route("/feedback/estudiante", methods=["GET", "POST"])
@@ -999,7 +975,10 @@ def feedback_student():
         return render_template("retroalimentacion_estudiante.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
+
 # #--------------------------------------------------------------------------------------------------------#
+
+#------------------------------------------ APIs OTROS ---------------------------------------------#
 
 # # Ruta para ver datos de la persona que inicio sesion
 @app.route("/misdatos", methods=["GET"])
@@ -1039,6 +1018,7 @@ def misdatos():
     else:
         return render_template("logout.html")
 # #--------------------------------------------------------------------------------------------------------#
+
 # # Ruta para ver datos de la persona que inicio sesion
 @app.route("/misdatos/password", methods=["GET","POST"])
 def updatePass():
