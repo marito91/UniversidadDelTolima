@@ -545,7 +545,6 @@ def ver_actividad():
     if "id_usuario" in session:
         if frm.validate_on_submit(): 
             id_actividad = frm.id_actividad.data
-            id_asignatura = frm.id_asignatura_fk.data
             if frm.consultar:
                 with sqlite3.connect("unitolima.db") as con:
                     con.row_factory = sqlite3.Row
@@ -904,22 +903,12 @@ def ver_asignatura():
             with sqlite3.connect("unitolima.db") as con:
                 con.row_factory = sqlite3.Row
                 cursor = con.cursor()
-#                cursor2 = con.cursor()
-#                cursor3 = con.cursor()
                 cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
-#                cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
-#                row2 = cursor2.fetchone()
-#                cursor3.execute("SELECT nombre, apellidos FROM usuario WHERE id_usuario = ?", [row2])
                 row = cursor.fetchone()
-#                row3 = cursor3.fetchall()
                 if row:
                     frm.asignatura.data = row["nombre_asignatura"]
                     frm.tipo.data = row["tipo"]
                     frm.descripcion.data = row["descripcion"]
-#                    for row in row3:
-#                        nombre = row[0] + " " + row[1] + ", "
-#                        usuarios.append(nombre)
-#                    frm.estudiantes.data = usuarios
                     flash("Asignatura encontrada")
                 else:
                     frm.asignatura.data = ""
