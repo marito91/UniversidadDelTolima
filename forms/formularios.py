@@ -84,6 +84,18 @@ class Asignaturas(FlaskForm):
     editar = SubmitField("Actualizar ✏",render_kw=({"onfocus":"cambiaRuta('/asignaturas/editar')"}))
 
 
+class VerAsignaturas(FlaskForm):
+    codigo = IntegerField("Codigo", validators = [DataRequired("Por favor llene este campo")])
+    asignatura = StringField("Nombre de la asignatura")
+    tipo = SelectField("Tipo de Asignatura", choices = ["Por definir","ELECTIVA", "FORMACION BASICA", "OBLIGATORIA", "PRACTICAS", "OTRO"])
+    descripcion = TextAreaField("Descripción de la asignatura")
+    estudiantes = TextAreaField("Estudiantes matriculados")
+    buscar = SubmitField('Buscar 🔎',render_kw=({"onfocus":"cambiaRuta('/asignaturas/vertodos')"}))
+
+
+
+
+
 class Actividades(FlaskForm):
     id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
     tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"], validators = [DataRequired("Por favor llene este campo")])

@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
-from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades
+from forms.formularios import Actividades, Asignaturas, Login, Registro, Notas, VerNotas, BuscarEstudiante, VerActividades, VerAsignaturas
 
 
 
@@ -518,9 +518,10 @@ def crear_actividad():
                 with sqlite3.connect("unitolima.db") as con:
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
-                        # Si existe un usuario
+                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ? AND id_asignatura_fk = ?", [id_actividad, id_asignatura_fk])
+                    # Si existe un la asignatura
                     if cursor.fetchone():
-                        flash ("La actividad se encuentra registrada")
+                        flash (f"La actividad {id_actividad} ya se encuentra registrada para la asignatura {id_asignatura_fk} en la base de datos.")
                     # Si no que guarde uno
                     else:
                         # Prepara la sentencia SQL
@@ -882,7 +883,36 @@ def eliminar_asignatura():
 @app.route("/asignaturas/vertodos", methods=["GET", "POST"])
 def ver_asignatura():
     if "id_usuario" in session:
-        return render_template("ver_asignaturas.html",UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        frm = VerAsignaturas()
+        codigo = frm.codigo.data
+        usuarios = []
+        with sqlite3.connect("unitolima.db") as con:
+            con.row_factory = sqlite3.Row
+            cursor = con.cursor()
+            cursor2 = con.cursor()
+            cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
+            cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
+            row2 = cursor2.fetchall()
+            row = cursor.fetchone()
+            for i in row2:
+                usuarios.append(i)
+            print(usuarios)
+            if row:
+                frm.asignatura.data = row["nombre_asignatura"]
+                frm.tipo.data = row["tipo"]
+                frm.descripcion.data = row["descripcion"]
+
+                
+                flash("Asignatura encontrada")
+            else:
+                frm.asignatura.data = ""
+                frm.tipo.data = ""
+                frm.descripcion.data =""
+                flash("No se ha encontrado la asignatura")
+
+
+
+        return render_template("ver_asignaturas.html", frm = frm ,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
     
