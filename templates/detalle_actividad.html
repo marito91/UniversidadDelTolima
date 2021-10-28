@@ -1,6 +1,7 @@
 {% extends "navigator.html" %}
 {% block form %} 
 <form action="/actividad/detalle" method="post" name="conusltar_actividad" id="consultar_actividad" target="_self">
+    {{ frm.hidden_tag() }}
     <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
     <div align="center" id="interlocutorform">
         <div align="right">

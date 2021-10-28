@@ -550,7 +550,7 @@ def ver_actividad():
                 with sqlite3.connect("unitolima.db") as con:
                     con.row_factory = sqlite3.Row
                     cursor = con.cursor()
-                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [int(id_actividad)])
+                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id_actividad])
                     row = cursor.fetchone()
                     if row:
                         frm.id_asignatura_fk.data = row["id_asignatura_fk"]
