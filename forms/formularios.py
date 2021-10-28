@@ -8,7 +8,7 @@ class Login(FlaskForm):
     password = PasswordField("  Password  🔑", validators = [DataRequired("Por favor llene este campo")])
     entrar = SubmitField("Entrar 📡")
 
-
+#----------------------------------------------------------CLASES USUARIO--------------------------------------------------------------------------#
 
 class Registro(FlaskForm):
     nombres = StringField("Nombres")
@@ -46,8 +46,7 @@ class VerUsuario(FlaskForm):
     buscador = IntegerField("Buscador")
     eliminar = SubmitField("Eliminar")
 
-    
-    
+#----------------------------------------------------------CLASES NOTAS--------------------------------------------------------------------------#  
 
 class Notas(FlaskForm):
     codigo = StringField("Codigo", validators = [DataRequired()])
@@ -72,6 +71,7 @@ class VerNotas(FlaskForm):
     n3 = StringField("Nota 3")
     notaFinal = StringField("Nota Final")
 
+#----------------------------------------------------------CLASES ASIGNATURAS---------------------------------------------------------------------#
 
 class Asignaturas(FlaskForm):
     codigo = IntegerField("Codigo")
@@ -93,6 +93,8 @@ class VerAsignaturas(FlaskForm):
     buscar = SubmitField('Buscar 🔎',render_kw=({"onfocus":"cambiaRuta('/asignaturas/vertodos')"}))
 
 
+#----------------------------------------------------------CLASES FEEDBACK--------------------------------------------------------------------------#
+
 class Feedback(FlaskForm):
     asignatura = IntegerField("Asignatura")
     actividad = IntegerField("Actividad")
@@ -112,9 +114,7 @@ class FeedbackEstudiante(FlaskForm):
     f3 = StringField("Feedback 3")
     ver = SubmitField('Consultar 🔎',render_kw=({"onfocus":"cambiaRuta('/feedback/estudiante')"}))
 
-
-
-
+#----------------------------------------------------------CLASES ACTIVIDADES--------------------------------------------------------------------------#
 
 class Actividades(FlaskForm):
     id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
@@ -128,14 +128,15 @@ class Actividades(FlaskForm):
 
 
 class VerActividades(FlaskForm):
-    id_actividad = StringField("ID actividad*", validators = [DataRequired("Por favor llene este campo")])
-    tipo_actividad = SelectField("Tipo de Actividad", choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
+    id_actividad = IntegerField("ID actividad", validators = [DataRequired("Por favor llene este campo")])
+    tipo_actividad = StringField("Tipo de Actividad")#, choices=["Ejercicio Practico", "Trabajo Escrito", "Examen"])
     nombre_actividad = StringField("Nombre Actividad")
-    id_asignatura_fk = StringField("ID Asignatura*", validators = [DataRequired("Por favor llene este campo")])
+    id_asignatura_fk = StringField("ID Asignatura")#, validators = [DataRequired("Por favor llene este campo")])
     fecha_actividad = DateTimeField("Fecha de Entrega")
     instrucciones_actividad = TextAreaField("Instrucciones")
-    consultar = SubmitField("Consultar")
+    consultar = SubmitField("Consultar 🔎",render_kw=({"onfocus":"cambiaRuta('/actividad/detalle')"}))
 
+#----------------------------------------------------------CLASE BUSCAR--------------------------------------------------------------------------#
 
 class BuscarEstudiante(FlaskForm):
     codigo = IntegerField("Codigo", validators = [DataRequired("Por favor llene este campo")])

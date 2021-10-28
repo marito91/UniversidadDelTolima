@@ -515,20 +515,23 @@ def crear_actividad():
             instrucciones_actividad = frm.instrucciones_actividad.data
             tipo_actividad = frm.tipo_actividad.data
             if frm.registrar_actividad:
-                with sqlite3.connect("unitolima.db") as con:
-                    # Crea un cursor para manipular la base de datos
-                    cursor = con.cursor()
-                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ? AND id_asignatura_fk = ?", [id_actividad, id_asignatura_fk])
-                    # Si existe un la asignatura
-                    if cursor.fetchone():
-                        flash (f"La actividad {id_actividad} ya se encuentra registrada para la asignatura {id_asignatura_fk} en la base de datos.")
-                    # Si no que guarde uno
-                    else:
-                        # Prepara la sentencia SQL
-                        cursor.execute("INSERT INTO actividad (id_actividad, nombre_actividad, id_asignatura_fk, tipo_actividad, instrucciones_actividad) VALUES (?,?,?,?,?)", [id_actividad, nombre_actividad, id_asignatura_fk, tipo_actividad, instrucciones_actividad])
-                        # Ejecuta la sentencia SQL
-                        con.commit()
-                        flash ("Guardado con exito")
+                if id_actividad != "1" and id_actividad != "2" and id_actividad != "3":
+                    flash("ID de actividad inválido. Seleccione el número de la actividad (1, 2, 3)")
+                else:                      
+                    with sqlite3.connect("unitolima.db") as con:
+                        # Crea un cursor para manipular la base de datos
+                        cursor = con.cursor()
+                        cursor.execute("SELECT * FROM actividad WHERE actividad_id = ? AND id_asignatura_fk = ?", [int(id_actividad), id_asignatura_fk])
+                        # Si existe un la asignatura
+                        if cursor.fetchone():
+                            flash (f"La actividad {id_actividad} ya se encuentra registrada para la asignatura {id_asignatura_fk} en la base de datos.")
+                        # Si no que guarde uno
+                        else:
+                            # Prepara la sentencia SQL
+                            cursor.execute("INSERT INTO actividad (actividad_id, nombre_actividad, id_asignatura_fk, tipo_actividad, instrucciones_actividad) VALUES (?,?,?,?,?)", [int(id_actividad), nombre_actividad, id_asignatura_fk, tipo_actividad, instrucciones_actividad])
+                            # Ejecuta la sentencia SQL
+                            con.commit()
+                            flash ("Guardado con exito")
 
         return render_template("crear_actividad.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -540,26 +543,28 @@ def crear_actividad():
 def ver_actividad():
     frm = VerActividades()
     if "id_usuario" in session:
-        #if frm.validate_on_submit(): 
-        id_actividad = frm.id_actividad.data
-        if frm.consultar:
-            with sqlite3.connect("unitolima.db") as con:
-                con.row_factory = sqlite3.Row
-                cursor = con.cursor()
-                cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id_actividad])
-                row = cursor.fetchone()
-                if row:
-                    frm.id_asignatura_fk.data = row["id_asignatura_fk"]
-                    frm.instrucciones_actividad.data = row["instrucciones_actividad"]
-                    frm.tipo_actividad.data = row["tipo_actividad"]
-                    frm.nombre_actividad.data = row["nombre_actividad"]
-                else:
-                    frm.id_asignatura_fk.data = ""
-                    frm.instrucciones_actividad.data = ""
-                    frm.tipo_actividad.data = ""
-                    frm.nombre_actividad.data = ""
+        id = frm.id_actividad.data
+        if frm.validate_on_submit(): 
+            if frm.consultar:
+                with sqlite3.connect("unitolima.db") as con:
+                    cursor = con.cursor()
+                    cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id])
+                    row = cursor.fetchone()
+                    print(row)
+                    if row:
+                        frm.id_asignatura_fk.data = row["id_asignatura_fk"]
+                        frm.instrucciones_actividad.data = row["instrucciones_actividad"]
+                        frm.tipo_actividad.data = row["tipo_actividad"]
+                        frm.nombre_actividad.data = row["nombre_actividad"]
+                        flash("Actividad encontrada.")
+                    else:
+                        frm.id_asignatura_fk.data = ""
+                        frm.instrucciones_actividad.data = ""
+                        frm.tipo_actividad.data = ""
+                        frm.nombre_actividad.data = ""
+                        flash("La actividad solicitada no fue encontrada.")
         
-        return render_template("detalle_actividad.html",frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
+        return render_template("detalle_actividad.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
         return render_template("logout.html")
 # #--------------------------------------------------------------------------------------------------------------------------------------------------------------#
@@ -633,6 +638,9 @@ def ver_notas():
                     cursor.execute("SELECT actividad_id, tipo, valor_nota, asignatura_id FROM nota WHERE asignatura_id = ?", [int(asignatura)])
                     #row = cursor.fetchone()
                     #rows = cursor.fetchall()
+                    a = 0
+                    b = 0
+                    c = 0
                     for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
@@ -682,6 +690,9 @@ def ver_notas_docente():
                 with sqlite3.connect("unitolima.db") as con:
                     cursor = con.cursor()
                     cursor.execute("SELECT actividad_id, tipo, valor_nota, usuario_id FROM nota WHERE usuario_id = ?", [int(estudiante)])
+                    a = 0
+                    b = 0
+                    c = 0
                     for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
@@ -894,22 +905,12 @@ def ver_asignatura():
             with sqlite3.connect("unitolima.db") as con:
                 con.row_factory = sqlite3.Row
                 cursor = con.cursor()
-#                cursor2 = con.cursor()
-#                cursor3 = con.cursor()
                 cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
-#                cursor2.execute("SELECT usuario_id FROM nota WHERE asignatura_id = ?", [codigo])
-#                row2 = cursor2.fetchone()
-#                cursor3.execute("SELECT nombre, apellidos FROM usuario WHERE id_usuario = ?", [row2])
                 row = cursor.fetchone()
-#                row3 = cursor3.fetchall()
                 if row:
                     frm.asignatura.data = row["nombre_asignatura"]
                     frm.tipo.data = row["tipo"]
                     frm.descripcion.data = row["descripcion"]
-#                    for row in row3:
-#                        nombre = row[0] + " " + row[1] + ", "
-#                        usuarios.append(nombre)
-#                    frm.estudiantes.data = usuarios
                     flash("Asignatura encontrada")
                 else:
                     frm.asignatura.data = ""
@@ -965,14 +966,13 @@ def feedback_teacher():
 
 
 # Ruta para retroalimentacion estudiante
-@app.route("/feedback/estudiante", methods=["GET"])
+@app.route("/feedback/estudiante", methods=["GET", "POST"])
 def feedback_student():
     if "id_usuario" in session:
         frm = FeedbackEstudiante()
         if frm.validate_on_submit():
             asignatura = frm.asignatura.data
-            actividad = frm.actividad.data
-            feedback = frm.feedback.data
+            
 
             if frm.ver:
                 # Conecta a base de datos
@@ -980,27 +980,20 @@ def feedback_student():
                     # Crea un cursor para manipular la base de datos
                     cursor = con.cursor()
                     # Se preparan las sentencias
-                    cursor.execute("SELECT actividad_id, descripcion FROM comentario WHERE asignatura_id = ?", [asignatura])                  
-
+                    cursor.execute("SELECT actividad_id, descripcion, nombre_actividad, id_comentario FROM comentario WHERE asignatura_id = ? AND usuario_id = ?", [asignatura, session["id_usuario"]])                  
                     for row in cursor.fetchall():               
                             if row:
                                 if row[0] == 1:
-                                    frm.materias.label = row[3]
-                                    frm.a1.label = row[1]
-                                    frm.f1.label = row[2]
-                                    a = row[2]
+                                    frm.a1.label = row[2]
+                                    frm.f1.label = row[1]
                                 if row[0] == 2:
-                                    frm.materias.label = row[3]
-                                    frm.a2.label = row[1]
-                                    frm.f2.label = row[2]
-                                    b = row[2]
+                                    frm.a2.label = row[2]
+                                    frm.f2.label = row[1]
                                 if row[0] == 3:
-                                    frm.materias.label = row[3]
-                                    frm.a3.label = row[1]
-                                    frm.f3.label = row[2]
-                                    c = row[2]
+                                    frm.a3.label = row[2]
+                                    frm.f3.label = row[1]
                                 elif row[0] != 1 and row[0] != 2 and row[0] != 3:
-                                    flash("No se encontraron calificaciones registradas")
+                                    flash("No se encontraron comentarios registrados")
 
         return render_template("retroalimentacion_estudiante.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
