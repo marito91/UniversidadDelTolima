@@ -637,6 +637,9 @@ def ver_notas():
                     cursor.execute("SELECT actividad_id, tipo, valor_nota, asignatura_id FROM nota WHERE asignatura_id = ?", [int(asignatura)])
                     #row = cursor.fetchone()
                     #rows = cursor.fetchall()
+                    a = 0
+                    b = 0
+                    c = 0
                     for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
@@ -686,6 +689,9 @@ def ver_notas_docente():
                 with sqlite3.connect("unitolima.db") as con:
                     cursor = con.cursor()
                     cursor.execute("SELECT actividad_id, tipo, valor_nota, usuario_id FROM nota WHERE usuario_id = ?", [int(estudiante)])
+                    a = 0
+                    b = 0
+                    c = 0
                     for row in cursor.fetchall():               
                         if row:
                             if row[0] == 1:
