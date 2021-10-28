@@ -4,7 +4,7 @@
 <form action="/actividad/detalle" method="POST" name="verActividad" id="verActividad" target="_self">
     {{ frm.hidden_tag() }}
 
-    <!--<input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">-->
+    <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
     <div align="center" id="interlocutorform">
         <div align="right">
             <div
@@ -68,43 +68,44 @@
                                                                     <!-- <textarea name="instrucciones_actividad" cols="50" rows="5" id="instrucciones_actividad" maxlength="6000"></textarea> -->
                                                                 </th>
                                                             </tr>
-                                                        </tbody></table>
-                                        <table>
-                                            <tr>
-                                                <th style="width:16%;">
-                                                    {{ frm.tipo_actividad.label }}
-                                                    {{ frm.tipo_actividad }}    
+                                                        </tbody>
+                                                    </table>
+                                                        <table>
+                                                            <tr>
+                                                                <th style="width:16%;">
+                                                                    {{ frm.tipo_actividad.label }}
+                                                                    {{ frm.tipo_actividad }}    
 
-                                                    {% for errors in frm.tipo_actividad.errors %}
-                                                        <div>{{ error }}</div>
-                                                    {% endfor %}
-                                                </th>
-                                                <th style="width:16%;">{{ frm.nombre_actividad.label }}
-                                                    {{ frm.nombre_actividad }}
+                                                                    {% for errors in frm.tipo_actividad.errors %}
+                                                                        <div>{{ error }}</div>
+                                                                    {% endfor %}
+                                                                </th>
+                                                                <th style="width:16%;">{{ frm.nombre_actividad.label }}
+                                                                    {{ frm.nombre_actividad }}
 
-                                                    {% for errors in frm.nombre_actividad.errors %}
-                                                        <div>{{ error }}</div>
-                                                    {% endfor %}
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th style="width:16%;">{{ frm.fecha_actividad.label }} 
-                                                    
-                                                    <input size="20" name="fecha_actividad" id="fecha_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off"> 
-                                                    
-                                                </th>
-                                                <!-- <td>
-                                                    <input size="20" name="tipo_actividad" id="tipo_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off"> 
-                                                </td>
-                                                <td>
-                                                    <input size="30" name="nombre_actividad" id="nombre_actividad" type="text" value="" class="campoFormulario" maxlength="100" autocomplete="off"> 
-                                                </td> -->
-                                        
-                                            </tr>
-                                            <td width="136">
-                                                {{ frm.consultar(href="javascript:void(0)", class="btn btn-primary") }} 
-                                            </td>
-                                        </table>
+                                                                    {% for errors in frm.nombre_actividad.errors %}
+                                                                        <div>{{ error }}</div>
+                                                                    {% endfor %}
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th style="width:16%;">{{ frm.fecha_actividad.label }} 
+                                                                    
+                                                                    <input size="20" name="fecha_actividad" id="fecha_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off"> 
+                                                                    
+                                                                </th>
+                                                                <!-- <td>
+                                                                    <input size="20" name="tipo_actividad" id="tipo_actividad" type="text" value="" class="campoFormulario" maxlength="80" autocomplete="off"> 
+                                                                </td>
+                                                                <td>
+                                                                    <input size="30" name="nombre_actividad" id="nombre_actividad" type="text" value="" class="campoFormulario" maxlength="100" autocomplete="off"> 
+                                                                </td> -->
+                                                        
+                                                            </tr>
+                                                            <td width="136">
+                                                                {{ frm.consultar(href="javascript:void(0)", class="btn btn-primary") }} 
+                                                            </td>
+                                                        </table>
                                                     </td>
                                                 </tr>
                                             </tbody>
