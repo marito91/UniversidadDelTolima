@@ -64,7 +64,9 @@ class Notas(FlaskForm):
 
 class VerNotas(FlaskForm):
     materias = StringField("Asignatura")
+    estudiantes = StringField("Estudiante")
     consultar = SubmitField("Consultar", render_kw=({"onfocus":"cambiaRuta('/notas/visualizar')"}))
+    consultarEstudiante = SubmitField("Consultar", render_kw=({"onfocus":"cambiaRuta('/notas/visualizar/docente')"}))
     a1 = StringField("Actividad 1")
     a2 = StringField("Actividad 2")
     a3 = StringField("Actividad 3")
