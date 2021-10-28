@@ -641,7 +641,7 @@ def ver_notas():
             else:
                 with sqlite3.connect("unitolima.db") as con:
                     cursor = con.cursor()
-                    cursor.execute("SELECT actividad_id, tipo, valor_nota, asignatura_id FROM nota WHERE asignatura_id = ?", [int(asignatura)])
+                    cursor.execute("SELECT actividad_id, tipo, valor_nota, asignatura_id FROM nota WHERE usuario_id = ?", [session["id_usuario"]])
                     #row = cursor.fetchone()
                     #rows = cursor.fetchall()
                     a = 0
@@ -750,10 +750,12 @@ def notas():
                     cursor2 = con.cursor()
                     cursor3 = con.cursor()
                     # Se preparan las sentencias
-                    cursor3.execute("SELECT * FROM usuario WHERE id_usuario = ? AND perfil_id = '3'", [int(usuario)])
+                    cursor3.execute("SELECT id_usuario FROM usuario WHERE id_usuario = ? AND perfil_id = ?", [int(usuario), "3"])
                     cursor2.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [asignatura])
                     cursor.execute("SELECT * FROM nota WHERE usuario_id = ? AND actividad_id = ?", [int(usuario), int(actividad)])
-                    
+                    list = cursor3.fetchone()
+                    id = list[0]
+
                     # Si existe el usuario
                     if cursor3.fetchone():
                         # Si existe la asignatura
@@ -764,7 +766,7 @@ def notas():
                             # Si no que guarde la calificación
                             else:
                                 # Prepara la sentencia SQL
-                                cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [int(usuario), int(actividad), float(nota), int(asignatura), tipo])
+                                cursor.execute("INSERT INTO nota (usuario_id, actividad_id, valor_nota, asignatura_id, tipo) VALUES (?,?,?,?,?)", [id, int(actividad), float(nota), int(asignatura), tipo])
                                 # Ejecuta la sentencia SQL
                                 con.commit()
                                 flash ("Calificación guardada con éxito")
@@ -907,13 +909,19 @@ def ver_asignatura():
                 cursor = con.cursor()
                 cursor2 = con.cursor()
                 cursor.execute("SELECT * FROM asignatura WHERE id_asignatura = ?", [codigo])
-                cursor2.execute("SELECT nombre, apellidos FROM usuario WHERE perfil_id = 3", [codigo])
+                cursor2.execute("SELECT nombre FROM usuario_asignatura WHERE asignatura_id = ?", [codigo])
                 row = cursor.fetchone()
-                row2 = cursor.fetchone()
+                row2 = cursor2.fetchall()
+                for user in row2:
+                    for i in user:
+                        usuarios.append(i)
+                print(usuarios)
                 if row:
                     frm.asignatura.data = row["nombre_asignatura"]
                     frm.tipo.data = row["tipo"]
                     frm.descripcion.data = row["descripcion"]
+                    for i in usuarios:
+                        frm.estudiantes.data += i + ", "
                     flash("Asignatura encontrada")
                 else:
                     frm.asignatura.data = ""
