@@ -1,5 +1,6 @@
 import hashlib, sqlite3
 import os
+from sqlite3.dbapi2 import Row
 
 from flask import Flask, jsonify, redirect, render_template, request, session, flash
 from werkzeug.utils import escape 
@@ -125,7 +126,7 @@ def get_usuario():
                 frm.nombres.data = row["nombre"]
                 frm.apellidos.data = row["apellidos"]
                 frm.tipoDocumento.data = row["tipo_documento"]
-                frm.documento.data = int(documento)
+                # frm.documento.data=row["numero_documento"]
                 perfil = row["perfil_id"]
                 if perfil == "1":
                     frm.perfil.data = "SUPERADMIN"
@@ -144,7 +145,7 @@ def get_usuario():
                 frm.nombres.data = ""
                 frm.apellidos.data = ""
                 frm.tipoDocumento.data = ""
-                frm.documento.data = ""
+                # frm.documento.data = ""
                 
                 if frm.perfil.data == "ESTUDIANTE" or frm.perfil.data== "DOCENTE" or frm.perfil.data == "SUPERADMIN":
                     frm.perfil.data = ""
@@ -174,7 +175,7 @@ def registro_usuario():
         #usuario = frm.usuario.data
         #id = frm.id.data
         doctype = frm.tipoDocumento.data
-        documento = frm.documento.data
+        documento = frm.buscador.data
 
         perfil = frm.perfil.data
         # Se asigna el perfil como Dios manda
@@ -194,7 +195,7 @@ def registro_usuario():
         celular = frm.celular.data
         correo = frm.email.data
         observaciones = frm.observaciones.data
-        password = str(frm.documento.data)
+        password = str(frm.buscador.data)
 
         # if frm.guardar:
         #     # Cifrar contraseña
@@ -207,7 +208,7 @@ def registro_usuario():
             cursor.execute("SELECT * FROM usuario WHERE numero_documento = ?", [documento])
             # Si existe un usuario
             if cursor.fetchone():
-                flash ("Usuario ya se encuentra registrado")
+                flash ("Usuario ya se encuentra registrado 📬")
             # Si no que guarde uno
             else:
                 # Prepara la sentencia SQL
@@ -220,7 +221,7 @@ def registro_usuario():
         return render_template("logout.html")    
 # #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 # # Ruta para editar usuarios    
-@app.route("/usuario/update", methods=["GET", "POST"])
+@app.route("/usuario/administrar/update", methods=["GET", "POST"])
 def editar_usuario():
 
     frm = Registro()
@@ -230,7 +231,7 @@ def editar_usuario():
         # Se capturan los elementos del formulario
         #barra_busqueda = frm.buscador.data
         doctype = frm.tipoDocumento.data
-        documento = frm.documento.data
+        documento = frm.buscador.data
 
         perfil = frm.perfil.data
         # Se asigna el perfil como Dios manda
@@ -305,6 +306,8 @@ def ver_usuario():
                         frm.celular.data = row["celular"]
                         frm.email.data = row["email"]
                         frm.observaciones.data = row["observaciones"]
+                        flash("usuario encontrado ✔")
+            
                     else:
                         frm.nombres.data = ""
                         frm.apellidos.data = ""
@@ -324,7 +327,7 @@ def ver_usuario():
                         frm.celular.data = ""
                         frm.email.data = ""
                         frm.observaciones.data = ""
-                        flash("No se ha encontrado el usuario")
+                        flash("No se ha encontrado el usuario 🚧")
             
         return render_template("ver_usuario.html", frm=frm,UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"])
     else:
@@ -348,7 +351,25 @@ def eliminarUser():
             cursor.execute("DELETE FROM usuario WHERE numero_documento = ?", [documento])
             con.commit()
             if con.total_changes > 0:
-                flash("Usuario eliminado")      
+                frm.nombres.data = ""
+                frm.apellidos.data = ""
+                frm.tipoDocumento.data = ""
+                frm.documento.data = ""
+                
+                if frm.perfil.data == "ESTUDIANTE" or frm.perfil.data== "DOCENTE" or frm.perfil.data == "SUPERADMIN":
+                    frm.perfil.data = ""
+                # elif perfil == "2":
+                #     frm.perfil.data = ""
+                # elif perfil == "3":
+                #     frm.perfil.data = ""
+                frm.direccion.data = ""
+                frm.departamento.data = ""
+                frm.ciudad.data = ""
+                frm.telefono.data = ""
+                frm.celular.data = ""
+                frm.email.data = ""
+                frm.observaciones.data = ""
+                flash("Usuario eliminado: "+str(documento))      
             else:
                 frm.nombres.data = ""
                 frm.apellidos.data = ""
@@ -368,7 +389,7 @@ def eliminarUser():
                 frm.celular.data = ""
                 frm.email.data = ""
                 frm.observaciones.data = ""
-                flash("No se pudo eliminar el usuario")
+                flash("No se pudo eliminar o no existe el usuario 🚧")
         
         return render_template("administraccion_usuario.html", frm = frm, UserName=session["nombres"],TypeUser=session["perfil"], ActiveSesion=session["activeSesion"] )
     
@@ -696,12 +717,12 @@ def buscar_asignatura():
                 frm.descripcion.data = row["descripcion"]
 
                 
-                flash("Asignatura encontrada")
+                flash("Asignatura encontrada ✔")
             else:
                 frm.asignatura.data = ""
                 frm.tipo.data = ""
                 frm.descripcion.data =""
-                flash("No se ha encontrado la asignatura")
+                flash("No se ha encontrado la asignatura 🚧")
 
         
             
@@ -724,9 +745,9 @@ def registrar_asignatura():
             cursor.execute("INSERT INTO asignatura (nombre_asignatura, tipo, descripcion ) VALUES (?,?,?)", [asignatura, tipo, descripcion])  
             # row = cursor.fetchone()
             if con.total_changes>0:
-                flash("Asignatura registrada")
+                flash("Asignatura registrada ✔")
             else:
-                flash("No se ha registrado la asignatura")
+                flash("No se ha registrado la asignatura 🚧")
 
         
             

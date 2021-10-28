@@ -2,7 +2,7 @@
 
 {% block form %} 
 
-<form action="/usuario/eliminar/get" method="post" name="consultaEliminar" id="consultaEl" target="_self">
+<form action="/usuario/administrar/get" method="post" name="consultaEliminar" id="consultaEl" target="_self">
     {{ frm.hidden_tag() }}
     <input type="hidden" name="comercioMultiproducto" id="comercioMultiproducto" value="<?= $comercioMultiproducto ?>">
     <div align="center" id="interlocutorform">
@@ -108,7 +108,7 @@
                                                             </div>
                                                             {% endfor %}
                                                     <td>
-                                                        {{ frm.documento.label }}<span class="requerido">*</span>
+                                                        {# frm.documento.label }}<span class="requerido">*</span>
                                                     </td>
                                                     <td>
                                                         <div align="left">
@@ -119,7 +119,7 @@
                                                         <div>
                                                             {{ error }}
                                                         </div>
-                                                        {% endfor %}
+                                                        {% endfor #}
                                                 </tr>
                                                 <tr class="linea_blanca">
                                                     <!--<td>
