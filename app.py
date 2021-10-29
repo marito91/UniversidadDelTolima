@@ -548,12 +548,13 @@ def ver_actividad():
     frm = VerActividades()
     if "id_usuario" in session:
         id = frm.id_actividad.data
+        asig = frm.id_asignatura_fk.data
         #if frm.validate_on_submit(): 
         if frm.consultar:
             with sqlite3.connect("unitolima.db") as con:
                 con.row_factory = sqlite3.Row
                 cursor = con.cursor()
-                cursor.execute("SELECT * FROM actividad WHERE id_actividad = ?", [id])
+                cursor.execute("SELECT * FROM actividad WHERE id_asignatura_fk = ? and actividad_id = ?", [asig, id])
                 row = cursor.fetchone()
                 print(row)
                 if row:
