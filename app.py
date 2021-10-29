@@ -1046,7 +1046,10 @@ def misdatos():
                 cursorNombre = con.cursor()
                 cursorNombre.execute("SELECT nombre_asignatura FROM asignatura WHERE id_asignatura = ?", [id])
                 rowAsignatura = cursorNombre.fetchone()
-                asignatura = rowAsignatura[0]
+                if rowAsignatura != None:
+                    asignatura = rowAsignatura[0]
+                else:
+                    asignatura = sinAsignatura
             else:
                 asignatura = sinAsignatura
 
