@@ -1140,7 +1140,8 @@ def updatePass():
         return render_template("logout.html")
 # #--------------------------------------------------------------------------------------------------------#        
 
-if __name__=="__main__":
-    app.run(debug=True)
+
+#if __name__=="__main__":
+#    app.run(debug=True)
 
 
