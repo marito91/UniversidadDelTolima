@@ -21,7 +21,7 @@ Since this project was created with flask, there are some things that you need t
 - Deactivate the server:
 `deactivate`
 
--Install Flask framework el framework Flask:
+- Install Flask framework el framework Flask:
 `pip install flask`
 
 - Check if Flask is installed:
@@ -30,7 +30,7 @@ Since this project was created with flask, there are some things that you need t
 - Upgrade Flask:
 `python.exe -m pip install --upgrade pip`
 
--Run the server locally:
+- Run the server locally:
 `flask run`
 *You will need to uncomment the app.run
 
@@ -45,7 +45,3 @@ CTRL+C
 
 
 Most of the app is done in spanish since it was created for a bootcamp project.
-
-
-``
-Repositorio para trabajo colaborativo del Reto correspondiente al Equipo 8 / Grupo 1187-15 / Ciclo3 Misión TIC
