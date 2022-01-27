@@ -3,9 +3,9 @@
 This repository contains a University based, grading system. Using Python on the backend side of the project and HTML/CSS for the frontend side, this website lets different types of users benefit from it. 
 
 The types of users that can benefit are the following:
--Admin-
--Teacher-
--Student-
+- Admin
+- Teacher
+- Student
 
 If you download the raw DB file (which is done in SQL) you're going to find login info for the users. 
 
