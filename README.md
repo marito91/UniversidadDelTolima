@@ -32,7 +32,7 @@ Since this project was created with flask, there are some things that you need t
 
 - Run the server locally:
 `flask run`
-*You will need to uncomment the app.run
+You will need to uncomment the app.run
 
 - Exit the server:
 CTRL+C
@@ -40,7 +40,7 @@ CTRL+C
 - Activate live server to see changes: 
 `export FLASK_ENV="development"`
 
--Install wtf forms
+- Install wtf forms
 `pip install flask-wtf`
 
 
