@@ -1,4 +1,4 @@
-# RetoCiclo3Grupo8
+# University Grading System
 
 This repository contains a University based, grading system. Using Python on the backend side of the project and HTML/CSS for the frontend side, this website lets different types of users benefit from it. 
 
